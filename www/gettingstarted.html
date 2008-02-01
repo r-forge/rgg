@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="description" content="_your description goes here_" />
+<meta name="keywords" content="_your,keywords,goes,here_" />
+<meta name="author" content="_your name goes here_  / Original design: Andreas Viklund - http://andreasviklund.com/" />
+<link rel="stylesheet" type="text/css" href="rgg.css" media="screen" title="andreas01 (screen)" />
+<link rel="stylesheet" type="text/css" href="print.css" media="print" />
+<title>RGG - Getting Started</title>
+</head>
+
+<body><div id="wrap">
+
+<img id="frontphoto" height="175" alt="" src="images/Var1.jpg" width="760" style="padding-top:8px;">
+
+<div id="avmenu">
+<h2 class="hide">Menu:</h2>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Getting Started</a></li>
+<li><a href="screenshots.html">Screenshots</a></li>
+<li><a href="docs.html">Documentation</a></li>
+<li><a href="downloads.html">Downloads</a></li>
+<li><a href="#">R Package for JGR</a></li>
+<li><a href="http://r-forge.r-project.org/projects/rgg/">RGG @R-Forge</a></li>
+</ul>
+
+<div class="announce">
+<h3>Latest news:</h3>
+<p><strong>November 26, 2007:</strong><br >
+RGG is registered on <a href="http://r-forge.r-project.org/">R-Forge</a> as a new project.</p>
+<p class="textright"><a href="index.html">Read more...</a></p>
+</div>
+
+</div>
+
+<div id="content">
+<h2>Getting started!</h2>
+
+<p>RGG requires Java version  5 or later. It can be used in two different ways:</p>
+
+<p class="sectionheader">1. Standalone</p>
+
+<p>Please download the <a href="#">Zip-archive</a>. After extracting it, click twice on RGG.jar. It will open a file dialog to let you choose an RGG file. An RGG file is a file, which describes the GUI of an R script through XML tags (see <a href="docs.html"><em>Documentation</em></a>). If the RGG file is valid, a GUI will be displayed, that can be used like any other graphical user interface. Every GUI has two buttons, "Generate" and "Save". "Generate" will display the R code, "Save" saves the generated R code to a file for later execution of this code in R. See the screenshots below</p>
+<p class="centeredImage"><img alt="" src="images/filechooser.png" ></p>
+<p class="centeredImage"><img alt="" src="images/standalone.png" ></p>
+<p class="sectionheader">2. As an R package within JGR</p>
+
+<p>The second way to use RGG is installing it as an R Package. Because RGG only runs in a Java environment, JGR is needed as a connection to R. JGR is a Java GUI for R. For installation of JGR, please visit their <a href="http://www.rosuda.org/JGR/">homepage</a></p>
+<p>After you have successfully installed JGR, please execute the following R code inside JGR. It will install RGG for you.
+<pre id="hack">install.packages("rgg",repos="http://r-forge.r-project.org")</pre>
+<p>Then load the RGG package by calling <em><strong>&quot;library(RGG)&quot;</strong>. </em>This will add a menu &quot;RGG&quot; on the menubar of JGR window (see  the screenshot below).</p>
+<p class="centeredImage"><img alt="" src="images/JGR.png"></p>
+<p >To open an RGG file click on the submenu "Load" of "RGG". Let's load the same RGG file, which we have opened in the stand-alone version.
+<p class="centeredImage"><img alt="" src="images/example2.png" /></p>
+The user interface is the same except for the two buttons at the bottom: "Run" and "Open in Editor". The "Run" button generates the corresponding R code and sends it to R for execution. "Open in Editor" will open the generated R code in the JGR editor, which uses R specific highlighting.
+</p>
+</div>
+
+<div id="footer">
+Copyright  2007 (_your name_). Design by <a href="http://andreasviklund.com">Andreas Viklund</a>.
+</div>
+<div></div></div>
+</body>
+</html>
