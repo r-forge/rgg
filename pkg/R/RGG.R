@@ -14,6 +14,6 @@
 
   jgr.addMenu("RGG")
   jgr.addMenuItem("RGG","Load",".jcall(rggloader,,\"load\")")
-  rgg <- .jnew("org/arcs/jgr/RGGMenu")
+  rgg <- .jnew("org/arcs/rgg/jgr/RGGMenu")
   assign("rggloader",rgg, .GlobalEnv)
 }
