@@ -56,6 +56,7 @@
 
   <li><a href="downloads.html">Downloads</a></li>
 
+
   <li><a href="http://r-forge.r-project.org/forum/?group_id=95">Forum</a></li>
 
 
@@ -95,7 +96,50 @@ more...</a></p>
 different ways:</p>
 
 
-<p class="sectionheader">1. Standalone</p>
+<p class="sectionheader">1. As an R package within JGR</p>
+
+
+<p>The first way to use RGG is by installing it as an R Package
+in JGR. Here JGR provides the
+connection to R. JGR is a Java GUI for R. JGR&nbsp;1.5 or higher is required. For installation of JGR,
+please visit the <a href="http://www.rosuda.org/JGR/">JGR
+homepage.</a></p>
+
+
+<p>After you have successfully installed JGR, please execute the
+following R code inside JGR. It will install RGG for you.
+</p>
+
+
+<pre id="hack">install.packages("RGG",repos="http://r-forge.r-project.org")</pre>
+
+
+<p>Notice that this will work only, if the latest version of R is installed, at this moment 2.6.x. If not, please go to the <a href="downloads.html">Download</a> section and download an appropriate RGG package archive and install it manually.</p>
+
+<p>Then load the RGG package by calling <em><strong>"library(RGG)"</strong>.
+</em>This will add a menu "RGG" on the menubar of JGR window (see
+the screenshot below).</p>
+
+
+<p class="centeredImage"><img alt="" src="images/JGR.png" /></p>
+
+
+<p>To open an RGG file click on the submenu "Load" of "RGG".
+Let's load&nbsp;an RGG file, <a href="files/qcreport.rgg">qcreport.rgg</a>.
+</p>
+
+
+<p class="centeredImage"><img alt="" src="images/agilent_linux.png" /></p>
+
+
+<p>The user interface has two buttons at the
+bottom: "Run" and "Open in Editor". The "Run" button generates the
+corresponding R code and sends it to R for execution. "Open in Editor"
+will open the generated R code in the JGR editor, which uses R specific
+highlighting.</p>
+
+
+<p class="sectionheader">2. Standalone&nbsp;</p>
 
 
 <p>The standalone version of RGG&nbsp; can be used to open an
@@ -108,15 +152,18 @@ download follow these instructions to run RGG.</p>
 <ul>
 
 
+  <li><span style="font-weight: bold;">Web Start: </span><a href="jnlp/rgg/master.jnlp">Launch RGG</a><span style="font-weight: bold;"></span></li>
   <li><span style="font-weight: bold;">On Windows
-and Linux:</span> Download and exract the <a style="font-weight: bold;" href="files/rgg.zip">rgg.zip</a>, and then&nbsp;go to
+and Linux:</span> Download and exract the <a style="font-weight: bold;" href="files/rgg.zip">rgg.zip</a>,
+and then&nbsp;go to
 the&nbsp;<span style="font-style: italic;">/bin </span>directory.
 Use one of the executables rgg.exe for Windows and rgg (a shell script)
 for Linux.</li>
 
 
   <li><span style="font-weight: bold;">Mac OS
-X: </span>Download and extract the <a style="font-weight: bold;" href="files/rgg.app.zip">rgg.app.zip</a>, and then click twice on rgg.app</li>
+X: </span>Download and extract the <a style="font-weight: bold;" href="files/rgg.app.zip">rgg.app.zip</a>,
+and then click twice on rgg.app</li>
 
 
 </ul>
@@ -144,14 +191,14 @@ command, found in <span style="font-style: italic;">the
 /bin </span>directory of R installation folder, &nbsp;<span style="font-style: italic;"></span> to execute the
 generated R script. If this command is not&nbsp;found in the <span style="font-weight: bold;">PATH </span>environment
 variable, user will be prompted to enter the installation folder (e.g.
-on Windows "C:\Program Files\R\R-2.6.1\bin").<br />
+on Windows "C:\Program Files\R\R-2.6.2\bin").<br />
 
 
 <br />
 
 
 Here is a screenshot of the standalone version of RGG. An .rgg file
-(qcreport.rgg) is already loaded and executed here.
+(<a href="files/qcreport.rgg">qcreport.rgg</a>) is already loaded and executed here.
 <p class="centeredImage"><img alt="rggsa" src="images/rggsa.png" /></p>
 
 
@@ -160,63 +207,16 @@ Here is a screenshot of the standalone version of RGG. An .rgg file
 
 
 <p>The main window&nbsp;consists of two parts, left (GUI) and
-right
-(output), which can be
-rearranged
-by&nbsp;drag and drop. An .rgg file is loaded, either by clicking
-the "Open RGG" button or using the shortcut "CTRL-O". After setting
-inputs, parameters etc. on the GUI, the&nbsp;generated R script can
-be
-executed by clicking the "Run" button or using the "CTRL-R"
-shortcut. The output&nbsp;from R&nbsp;is displayed on the
-"Output"
-window.&nbsp;</p>
+right (output), which can be rearranged by&nbsp;drag and drop.
+An .rgg file is loaded, either by clicking the "Open RGG" button 
+or using the shortcut "CTRL-O". After setting inputs, parameters etc. 
+on the GUI, the&nbsp;generated R script can be executed by clicking 
+the "Run" button or using the "CTRL-R" shortcut. 
+The output&nbsp;from R&nbsp;is displayed on the "Output" window.&nbsp;</p>
 
 
-<p></p>
-
-
-<p class="sectionheader">2. As an R package within JGR</p>
-
-
-<p>The second way to use RGG is by installing it as an R Package
-in JGR. Here JGR provides the
-connection to R. JGR is a Java GUI for R. For installation of JGR,
-please visit the <a href="http://www.rosuda.org/JGR/">JGR
-homepage.</a></p>
-
-
-<p>After you have successfully installed JGR, please execute the
-following R code inside JGR. It will install RGG for you.
-</p>
-
-
-<pre id="hack">install.packages("rgg",repos="http://r-forge.r-project.org")</pre>
-
-
-<p>Then load the RGG package by calling <em><strong>"library(RGG)"</strong>.
-</em>This will add a menu "RGG" on the menubar of JGR window (see
-the screenshot below).</p>
-
-
-<p class="centeredImage"><img alt="" src="images/JGR.png" /></p>
-
-
-<p>To open an RGG file click on the submenu "Load" of "RGG".
-Let's load the same RGG file, which we have opened in the stand-alone
-version.
-</p>
-
-
-<p class="centeredImage"><img alt="" src="images/agilent_linux.png" /></p>
-
-
-The user interface is the same except for the two buttons at the
-bottom: "Run" and "Open in Editor". The "Run" button generates the
-corresponding R code and sends it to R for execution. "Open in Editor"
-will open the generated R code in the JGR editor, which uses R specific
-highlighting.
 </div>
+
 
 
 <div id="footer">
@@ -227,9 +227,6 @@ highlighting.
 reserved. Design by <a href="http://andreasviklund.com">Andreas
 Viklund</a>.
 </div>
-
-
-<div></div>
 
 
 </div>
