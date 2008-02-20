@@ -28,6 +28,11 @@
 
   
   <title>RGG - Getting Started</title>
+  <style type="text/css">
+<!--
+.style1 {font-size: small}
+-->
+  </style>
 </head>
 
 
@@ -92,29 +97,27 @@ more...</a></p>
 <h2>Getting started!</h2>
 
 
-<p>RGG requires Java version 5 or later. It can be used in two
-different ways:</p>
+<p class="style1"> RGG can be used in two
+  different ways:</p>
+<p class="sectionheader">1. RGG as an R package within JGR</p>
 
 
-<p class="sectionheader">1. As an R package within JGR</p>
+<p>The first way  to use RGG is by installing it as an R Package
+  in JGR. Here JGR provides the
+  connection to R. JGR is a Java GUI for R.</p>
+<h5>Installation</h5>
+<p><strong> 1</strong>. Download and install <a style="font-weight: bold;" href="http://www.r-project.org/">R</a> (2.6.x or newer)</p>
+<p><strong>2</strong>. Install <a style="font-weight: bold;" href="www.java.com">Java</a> (5 or newer)</p>
+<p><strong>3</strong>. Download <a style="font-weight: bold;" href="http://www.rosuda.org/JGR/">JGR 1.5</a> or
+  higher.</p>
+<p><strong>4</strong>. Install RGG by executing the following lines within JGR or
+  download it from<span style="font-weight: bold;">&nbsp;</span><a style="font-weight: bold;" href="http://r-forge.r-project.org/scm/?group_id=95">R-Forge</a>:</p>
+<pre id="hack"> install.packages(&quot;RGG&quot;,repos=&quot;http://r-forge.r-project.org&quot;)</pre>
+<p>Notice that this will work only, if the latest version of R is installed, at this moment 2.6.x. If not, please go to the <a href="downloads.html">Downloads</a> section and download an appropriate RGG package archive and install it manually.</p>
 
 
-<p>The first way to use RGG is by installing it as an R Package
-in JGR. Here JGR provides the
-connection to R. JGR is a Java GUI for R. JGR&nbsp;1.5 or higher is required. For installation of JGR,
-please visit the <a href="http://www.rosuda.org/JGR/">JGR
-homepage.</a></p>
 
 
-<p>After you have successfully installed JGR, please execute the
-following R code inside JGR. It will install RGG for you.
-</p>
-
-
-<pre id="hack">install.packages("RGG",repos="http://r-forge.r-project.org")</pre>
-
-
-<p>Notice that this will work only, if the latest version of R is installed, at this moment 2.6.x. If not, please go to the <a href="downloads.html">Download</a> section and download an appropriate RGG package archive and install it manually.</p>
 
 <p>Then load the RGG package by calling <em><strong>"library(RGG)"</strong>.
 </em>This will add a menu "RGG" on the menubar of JGR window (see
@@ -142,52 +145,20 @@ highlighting.</p>
 <p class="sectionheader">2. Standalone&nbsp;</p>
 
 
+<h5>Installation</h5>
+<p><strong>1</strong>. Download and install <a style="font-weight: bold;" href="http://www.r-project.org/">R</a> (2.6.x or newer)</p>
+<p><strong>2</strong>. Install <a style="font-weight: bold;" href="www.java.com">Java</a> (5 or newer)</p>
+<p><strong>3</strong>. Install RGG:<br />
+    <strong>3.1</strong> Web Start: Click <a href="jnlp/rgg/master.jnlp"><strong>here</strong></a> to install automatically. <br/>
+    <strong>3.2</strong> Manual installation: <br/>
+    <span style="font-weight: bold;">Windows and
+      Linux:</span> Download the <a style="font-weight: bold;" href="files/rgg.zip">rgg.zip</a>. After extraction,
+  please go to /bin directory and use the appropriate launcher to run RGG.<br/>
+    <span style="font-weight: bold;">Mac OS X:</span> Coming soon... For now, please use &quot;<strong>Web Start</strong>&quot;.</p>
 <p>The standalone version of RGG&nbsp; can be used to open an
-.rgg
-file and to execute the generated R script directly from the RGG. To
-download RGG standalone, please go to&nbsp;the "<a href="downloads.html">Download</a>" section. After
-download follow these instructions to run RGG.</p>
-
-
-<ul>
-
-
-  <li><span style="font-weight: bold;">Web Start: </span><a href="jnlp/rgg/master.jnlp">Launch RGG</a><span style="font-weight: bold;"></span></li>
-  <li><span style="font-weight: bold;">On Windows
-and Linux:</span> Download and exract the <a style="font-weight: bold;" href="files/rgg.zip">rgg.zip</a>,
-and then&nbsp;go to
-the&nbsp;<span style="font-style: italic;">/bin </span>directory.
-Use one of the executables rgg.exe for Windows and rgg (a shell script)
-for Linux.</li>
-
-
-  <li><span style="font-weight: bold;">Mac OS
-X: </span>Download and extract the <a style="font-weight: bold;" href="files/rgg.app.zip">rgg.app.zip</a>,
-and then click twice on rgg.app</li>
-
-
-</ul>
-
-
-<span style="font-weight: bold;">Requirements to run RGG
-standalone:<br />
-
-
-</span>
-<ol>
-
-
-  <li>Java Runtime Edition (JRE) 5 or later (<a href="www.java.com">www.java.com</a>)</li>
-
-
-  <li>R (<a href="http://www.r-project.org">http://www.r-project.org</a>)<span style="font-style: italic;"></span></li>
-
-
-</ol>
-
-
-RGG standalone uses the <span style="font-weight: bold;">"Rscript"</span>
-command, found in <span style="font-style: italic;">the
+  .rgg
+  file and to execute the generated R script directly from the RGG. <br />
+  RGG standalone uses the <span style="font-weight: bold;">"Rscript"</span> command, found in <span style="font-style: italic;">the
 /bin </span>directory of R installation folder, &nbsp;<span style="font-style: italic;"></span> to execute the
 generated R script. If this command is not&nbsp;found in the <span style="font-weight: bold;">PATH </span>environment
 variable, user will be prompted to enter the installation folder (e.g.
@@ -199,6 +170,7 @@ on Windows "C:\Program Files\R\R-2.6.2\bin").<br />
 
 Here is a screenshot of the standalone version of RGG. An .rgg file
 (<a href="files/qcreport.rgg">qcreport.rgg</a>) is already loaded and executed here.
+</p>
 <p class="centeredImage"><img alt="rggsa" src="images/rggsa.png" /></p>
 
 

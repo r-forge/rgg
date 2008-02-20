@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE jnlp PUBLIC "-//Sun Microsystems, Inc//DTD JNLP Discriptor 1.5//EN" "http://java.sun.com/dtd/JNLP-1.5.dtd">
-<jnlp spec='1.0+' codebase='file:/E:/projects/RGG/RGGRunner/dist/jnlp/local/app/'>
+<jnlp spec='1.0+' codebase='$$codebase'>
   <information>
    <title>looks</title>
    <vendor>NetBeans</vendor>
