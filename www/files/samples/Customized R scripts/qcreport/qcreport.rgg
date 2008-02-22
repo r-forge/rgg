@@ -29,7 +29,8 @@
     offsetvalue = <group>
         <hbox>
             <label text="Offset:"/>
-            <checkbox id="c1" label="Max negative value" return-value-by-selected = "max(G$Gb-G$G)+1" return-value-by-notselected=""/>
+            <checkbox id="c1" label="Max negative value" selected="TRUE"
+			return-value-by-selected = "max(G$Gb-G$G)+1" return-value-by-notselected=""/>
             <textfield label = "  or set here:" data-type="numeric" size="8" enabled="${not c1.selected}"/>
         </hbox>
         <gaprow height="2"/>
