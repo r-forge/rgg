@@ -1,0 +1,62 @@
+<rgg> 
+    <h3 text="Fisher`s Exact Test for Count Data" aligment="center" span="full"/>    
+    <separator label="Input" span="full"/>
+    <label text="Load a two-dimensional contingency table (2x2 or higher) as tab delimited .txt" span="full"/>
+    <label text="or fill the values  directly into the matrix editor." span="full"/>
+    <gaprow height="2"/>
+    <matrix var="data" id="m1"/>
+    
+	<bool var="bool" id="bool" value="${m1.columncount eq 2 and m1.rowcount eq 2}"/>
+	
+    <gaprow height="7"/>
+    <separator label="Options" span="full"/>
+    <gaprow height="2"/>
+    <label text = "(for 2 by 2 tables)" span="full"/>
+	
+    <group>
+        <combobox var="alternativeValue" label="Alternative Hypothesis"
+                  items="two.sided,greater,less" enabled="${bool.value}"/>
+				  
+        <textfield var="orValue" label="Hypothesized Odd Ratio" default-value="1" size="10"
+				   enabled="${bool.value}"/>
+    </group>
+	
+    <gaprow height="7"/>
+    <label text="(for larger than 2 by 2 tables)" span="full"/>
+    <gaprow height="1"/>
+    <group>  
+        <textfield var="workspaceValue" label="Workspace Size in Network Algorithm (in 4 Bytes)" 
+                   default-value="200000" data-type="numeric" size="10"
+                   enabled="${(m1.columncount ge 2 and m1.rowcount gt 2) or (m1.columncount gt 2 and m1.rowcount ge 2)}"/>
+				   
+        <group><hbox>
+            <radiobutton label="Exact Probabilities    " var="hybridValue" button-group="hybrid" selected="T"
+				enabled="${(m1.columncount ge 2 and m1.rowcount gt 2) or (m1.columncount gt 2 and m1.rowcount ge 2)}"/>
+            <radiobutton label="Hybrid Approximation" var="hybridValue" button-group="hybrid" selected="F"
+				enabled="${(m1.columncount ge 2 and m1.rowcount gt 2) or (m1.columncount gt 2 and m1.rowcount ge 2)}"/>
+        </hbox></group>
+		
+        <checkbox var="confintValue" label="Confidence Interval" selected="TRUE"
+		enabled="${(m1.columncount ge 2 and m1.rowcount gt 2) or (m1.columncount gt 2 and m1.rowcount ge 2)}"/>
+			<checkbox var="simulatePValue" label="Simulate p value (Monte Carlo Simulation)" selected="FALSE"
+			enabled="${(m1.columncount ge 2 and m1.rowcount gt 2) or (m1.columncount gt 2 and m1.rowcount ge 2)}"/>
+			
+        <textfield label="                                                n of replicates" var="bValue" data-type="numeric" 
+		default-value="2000" size="10" enabled="${(m1.columncount ge 2 and m1.rowcount gt 2) or (m1.columncount gt 2 and m1.rowcount ge 2)}"/>
+    </group>    
+    
+	if(is.na(bool)){
+		print("ERROR!!")
+	}else if(bool){
+		fisher.test(data,		
+		or=orValue,
+		alternative=alternativeValue)
+	}else{
+		fisher.test(data,
+		workspace=workspaceValue,
+		hybrid=hybridValue,
+		conf.int=confintValue,
+		simulate.p.value=simulatePValue,
+		B=bValue)
+	}    
+</rgg>

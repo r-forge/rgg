@@ -1,32 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-
-
-  
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-
-
-  
   <meta name="description" content="_your description goes here_" />
-
-
-  
   <meta name="keywords" content="_your,keywords,goes,here_" />
-
-
-  
-  <meta name="author" content="_your name goes here_ / Original design: Andreas Viklund - http://andreasviklund.com/" />
-
-
-  
+  <meta name="author" content="Ilhami Visne / Original design: Andreas Viklund - http://andreasviklund.com/" />
   <link rel="stylesheet" type="text/css" href="rgg.css" />
-
-
-  
   <link rel="stylesheet" type="text/css" href="print.css" media="print" />
-
-  
   <title>RGG - Getting Started</title>
   <style type="text/css">
 <!--
@@ -35,77 +15,33 @@
   </style>
 </head>
 
-
 <body>
-
-
 <div id="wrap"><img id="frontphoto" alt="" src="images/Var1.jpg" style="padding-top: 8px;" />
 <div id="avmenu">
 <h2 class="hide">Menu:</h2>
-
-
-<ul>
-
-
-  <li><a href="index.html">Home</a></li>
-
-
-  <li><a href="#">Getting Started</a></li>
-
-
-  <li><a href="screenshots.html">Screenshots</a></li>
-
-
-  <li><a href="docs.html">Documentation</a></li>
-
-
-  <li><a href="downloads.html">Downloads</a></li>
-
-
-  <li><a href="http://r-forge.r-project.org/forum/?group_id=95">Forum</a></li>
-
-
-  <li><a href="http://r-forge.r-project.org/projects/rgg/">RGG
+<ul><li><a href="index.html">Home</a></li><li><a href="#">Getting Started</a></li><li><a href="screenshots.html">Screenshots</a></li><li><a href="docs.html">Documentation</a></li><li><a href="downloads.html">Downloads</a></li><li><a href="http://r-forge.r-project.org/forum/?group_id=95">Forum</a></li><li><a href="http://r-forge.r-project.org/projects/rgg/">RGG
 @R-Forge</a></li>
-
-
 </ul>
-
-
 <div class="announce">
 <h3>Latest news:</h3>
-
-
 <p><strong>November 26, 2007:</strong><br />
-
-
 RGG is registered on <a href="http://r-forge.r-project.org/">R-Forge</a>
 as a new project.</p>
-
-
 <p class="textright"><a href="index.html">Read
 more...</a></p>
-
-
 </div>
-
-
 </div>
-
 
 <div id="content">
 <h2>Getting started!</h2>
-
-
 <p class="style1"> RGG can be used in two
   different ways:</p>
+  
 <p class="sectionheader">1. RGG as an R package within JGR</p>
-
-
 <p>The first way  to use RGG is by installing it as an R Package
   in JGR. Here JGR provides the
   connection to R. JGR is a Java GUI for R.</p>
-<h5>Installation</h5>
+<p style="font-size:16px;font-weight:bold">Installation</p>
 <p><strong> 1</strong>. Download and install <a style="font-weight: bold;" href="http://www.r-project.org/">R</a> (2.6.x or newer)</p>
 <p><strong>2</strong>. Install <a style="font-weight: bold;" href="www.java.com">Java</a> (5 or newer)</p>
 <p><strong>3</strong>. Download <a style="font-weight: bold;" href="http://www.rosuda.org/JGR/">JGR 1.5</a> or
@@ -113,43 +49,26 @@ more...</a></p>
 <p><strong>4</strong>. Install RGG by executing the following lines within JGR or
   download it from<span style="font-weight: bold;">&nbsp;</span><a style="font-weight: bold;" href="http://r-forge.r-project.org/scm/?group_id=95">R-Forge</a>:</p>
 <pre id="hack"> install.packages(&quot;RGG&quot;,repos=&quot;http://r-forge.r-project.org&quot;)</pre>
-<p>Notice that this will work only, if the latest version of R is installed, at this moment 2.6.x. If not, please go to the <a href="downloads.html">Downloads</a> section and download an appropriate RGG package archive and install it manually.</p>
-
-
-
-
-
-<p>Then load the RGG package by calling <em><strong>"library(RGG)"</strong>.
+<p>Notice that this will work only, if the latest version of R is installed, at this moment 2.6.x. If not, please go to the <a href="downloads.html">Downloads</a> section and download an appropriate RGG package archive and install it manually.</p><p>Then load the RGG package by calling <em><strong>"library(RGG)"</strong>.
 </em>This will add a menu "RGG" on the menubar of JGR window (see
 the screenshot below).</p>
-
-
 <p class="centeredImage"><img alt="" src="images/JGR.png" /></p>
-
-
 <p>To open an RGG file click on the submenu "Load" of "RGG".
 Let's load&nbsp;an RGG file, <a href="files/qcreport.rgg">qcreport.rgg</a>.
 </p>
-
-
 <p class="centeredImage"><img alt="" src="images/agilent_linux.png" /></p>
-
-
 <p>The user interface has two buttons at the
 bottom: "Run" and "Open in Editor". The "Run" button generates the
 corresponding R code and sends it to R for execution. "Open in Editor"
 will open the generated R code in the JGR editor, which uses R specific
 highlighting.</p>
 
-
 <p class="sectionheader">2. Standalone&nbsp;</p>
-
-
-<h5>Installation</h5>
+<p style="font-size:16px;font-weight:bold">Installation</p>
 <p><strong>1</strong>. Download and install <a style="font-weight: bold;" href="http://www.r-project.org/">R</a> (2.6.x or newer)</p>
 <p><strong>2</strong>. Install <a style="font-weight: bold;" href="www.java.com">Java</a> (5 or newer)</p>
-<p><strong>3</strong>. Install RGG:<br />
-    <strong>3.1</strong> Web Start: Click <a href="jnlp/rgg/master.jnlp"><strong>here</strong></a> to install automatically. <br/>
+<p style="line-height:2.5em;"><strong>3</strong>. Install RGG:<br />
+    <strong>3.1</strong> Web Start: Click <a href="http://62.75.137.58/rgg/master.jnlp"><strong>here</strong></a> to install automatically. It will put a shortcut on the desktop. Next time it can be run directly using it. <br/>
     <strong>3.2</strong> Manual installation: <br/>
     <span style="font-weight: bold;">Windows and
       Linux:</span> Download the <a style="font-weight: bold;" href="files/rgg.zip">rgg.zip</a>. After extraction,
@@ -163,21 +82,13 @@ highlighting.</p>
 generated R script. If this command is not&nbsp;found in the <span style="font-weight: bold;">PATH </span>environment
 variable, user will be prompted to enter the installation folder (e.g.
 on Windows "C:\Program Files\R\R-2.6.2\bin").<br />
-
-
 <br />
-
-
 Here is a screenshot of the standalone version of RGG. An .rgg file
 (<a href="files/qcreport.rgg">qcreport.rgg</a>) is already loaded and executed here.
 </p>
 <p class="centeredImage"><img alt="rggsa" src="images/rggsa.png" /></p>
-
-
 <p style="text-align: center;"><strong>Figure
 1:&nbsp;RGG standalone</strong></p>
-
-
 <p>The main window&nbsp;consists of two parts, left (GUI) and
 right (output), which can be rearranged by&nbsp;drag and drop.
 An .rgg file is loaded, either by clicking the "Open RGG" button 
@@ -185,24 +96,11 @@ or using the shortcut "CTRL-O". After setting inputs, parameters etc.
 on the GUI, the&nbsp;generated R script can be executed by clicking 
 the "Run" button or using the "CTRL-R" shortcut. 
 The output&nbsp;from R&nbsp;is displayed on the "Output" window.&nbsp;</p>
-
-
-</div>
-
-
-
-<div id="footer">
-<p class="centeredImage"><img alt="" src="images/logo_arcs.gif" /></p>
-
-
+</div><div id="footer">
+<p class="centeredImage"><a href="http://www.arcs.ac.at/" target="_blank"><img alt="" src="images/logo_arcs.gif" /></a></p>
 &copy; Austrian Research Centers GmbH - ARC, 2008. All rights
-reserved. Design by <a href="http://andreasviklund.com">Andreas
-Viklund</a>.
+reserved.
 </div>
-
-
 </div>
-
-
 </body>
 </html>

@@ -1,0 +1,127 @@
+<rgg>
+    require(limma)
+   <h3 text="ADaCGH: analysis of data from aCGH (v.20070605)" alignment="center" span="full"/>
+   <h4 text="Before run, please install ADaCGH package manually!" alignment="center" span="full"/>
+    <separator label="Working Directory" span="full"/>
+    setwd(<filechooser fileselection-mode="directories-only" span="3"/>)
+    <gaprow height="9"/>
+    <separator label="Input" span="full"/>
+    files = <filechooser label="Agilent Arrays" accepted-extensions="txt"
+                         description="Text(*.txt)" span="2"
+                         fileselection-mode="files-only" multiselection-enabled="T"/>
+    
+    RG = read.maimages(files, source="agilent")
+    
+    RG$genes$col = 1
+    RG$genes$pch = "."
+    
+    CD = normalizeWithinArrays(RG,
+    method=<combobox label="Normalize Method"
+                     items="none,median,loess,printtiploess,composite,control,robustspline"/>)
+    
+    indices = grep("chr\\w:\\d+-\\d+",RG$genes$SystematicName,perl=T);
+    
+    mydatapart = RG$genes[grep("chr\\w:\\d+-\\d+",RG$genes$SystematicName,perl=T),]
+    
+    #Probe names
+    names = mydatapart[5]
+    positions = mydatapart[7]
+    
+    chr = gsub('(.+)\\:(.+)', '\\1', RG$genes$SystematicName[indices])
+    coord = gsub('(.+)\\:(.+)', '\\2', RG$genes$SystematicName[indices])
+    start = as.integer(gsub('(.+)\\-(.+)', '\\1', coord))
+    end = as.integer(gsub('(.+)\\-(.+)', '\\2', coord))
+    
+    Rvec = RG$R[indices]
+    Gvec = RG$G[indices]
+    
+    log2R = sapply(1:length(Rvec),function(x){log2(Rvec[x])})
+    log2G = sapply(1:length(Gvec),function(x){log2(Gvec[x])})
+    
+    cghData = data.frame(names,chr,start,end,log2R,log2G)
+    
+    tmpchr = sub("chr", "", cghData$chr)
+    chrom.numeric = as.numeric(as.character(tmpchr))
+    chrom.numeric[tmpchr == "X"] = 23
+    chrom.numeric[tmpchr == "Y"] = 24
+    rm(tmpchr)
+    reorder = order(chrom.numeric,
+    cghData$start,
+    cghData$end,
+    cghData$ProbeName)
+    cghData = cghData[reorder, ]
+    chrom.numeric = chrom.numeric[reorder]
+    
+    <gaprow height="9"/>
+    <separator label="Method" span="full"/>
+    
+    <radiobutton label="CBS: Olshen&amp;Venkatraman's circular binary segmentation" 
+                 var="aMethod" return-value-by-selected="DNAcopy" button-group="method" selected="T" span="full"/>
+    <radiobutton label="HMM:Fridlyand et al.'s homogeneous Hidden Markov Model" 
+                 var="aMethod" return-value-by-selected="HMM" button-group="method" span="full"/>
+    <radiobutton label="BioHMM:Marioni et al.'s non-homogeneous HMM" 
+                 var="aMethod" return-value-by-selected="BioHMM" button-group="method" span="full"/>
+    <radiobutton label="CGHseg:Piccard et al.'s CGH segmentation" 
+                 var="aMethod" return-value-by-selected="CGHseg" button-group="method" span="full"/>
+    <textfield var="minDiff1" label="      minDiff" default-value="-0.5" data-type="numeric"/>
+    <radiobutton label="GLAD: Huppé et al.'s Gain and Loss Analysis of DNA" 
+                 var="aMethod" return-value-by-selected="GLAD" button-group="method" span="full"/>
+    <radiobutton label="Wavelet smoothing (Wavelets)" 
+                 var="aMethod" return-value-by-selected="Wavelets" button-group="method" span="full"/>
+    <textfield var="minDiff2" label="      minDiff" default-value="0.25" data-type="numeric"/>
+    <radiobutton label="Price-Smith-Waterman (PSW)" 
+                 var="aMethod" return-value-by-selected="PSW" button-group="method" span="full"/>
+    <hbox>
+        <vbox>
+            <label text="Permutation test"/>
+            <textfield label=" Number of permutations" default-value="1000"
+                       data-type="numeric" var="nIter"/>
+        </vbox>
+        <vbox>
+            <label text="   Plotting"/>
+            <textfield label="   Largest p-value shown" default-value="0.15"
+                       data-type="numeric" var="p.crit"/>
+        </vbox>
+    </hbox>
+    <radiobutton label="Analysis of copy errors (ACE): Lingjaerde et al.'s CGH Explorer" 
+                 var="aMethod" return-value-by-selected="ACE" button-group="method" span="full"/>
+    <textfield var="fdr" label="      (desired) FDR" default-value="0.15" data-type="numeric"/>
+    
+    <gaprow height="9"/>
+    <separator label="Type of gene identifier and species" span="full"/>
+    <hbox>
+        <vbox>
+            <label text="Type of ID for gene names"/>
+            <radiobutton var="idType" return-value-by-selected="aff" 
+            label="Affymetrix ID" button-group="idtype"/>
+            <radiobutton var="idType" return-value-by-selected="clone" 
+            label="Clone ID (IMAGE Consortium)" button-group="idtype"/>
+            <radiobutton var="idType" return-value-by-selected="acc"
+            label="GenBank Accession" button-group="idtype"/>
+            <radiobutton var="idType" return-value-by-selected="ensembl"
+            label="Ensembl Gene" button-group="idtype"/>
+            <radiobutton var="idType" return-value-by-selected="ug"
+            label="Unigene cluster" button-group="idtype"/>
+            <radiobutton var="idType" return-value-by-selected="entrez"
+            label="Entrez Gene" button-group="idtype"/>
+            <radiobutton var="idType" return-value-by-selected="cnio"
+            label="CNIO ID" button-group="idtype"/>
+            <radiobutton var="idType" return-value-by-selected="None"
+            label="None of the above" button-group="idtype" selected="T"/>
+        </vbox>
+        <vbox>
+            <label text="Organism"/>
+            <radiobutton var="org" label="Human (Homo sapiens)" button-group="org"/>
+            <radiobutton var="org" label="Mouse (Mus musculus)" button-group="org"/>
+            <radiobutton var="org" label="Rat (Rattus norvegicus)" button-group="org"/>
+            <radiobutton var="org" label="None of the above" button-group="org" selected="T"/>
+        </vbox>
+    </hbox>
+    
+    SegmentPlotWrite(cghData[, 5:6], chrom.numeric,
+    merge = FALSE, Pos = cghData$start,
+    idtype = idType, organism = org,
+    method = aMethod,
+    geneNames = cghData[, 1],
+    commondata = cghData[, 1:4])
+</rgg>

@@ -1,0 +1,13 @@
+FileName	Cy3	Cy5
+slide1.txt	untreated	treated
+slide2.txt	treated	untreated
+slide3.txt	untreated	treated
+slide4.txt	treated	untreated
+slide5.txt	untreated	treated
+slide6.txt	treated	untreated
+slide7.txt	untreated	treated
+slide8.txt	treated	untreated
+slide9.txt	untreated	treated
+slide10.txt	treated	untreated
+slide11.txt	untreated	treated
+slide12.txt	treated	untreated
