@@ -78,9 +78,8 @@
     <slider min="0" max="1000" default-value="500"
             paint-ticks="false" paint-labels="false" paint-value="true"
             span="full" />
-    ), ], cexCol=0.5, labCol=as.character(G$targets$pat))
+    ), ], cexCol=0.5, labCol=as.character(G$targets$covar))
     
     dev.off()
     }
 </rgg>
-

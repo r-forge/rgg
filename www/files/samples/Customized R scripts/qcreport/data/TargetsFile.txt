@@ -1,13 +1,13 @@
-FileName	Cy3	Cy5
-slide1.txt	untreated	treated
-slide2.txt	treated	untreated
-slide3.txt	untreated	treated
-slide4.txt	treated	untreated
-slide5.txt	untreated	treated
-slide6.txt	treated	untreated
-slide7.txt	untreated	treated
-slide8.txt	treated	untreated
-slide9.txt	untreated	treated
-slide10.txt	treated	untreated
-slide11.txt	untreated	treated
-slide12.txt	treated	untreated
+FileName	Cy3	Cy5	array	chip	covar
+US23302316_251485011923_S01_GE1-v5_95_Feb08_1_1.txt	treated	untreated	1	1	a
+US23302316_251485011923_S01_GE1-v5_95_Feb08_1_2.txt	untreated	treated	2	1	a
+US23302316_251485011923_S01_GE1-v5_95_Feb08_1_3.txt	treated	untreated	3	1	a
+US23302316_251485011923_S01_GE1-v5_95_Feb08_1_4.txt	untreated	treated	4	1	a
+US23302316_251485011924_S01_GE1-v5_95_Feb08_1_1.txt	treated	untreated	1	2	a
+US23302316_251485011924_S01_GE1-v5_95_Feb08_1_2.txt	untreated	treated	2	2	a
+US23302316_251485011924_S01_GE1-v5_95_Feb08_1_3.txt	treated	untreated	3	2	b
+US23302316_251485011924_S01_GE1-v5_95_Feb08_1_4.txt	untreated	treated	4	2	b
+US23302316_251485011925_S01_GE1-v5_95_Feb08_1_1.txt	treated	untreated	1	3	b
+US23302316_251485011925_S01_GE1-v5_95_Feb08_1_2.txt	untreated	treated	2	3	b
+US23302316_251485011925_S01_GE1-v5_95_Feb08_1_3.txt	treated	untreated	3	3	b
+US23302316_251485011925_S01_GE1-v5_95_Feb08_1_4.txt	untreated	treated	4	3	b
