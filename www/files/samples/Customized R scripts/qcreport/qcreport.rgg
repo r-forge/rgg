@@ -37,8 +37,10 @@
         Gbc = backgroundCorrect(G, offset=offsetvalue)
         norm = normalizeBetweenArrays(
         <hbox>
-            <checkbox span="2" label="Log2 transformation" return-value-by-selected = "log2(Gbc$G)" return-value-by-notselected="Gbc$G"/>,
-            method=<combobox label="Normalisation method" span="full" items="none,scale,quantile,Aquantile,Gquantile,Rquantile,Tquantile,vsn"/>
+            <checkbox span="2" label="Log2 transformation" return-value-by-selected = "log2(Gbc$G)"
+			return-value-by-notselected="Gbc$G" selected="T"/>,
+            method=<combobox label="Normalisation method" span="full" items="none,scale,quantile,Aquantile,Gquantile,Rquantile,Tquantile,vsn"
+			selected-index="3"/>
         </hbox>
         )
     </group>
@@ -49,7 +51,6 @@
         <hbox>
             isBoxplot = <checkbox label="Box plot" selected="T"/>
             isHeatMap = <checkbox id="c2" label="Heat map"/>
-            isPcPlot = <checkbox label="PC-plot"/>
         </hbox>
         <gaprow height="2"/>
         filetype = <combobox label="File type" items="jpeg,pdf,ps"/>
@@ -79,12 +80,6 @@
             span="full" />
     ), ], cexCol=0.5, labCol=as.character(G$targets$pat))
     
-    dev.off()
-    }
-    
-    if(isPcPlot){
-    createPlotFile(paste("pc12",filetype,sep="."))
-    plot(prcomp(t(norm))$x[,1:2], col=as.numeric(G$targets$pat))
     dev.off()
     }
 </rgg>
