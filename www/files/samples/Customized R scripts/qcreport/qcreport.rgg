@@ -13,7 +13,7 @@
 	</group>
 	
 	<separator label="Working Directory (Input-Output)" span="full"/>
-    setwd(<filechooser extensions="csv" fileselection-mode="directories-only"/>)
+    setwd(<filechooser fileselection-mode="directories-only"/>)
 		
     require(limma)
     require(pamr)
@@ -39,8 +39,8 @@
         <hbox>
             <checkbox span="2" label="Log2 transformation" return-value-by-selected = "log2(Gbc$G)"
 			return-value-by-notselected="Gbc$G" selected="T"/>,
-            method=<combobox label="Normalisation method" span="full" items="none,scale,quantile,Aquantile,Gquantile,Rquantile,Tquantile,vsn"
-			selected-index="3"/>
+            method=<combobox label="Normalisation method" span="full" 
+			items="none,scale,quantile,Aquantile,Gquantile,Rquantile,Tquantile,vsn"	selected-index="3"/>
         </hbox>
         )
     </group>
