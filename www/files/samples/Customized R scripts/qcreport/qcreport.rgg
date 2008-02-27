@@ -26,7 +26,7 @@
     
     <gaprow height="7"/>
     <separator label="Background Correction and Normalisation" span="full"/>
-    offsetvalue = <group>
+    offsetval = <group>
         <hbox>
             <label text="Offset:"/>
             <checkbox id="c1" label="Max negative value" selected="TRUE"
@@ -34,7 +34,7 @@
             <textfield label = "  or set here:" data-type="numeric" size="8" enabled="${not c1.selected}"/>
         </hbox>
         <gaprow height="2"/>
-        Gbc = backgroundCorrect(G, offset=offsetvalue)
+        Gbc = backgroundCorrect(G, offset=offsetval)
         norm = normalizeBetweenArrays(
         <hbox>
             <checkbox span="2" label="Log2 transformation" return-value-by-selected = "log2(Gbc$G)"
