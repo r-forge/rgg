@@ -55,7 +55,7 @@
 		fisher.test(data,
 		workspace=workspaceValue,
 		hybrid=hybridValue,
-		conf.int=confintValue,
+		conf.int=FALSE,
 		simulate.p.value=simulatePValue,
 		B=bValue)
 	}    
