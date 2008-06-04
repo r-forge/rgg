@@ -56,24 +56,6 @@ public class ARCTable extends javax.swing.JPanel {
         tableScrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER, corner);
         new JScrollPaneAdjuster(tableScrollPane);
         new JTableRowHeaderResizer(tableScrollPane).setEnabled(false);
-//        rowHeader.getTableHeader().addMouseListener( new MouseAdapter() {
-//            public void mouseClicked(MouseEvent e) {
-//                JTableHeader h = (JTableHeader) e.getSource();
-//                TableColumnModel columnModel = h.getColumnModel();
-//                int column = columnModel.getColumnIndexAtX(e.getX());
-////                int column = columnModel.getColumn(viewColumn).getModelIndex();
-////                if (column == 1) {
-////                    sorter.cancelSorting();
-////                    for(Object o: columnPropsPanel.getCategories()){
-////                        int catCol=(Integer)o;
-////                        sorter.setSortingStatus(catCol, 1);
-////                    }
-////                }else if(column == 2){
-////                    sorter.sortBySelection();
-////                }
-//            }
-//            
-//        });
     }
      
     // Variables declaration - do not modify//GEN-BEGIN:variables

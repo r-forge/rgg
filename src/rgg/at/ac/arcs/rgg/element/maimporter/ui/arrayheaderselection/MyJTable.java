@@ -33,6 +33,7 @@ public class MyJTable extends JTable {
                 }
             }
         });
+        getPreferredScrollableViewportSize().height=200;
     }
 
     public MyTableModel getMyModel() {

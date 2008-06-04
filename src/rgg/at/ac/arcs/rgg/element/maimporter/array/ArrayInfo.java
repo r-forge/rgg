@@ -9,6 +9,7 @@ import java.util.List;
  * @author ilhami
  */
 public class ArrayInfo {
+    public static final String GENERIC = "generic";
     private ArrayChannelInfo channelInfo;
     private ArrayColorInfo colorInfo;
     private ArrayCreator arrayCreator;
@@ -28,7 +29,7 @@ public class ArrayInfo {
     }
 
     public boolean isGenericType(){
-      return arrayType.equals("generic");          
+      return arrayType.equals(GENERIC);          
     }
 
     public File getArrayFile() {

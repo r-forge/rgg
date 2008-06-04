@@ -19,8 +19,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.apache.commons.lang.StringUtils;
 import at.ac.arcs.rgg.RGG;
+import at.ac.arcs.rgg.util.RGGFileExtensionFilter;
 import at.ac.arcs.rgg.util.tablerowheader.LineNumberTable;
-import at.ac.arcs.rgg.util.tablerowheader.RGGFileExtensionFilter;
 import org.jdesktop.swingworker.SwingWorker;
 
 /**

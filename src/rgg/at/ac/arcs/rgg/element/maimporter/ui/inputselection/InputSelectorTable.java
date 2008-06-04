@@ -115,6 +115,12 @@ public class InputSelectorTable extends JXTable {
         setOptions(options);
     }
 
+    public InputSelectorTable(JXTable table) {
+        super();
+        init();
+        installTable(table);
+    }
+    
     private TableColumnExt createTableColumn(TableColumn column) {
         FilterColumnExt newColumn = new FilterColumnExt(column);
         return newColumn;
@@ -194,11 +200,24 @@ public class InputSelectorTable extends JXTable {
         getDTM().addRow(rowData);
         for (int i = 0; i < getColumnModelExt().getColumnCount(true); i++) {
             getDTM().setValueAt(InputList.NONE_OPTION, 0, i);
-        }  
+        }
+
+
+        for (InputInfo ininfo : inputs.getInputs()) {
+            for (int i = ininfo.getColumns().size() - 1; i >= 0; i--) {
+                int j = ininfo.getColumns().get(i);
+                try {
+                    getDTM().setValueAt(ininfo, 0, j);
+                } catch (Exception e) {
+                    ininfo.removeColumn(j);
+                }
+            }
+        }
 
         Object[] items = inputs.getInputs();
         setDefaultEditor(Object.class, getCellEditor(items));
         setDefaultRenderer(Object.class, new ComboCellRenderer(items));
+
     }
 
     DefaultTableModel getDTM() {
@@ -246,7 +265,6 @@ public class InputSelectorTable extends JXTable {
             column.removePropertyChangeListener(columnListener);
             column = null;
         }
-
 
         /**
          * Does nothing. Synch from action state to TableColumn state
@@ -320,9 +338,11 @@ public class InputSelectorTable extends JXTable {
          *         column
          */
         protected PropertyChangeListener createPropertyChangeListener() {
-            return new PropertyChangeListener() {
+            return new  
 
-                public void propertyChange(PropertyChangeEvent evt) {
+                  PropertyChangeListener( ) {
+
+                     public void propertyChange(PropertyChangeEvent evt) {
                     if ("visible".equals(evt.getPropertyName())) {
                         updateFromColumnVisible((Boolean) evt.getNewValue());
                     } else if ("headerValue".equals(evt.getPropertyName())) {
@@ -335,11 +355,8 @@ public class InputSelectorTable extends JXTable {
             };
         }
     }
-    
 
-
-
-//-------------------------- updates from table propertyChangelistnere
+//-------------------------- updates from table propertyChangelistener
     /**
      * Adjusts internal state after table's column model property has changed.
      * Handles cleanup of listeners to the old/new columnModel (Note, that
@@ -412,6 +429,7 @@ public class InputSelectorTable extends JXTable {
             getColumnModelExt().removeColumn(toDel);
         }
         getDTM().getDataVector().clear();
+        getDTM().setColumnCount(0);
     }
 
 
@@ -432,7 +450,7 @@ public class InputSelectorTable extends JXTable {
         setShowGrid(false);
         setAutoCreateColumnsFromModel(false);
         setRowHeight(23);
-        
+
     }
 
     // -------------------------------- listeners
@@ -459,9 +477,11 @@ public class InputSelectorTable extends JXTable {
      * @return the <code>PropertyChangeListener</code> for use with the table.
      */
     protected PropertyChangeListener createTablePropertyChangeListener() {
-        return new PropertyChangeListener() {
+        return new  
 
-            public void propertyChange(PropertyChangeEvent evt) {
+              PropertyChangeListener( ) {
+
+                 public void propertyChange(PropertyChangeEvent evt) {
                 if ("columnModel".equals(evt.getPropertyName())) {
                     System.out.println("column model changed");
                     updateFromColumnModelChange((TableColumnModel) evt.getOldValue());
@@ -469,6 +489,8 @@ public class InputSelectorTable extends JXTable {
                     updateFromTableEnabledChanged();
                 } else if ("autoResizeMode".equals(evt.getPropertyName())) {
                     setAutoResizeMode((Integer) evt.getNewValue());
+                }else if ("model".equals(evt.getPropertyName())) {
+                    populateModel();
                 }
             }
         };
@@ -498,20 +520,22 @@ public class InputSelectorTable extends JXTable {
      *         table's columnModel.
      */
     protected TableColumnModelListener createColumnModelListener() {
-        return new TableColumnModelListener() {
+        return new  
 
-            /** Tells listeners that a column was added to the model. */
-            public void columnAdded(TableColumnModelEvent e) {
+              TableColumnModelListener( ) {
+
+                /** Tells listeners that a column was added to the model. */
+                  public void columnAdded(TableColumnModelEvent e) {
                 // quickfix for #192
                 if (!isVisibilityChange(e, true)) {
-                    populateModel();
+//                    populateModel();
                 }
             }
 
             /** Tells listeners that a column was removed from the model. */
             public void columnRemoved(TableColumnModelEvent e) {
                 if (!isVisibilityChange(e, false)) {
-                    populateModel();
+//                    populateModel();
                 }
             }
 
@@ -550,8 +574,8 @@ public class InputSelectorTable extends JXTable {
 
             /** Tells listeners that a column was moved due to a margin change. */
             public void columnMarginChanged(ChangeEvent e) {
-
             }
+
             /**
              * Tells listeners that the selection model of the TableColumnModel
              * changed.
@@ -581,6 +605,7 @@ public class InputSelectorTable extends JXTable {
                 combo.setSelectedItem(table.getValueAt(row, col));
             }
             return combo; // Insert the combo
+
         }
     }
 
@@ -610,6 +635,4 @@ public class InputSelectorTable extends JXTable {
             return this;
         }
     }
-
-    
 } // end class

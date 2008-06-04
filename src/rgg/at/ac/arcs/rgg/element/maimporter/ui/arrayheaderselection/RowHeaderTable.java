@@ -1,6 +1,8 @@
 package at.ac.arcs.rgg.element.maimporter.ui.arrayheaderselection;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
@@ -25,7 +27,7 @@ public class RowHeaderTable extends JTable {
 
     private MyJTable mainTable;
     private PropertyChangeListener tablePropertyChangeListener;
-    private ArrayList<JRadioButton> rbuttons = new ArrayList();
+    private ArrayList<RowRadioButton> rbuttons = new ArrayList();
 
     public RowHeaderTable(MyJTable table) {
         super();
@@ -104,9 +106,7 @@ public class RowHeaderTable extends JTable {
         return new PropertyChangeListener() {
 
             public void propertyChange(PropertyChangeEvent evt) {
-//                MyJTable
                 if ("model".equals(evt.getPropertyName())) {
-                    System.out.println("table model changed");
                     updateFromModelChange((TableModel) evt.getOldValue());
                 } else if ("enabled".equals(evt.getPropertyName())) {
                     updateFromTableEnabledChanged();
@@ -116,7 +116,6 @@ public class RowHeaderTable extends JTable {
     }
 
     private void updateFromModelChange(TableModel tableModel) {
-//        setModel(mainTable.getModel());
         DefaultTableModel dmodel = new DefaultTableModel(0, 2) {
 
             @Override
@@ -139,9 +138,9 @@ public class RowHeaderTable extends JTable {
             }
         };
         ButtonGroup bg = new ButtonGroup();
-        JRadioButton b;
+        RowRadioButton b;
         for (int i = 0; i < mainTable.getModel().getRowCount(); i++) {
-            b = new JRadioButton();
+            b = new RowRadioButton(i);
             bg.add(b);
             dmodel.addRow(new Object[]{i + 1, b});
             rbuttons.add(b);
@@ -158,51 +157,11 @@ public class RowHeaderTable extends JTable {
         return column == 1;
     }
 
-//    @Override
-//    public Object getValueAt(int row, int column) {
-//        switch (column) {
-//            case 0:
-//                return row + 1;
-//            case 1:
-//                return getModel().getValueAt(row, colu);
-//            case 2:
-//                return rbuttons.get(row);//mainTable.getMyModel().getSelection(row);
-//
-//            default:
-//                return null;
-//        }
-//    }
-
-//    @Override
-//    public void setValueAt(Object aValue, int row, int column) {
-//        
-//        switch (column) {
-//            case 1:
-//                if (aValue instanceof JRadioButton) {
-//                   repaint();
-//                }
-//                return;
-//        }
-//    }
-//    @Override
-//    public Class getColumnClass(int column) {
-//        switch (column) {
-//            case 1:
-//                return Boolean.class;
-//            default:
-//                return Object.class;
-//        }
-//    }
     @Override
     public int getRowHeight(int row) {
         return mainTable.getRowHeight(row);
     }
 
-//    @Override
-//    public int getRowCount() {
-//        return mainTable.getRowCount();
-////        return mainTable.getVisibleRowCount();
-//    }
     class myCellRenderer extends DefaultTableCellRenderer {
 
         @Override
@@ -215,7 +174,6 @@ public class RowHeaderTable extends JTable {
             }
             setFont(mainTable.getTableHeader().getFont());
             setBorder(mainTable.getTableHeader().getBorder());
-//            setValue((Integer) value == -1 ? "----" : ((Integer) value + 1));
             return this;
         }
     }
@@ -241,28 +199,6 @@ public class RowHeaderTable extends JTable {
         }
     }
 
-    private static class GroupHeaderCellRenderer extends UIResourceTableCellRenderer implements UIResource {
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                boolean isSelected, boolean hasFocus, int row, int column) {
-            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            setToolTipText("Click to sort according to grouping variables");
-            return this;
-        }
-    }
-
-    private static class SelectionHeaderCellRenderer extends UIResourceTableCellRenderer implements UIResource {
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                boolean isSelected, boolean hasFocus, int row, int column) {
-            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            setToolTipText("Click to sort according to selection");
-            return this;
-        }
-    }
-
     private class RadioButtonRenderer implements TableCellRenderer {
 
         public Component getTableCellRendererComponent(JTable table, Object value,
@@ -271,36 +207,6 @@ public class RowHeaderTable extends JTable {
                 return null;
             }
             JRadioButton radioButton = (JRadioButton) value;
-//        if (isSelected) {
-//            radioButton.setForeground(table.getSelectionForeground());
-//            radioButton.setBackground(table.getSelectionBackground());
-//        } else {
-//            radioButton.setForeground(table.getForeground());
-//            radioButton.setBackground(table.getBackground());
-//        }
-//        radioButton.setFont(table.getFont());
-//        if (hasFocus) {
-//            Border border = null;
-//            if (isSelected) {
-//                border = UIManager.getBorder("Table.focusSelectedCellHighlightBorder");
-//            }
-//            if (border == null) {
-//                border = UIManager.getBorder("Table.focusCellHighlightBorder");
-//            }
-//            radioButton.setBorder(border);
-//
-//            if (!isSelected && table.isCellEditable(row, column)) {
-//                Color col;
-//                col = UIManager.getColor("Table.focusCellForeground");
-//                if (col != null) {
-//                    radioButton.setForeground(col);
-//                }
-//                col = UIManager.getColor("Table.focusCellBackground");
-//                if (col != null) {
-//                    radioButton.setBackground(col);
-//                }
-//            }
-//        }
             return radioButton;
         }
     }
@@ -334,6 +240,26 @@ public class RowHeaderTable extends JTable {
 
         public void itemStateChanged(ItemEvent e) {
             super.fireEditingStopped();
+        }
+    }
+
+    private class RowRadioButton extends JRadioButton {
+
+        private int rowindex;
+
+        public RowRadioButton(int row) {
+            this.rowindex = row;
+            if (mainTable.getMyModel().getSelectedRow() == row) {
+                setSelected(true);
+            }
+            addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    if (isSelected()) {
+                        mainTable.getMyModel().setSelectedRow(rowindex);
+                    }
+                }
+            });
         }
     }
 }
