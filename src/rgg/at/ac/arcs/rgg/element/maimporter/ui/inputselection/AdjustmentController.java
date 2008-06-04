@@ -45,9 +45,9 @@ public class AdjustmentController implements AdjustmentListener {
         scrollBar.addAdjustmentListener(this);
         horizontalBars.add(scrollBar);
 
-        scrollBar = scrollPane.getVerticalScrollBar();
-        scrollBar.addAdjustmentListener(this);
-        verticalBars.add(scrollBar);
+//        scrollBar = scrollPane.getVerticalScrollBar();
+//        scrollBar.addAdjustmentListener(this);
+//        verticalBars.add(scrollBar);
     }
 
     /* (non-Javadoc)

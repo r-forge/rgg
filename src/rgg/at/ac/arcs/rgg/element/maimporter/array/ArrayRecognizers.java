@@ -40,6 +40,9 @@ public class ArrayRecognizers {
                     break;
                 }
             }
+            if(arrayInfo == null){
+                arrayInfo = createGenericTypeArrayInfo(array);
+            }
             arrayInfos.add(arrayInfo);
         }
         return arrayInfos;
@@ -56,5 +59,13 @@ public class ArrayRecognizers {
             }
         }
         return true;
+    }
+
+    private static ArrayInfo createGenericTypeArrayInfo(File array) {
+        ArrayInfo inf = new ArrayInfo();
+        inf.setArrayType(ArrayInfo.GENERIC);
+        inf.setArrayFile(array);
+        inf.setArrayCreator(new GenericArrayCreator());
+        return inf;
     }
 }

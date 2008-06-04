@@ -14,4 +14,6 @@ import javax.swing.table.TableModel;
 public interface MyTableModel extends TableModel{
     void setSelection(int rowindex, boolean isSelected);
     boolean getSelection(int rowindex);
+    void setSelectedRow(int rowindex);
+    int getSelectedRow();
 }

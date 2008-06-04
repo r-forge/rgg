@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import at.ac.arcs.rgg.component.VisualComponent;
 import at.ac.arcs.rgg.layout.LayoutInfo;
 import at.ac.arcs.rgg.RGGPanelModel;
+import com.jgoodies.forms.layout.RowSpec;
 
 /**
  *
@@ -54,10 +55,14 @@ public class RGGPanelBuilder {
         }
         
         JComponent[][] swingMatrix = buildSwingMatrix(model);
+        for(int i=0;i<swingMatrix.length;i++){
+            layout.appendRow(new RowSpec("pref:grow"));
+            layout.appendRow(new RowSpec("5dlu"));
+        }
         int counter = 0;
         for (JComponent[] swingMatrixRow : swingMatrix) {
             if (counter > 0) {
-                builder.nextLine();
+                builder.nextLine(2);
             }
             for (JComponent comp : swingMatrixRow) {
                 if (comp == null) {
@@ -101,7 +106,7 @@ public class RGGPanelBuilder {
         }
 
         for (int i = 1; i <= minorColumns; i++) {
-            layout.appendColumn(new ColumnSpec("pref"));
+            layout.appendColumn(new ColumnSpec("fill:pref"));
             if (i != minorColumns) //for the last column don't add a glue column
             {
                 layout.appendColumn(new ColumnSpec(Sizes.DLUX2));

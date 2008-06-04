@@ -8,6 +8,7 @@ import javax.swing.table.AbstractTableModel;
 public class MyDefaultTableModel extends AbstractTableModel implements MyTableModel{
     protected ArrayList<String> colNames; // defines the number of cols
     protected ArrayList<ArrayList> data; // arraylist of arraylists
+    protected int selectedRow = -1;
     protected HashMap<ArrayList,Boolean> selectionMap;
     public MyDefaultTableModel() {
         colNames = new ArrayList();
@@ -109,6 +110,15 @@ notification for changing the number of columns.
     public boolean getSelection(int rowindex) {
         if(rowindex < 0 || rowindex >= data.size()) return false;
         return selectionMap.get(data.get(rowindex));
+    }
+
+    public int getSelectedRow() {
+        return selectedRow;
+    }
+
+    public void setSelectedRow(int selectedRow) {
+        this.selectedRow = selectedRow;
+        fireTableCellUpdated(selectedRow, 0);
     }
     
 }

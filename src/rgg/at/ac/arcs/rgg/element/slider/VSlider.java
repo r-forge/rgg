@@ -18,7 +18,7 @@ import at.ac.arcs.rgg.layout.LayoutInfo;
  *
  * @author ilhami
  */
-class VSlider extends VisualComponent {
+public class VSlider extends VisualComponent {
 
     private JSlider slider;
     private JLabel sliderValueLabel;

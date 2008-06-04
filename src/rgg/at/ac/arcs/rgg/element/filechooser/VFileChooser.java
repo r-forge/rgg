@@ -20,7 +20,7 @@ import javax.swing.SwingUtilities;
 import at.ac.arcs.rgg.RGG;
 import at.ac.arcs.rgg.component.VisualComponent;
 import at.ac.arcs.rgg.layout.LayoutInfo;
-import at.ac.arcs.rgg.util.tablerowheader.RGGFileExtensionFilter;
+import at.ac.arcs.rgg.util.RGGFileExtensionFilter;
 
 /**
  *

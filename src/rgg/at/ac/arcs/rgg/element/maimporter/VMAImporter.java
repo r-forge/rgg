@@ -3,6 +3,7 @@ package at.ac.arcs.rgg.element.maimporter;
 import javax.swing.JComponent;
 import at.ac.arcs.rgg.RGG;
 import at.ac.arcs.rgg.component.VisualComponent;
+import at.ac.arcs.rgg.element.maimporter.ui.archive.MAImporterPanelI;
 import at.ac.arcs.rgg.element.maimporter.ui.MAImporterPanel;
 import at.ac.arcs.rgg.layout.LayoutInfo;
 

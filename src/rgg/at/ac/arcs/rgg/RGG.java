@@ -45,10 +45,10 @@ public class RGG {
             try {
                 config.addConfiguration(
                         new PropertiesConfiguration(
-                        RGG.class.getResource("/org/arcs/rgg/config/elementfactory.properties")));
+                        RGG.class.getResource("/at/ac/arcs/rgg/config/elementfactory.properties")));
                 config.addConfiguration(
                         new PropertiesConfiguration(
-                        RGG.class.getResource("/org/arcs/rgg/config/rgg-attributes.properties")));
+                        RGG.class.getResource("/at/ac/arcs/rgg/config/rgg-attributes.properties")));
             } catch (ConfigurationException ex) {
                 log.fatal("Couldn't initialize RGG", ex.getCause());
                 throw ex;
