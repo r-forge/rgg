@@ -52,7 +52,7 @@ public class TargetFilePanel extends JPanel {
             tableScrollPane.setViewportView(jxTable);
         }
     }
-                       
+
     private void initComponents() {
 
         fileChooser = new javax.swing.JFileChooser();
@@ -68,7 +68,7 @@ public class TargetFilePanel extends JPanel {
         jXHeader1 = new org.jdesktop.swingx.JXHeader();
 
         tableScrollPane.setBorder(null);
-        
+
         fileChooser.setMultiSelectionEnabled(true);
 
         rowLabel.setText("Rows:");
@@ -143,22 +143,28 @@ public class TargetFilePanel extends JPanel {
         jXHeader1.setDescription("Edit ...");
         jXHeader1.setTitle("Target File Editor");
 
-        FormLayout layout = new FormLayout("pref,2dlu,pref,2dlu,pref,25dlu,pref,2dlu,pref,2dlu,pref,200",//cols
-                "min,2dlu,fill:pref:grow,2dlu,pref");
-        setLayout(layout);
-        CellConstraints cc = new CellConstraints();
-        add(jXHeader1, cc.xyw(1, 1, 12));
-        add(tableScrollPane, cc.xyw(1, 3, 12));
-        add(rowLabel, cc.xy(1, 5));
-        add(addRowHyperlink, cc.xy(3, 5));
-        add(removeRowHyperlink, cc.xy(5, 5));
-        add(columnLabel, cc.xy(7, 5));
-        add(addColumnHyperlink, cc.xy(9, 5));
-        add(removeColumnHyperlink, cc.xy(11, 5));
-
         UnitConverter converter = DefaultUnitConverter.getInstance();
         tableScrollPane.setPreferredSize(new Dimension(converter.dialogUnitXAsPixel(200, tableScrollPane),
                 converter.dialogUnitXAsPixel(100, tableScrollPane)));
+        /****************Layout**********************/
+        CellConstraints cc = new CellConstraints();
+        FormLayout layout = new FormLayout("pref,2dlu,pref,2dlu,pref,25dlu,pref,2dlu,pref,2dlu,pref",//cols
+                "pref");
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(layout);
+        buttonPanel.add(rowLabel, cc.xy(1, 1));
+        buttonPanel.add(addRowHyperlink, cc.xy(3, 1));
+        buttonPanel.add(removeRowHyperlink, cc.xy(5, 1));
+        buttonPanel.add(columnLabel, cc.xy(7, 1));
+        buttonPanel.add(addColumnHyperlink, cc.xy(9, 1));
+        buttonPanel.add(removeColumnHyperlink, cc.xy(11, 1));
+
+        layout = new FormLayout("pref:grow", "pref,1dlu,fill:pref:grow,1dlu,pref");
+        setLayout(layout);
+
+        add(jXHeader1, cc.xy(1, 1));
+        add(tableScrollPane, cc.xy(1, 3));
+        add(buttonPanel, cc.xy(1, 5));
         setBorder(null);
     }
 
