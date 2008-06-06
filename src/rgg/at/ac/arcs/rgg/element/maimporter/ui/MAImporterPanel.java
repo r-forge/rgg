@@ -329,7 +329,7 @@ public class MAImporterPanel extends javax.swing.JPanel {
                 MAImporterPanel mapanel = new MAImporterPanel();
                 mapanel.yapiste(input);
                 f.setContentPane(mapanel);
-                f.setSize(mapanel.getPreferredSize());
+                f.setSize(mapanel.getPreferredSize().width+200,mapanel.getPreferredSize().height+200);
                 f.setVisible(true);
             }
         });

@@ -73,23 +73,11 @@ public class RGListSettingsPanel extends javax.swing.JPanel {
         tableScrollPane = new javax.swing.JScrollPane();
 
         jXHeader1.setDescription("Description");
-        jXHeader1.setTitle("Panel 5");
+        jXHeader1.setTitle("RGListPanel");
 
         inputSelectorScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         inputSelectorScrollPane.getVerticalScrollBar().setEnabled(false);
         inputSelectorScrollPane.setBorder(null);
-//        inputSelectorScrollPane.setVerticalScrollBar(new javax.swing.JScrollBar() {
-//
-//            @Override
-//            public boolean isEnabled() {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean isVisible() {
-//                return false;
-//            }
-//        });
 
         table = new JXTable();
         table.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
@@ -111,7 +99,7 @@ public class RGListSettingsPanel extends javax.swing.JPanel {
         controller.registerScrollPane(inputSelectorScrollPane);
         
         FormLayout layout = new FormLayout("fill:min:grow",//cols
-                "min,2dlu,pref:grow,fill:pref:grow");
+                "min,2dlu,pref,fill:pref:grow");
         setLayout(layout);
         CellConstraints cc = new CellConstraints();
 
