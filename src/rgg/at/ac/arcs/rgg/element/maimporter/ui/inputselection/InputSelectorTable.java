@@ -20,12 +20,10 @@
  */
 package at.ac.arcs.rgg.element.maimporter.ui.inputselection;
 
-import at.ac.arcs.rgg.element.maimporter.array.InputInfo;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Hashtable;
 import java.util.List;
 
 import java.util.Vector;
@@ -97,7 +95,6 @@ public class InputSelectorTable extends JXTable {
     private PropertyChangeListener tablePropertyChangeListener;
     /** Listener for table's columnModel. */
     TableColumnModelListener columnModelListener;
-    private Hashtable<String, Boolean> options;
     private InputList inputs;
 
     /** the list of actions for column menuitems.*/
@@ -120,7 +117,7 @@ public class InputSelectorTable extends JXTable {
         init();
         installTable(table);
     }
-    
+
     private TableColumnExt createTableColumn(TableColumn column) {
         FilterColumnExt newColumn = new FilterColumnExt(column);
         return newColumn;
@@ -134,7 +131,6 @@ public class InputSelectorTable extends JXTable {
         for (TableColumn column : columns) {
             TableColumnExt action = createTableColumn(column);
             if (action != null) {
-//                getColumnModelExt().addColumn(action);
                 cm.addColumn(action);
                 m.addColumn(column.getHeaderValue());
             }
@@ -145,8 +141,6 @@ public class InputSelectorTable extends JXTable {
     private TableCellEditor getCellEditor(Object[] items) {
         JComboBox comboBox = new JComboBox(items);
         comboBox.setRenderer(new ComboRenderer());
-//        comboBox.addActionListener(new ComboListener(comboBox));
-
 
         DefaultCellEditor editor = new DefaultCellEditor(comboBox) {
 
@@ -194,7 +188,6 @@ public class InputSelectorTable extends JXTable {
 
     public void setOptions(InputList options) {
         this.inputs = options;
-//        this.options.put(NONE_OPTION, false);
         getDTM().removeRow(0);
         Vector rowData = new Vector();
         getDTM().addRow(rowData);
@@ -224,8 +217,6 @@ public class InputSelectorTable extends JXTable {
         DefaultTableModel m = (DefaultTableModel) getModel();
         return m;
     }
-
-
 //-------------------------- Action in synch with column properties
     /**
      * A specialized <code>Action</code> which takes care of keeping in synch with
@@ -298,10 +289,7 @@ public class InputSelectorTable extends JXTable {
         private void updateFromColumnWidth(Object newValue) {
             setWidth(Integer.valueOf(String.valueOf(newValue)));
             setPreferredWidth(Integer.valueOf(String.valueOf(newValue)));
-////////            repaint();
         }
-
-
         // -------------- init
         private void installColumn(TableColumn column) {
             this.column = column;
@@ -338,18 +326,15 @@ public class InputSelectorTable extends JXTable {
          *         column
          */
         protected PropertyChangeListener createPropertyChangeListener() {
-            return new  
+            return new PropertyChangeListener() {
 
-                  PropertyChangeListener( ) {
-
-                     public void propertyChange(PropertyChangeEvent evt) {
+                public void propertyChange(PropertyChangeEvent evt) {
                     if ("visible".equals(evt.getPropertyName())) {
                         updateFromColumnVisible((Boolean) evt.getNewValue());
                     } else if ("headerValue".equals(evt.getPropertyName())) {
                         updateFromColumnHeader(evt.getNewValue());
                     } else if ("width".equals(evt.getPropertyName())) {
                         updateFromColumnWidth(evt.getNewValue());
-//                        getColumnModelExt().propertyChange(new PropertyChangeEvent(((TableColumnExt)evt.getSource()), evt.getPropertyName(), evt.getOldValue(), evt.getNewValue()));
                     }
                 }
             };
@@ -431,8 +416,6 @@ public class InputSelectorTable extends JXTable {
         getDTM().getDataVector().clear();
         getDTM().setColumnCount(0);
     }
-
-
     //--------------------------- init
     private void installTable(JXTable table) {
         this.table = table;
@@ -477,11 +460,9 @@ public class InputSelectorTable extends JXTable {
      * @return the <code>PropertyChangeListener</code> for use with the table.
      */
     protected PropertyChangeListener createTablePropertyChangeListener() {
-        return new  
+        return new PropertyChangeListener() {
 
-              PropertyChangeListener( ) {
-
-                 public void propertyChange(PropertyChangeEvent evt) {
+            public void propertyChange(PropertyChangeEvent evt) {
                 if ("columnModel".equals(evt.getPropertyName())) {
                     System.out.println("column model changed");
                     updateFromColumnModelChange((TableColumnModel) evt.getOldValue());
@@ -489,7 +470,7 @@ public class InputSelectorTable extends JXTable {
                     updateFromTableEnabledChanged();
                 } else if ("autoResizeMode".equals(evt.getPropertyName())) {
                     setAutoResizeMode((Integer) evt.getNewValue());
-                }else if ("model".equals(evt.getPropertyName())) {
+                } else if ("model".equals(evt.getPropertyName())) {
                     populateModel();
                 }
             }
@@ -520,12 +501,10 @@ public class InputSelectorTable extends JXTable {
      *         table's columnModel.
      */
     protected TableColumnModelListener createColumnModelListener() {
-        return new  
+        return new TableColumnModelListener() {
 
-              TableColumnModelListener( ) {
-
-                /** Tells listeners that a column was added to the model. */
-                  public void columnAdded(TableColumnModelEvent e) {
+            /** Tells listeners that a column was added to the model. */
+            public void columnAdded(TableColumnModelEvent e) {
                 // quickfix for #192
                 if (!isVisibilityChange(e, true)) {
 //                    populateModel();

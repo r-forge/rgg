@@ -2,8 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package at.ac.arcs.rgg.element.maimporter.array;
+package at.ac.arcs.rgg.element.maimporter.ui.inputselection;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +13,7 @@ import java.util.ArrayList;
  * @author ahmet
  */
 public class InputInfo implements Comparable {
-
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);       
     private ArrayList<Integer> columns;
     private String id;
 
@@ -84,10 +86,13 @@ public class InputInfo implements Comparable {
     }
 
     public void setColumns(ArrayList<Integer> columns){
+        ArrayList<Integer> old = this.columns;        
         this.columns = columns;
+        changeSupport.firePropertyChange(id, old, columns);
     }
     
     public void setColumns(Integer column){
+        ArrayList<Integer> old = this.columns;
         if (optionType == OptionType.ONE_TO_ONE) {
             columns = new ArrayList<Integer>();
             columns.add(column);
@@ -95,6 +100,7 @@ public class InputInfo implements Comparable {
             throw new IllegalStateException("This method can be used " +
                     "only if there is a one-to-one relation!");
         }
+        changeSupport.firePropertyChange(id, old, columns);
     }
     
     /**
@@ -103,11 +109,13 @@ public class InputInfo implements Comparable {
      * @param column new value of column
      */
     public boolean setFirstColumn(int column) {
-        //this.column = column;
+        
         if (optionType == OptionType.ONE_TO_ONE && !columns.isEmpty()) {
             return false;
         }
+        ArrayList<Integer> old = new ArrayList<Integer>(columns);
         columns.add(0, column);
+        changeSupport.firePropertyChange(id, old, columns);
         return true;
     }
 
@@ -115,11 +123,15 @@ public class InputInfo implements Comparable {
         if (optionType == OptionType.ONE_TO_ONE && !columns.isEmpty()) {
             return false;
         }
+        ArrayList<Integer> old = new ArrayList<Integer>(columns);
         columns.add(column);
+        changeSupport.firePropertyChange(id, old, columns);
         return true;
     }
     public void removeColumn(int column){
+        ArrayList<Integer> old = new ArrayList<Integer>(columns);
         columns.remove((Integer)column);
+        changeSupport.firePropertyChange(id, old, columns);
     }
 
     public int compareTo(Object other) {
@@ -161,5 +173,19 @@ public class InputInfo implements Comparable {
         if(optionType == OptionType.ONE_TO_ONE && isAssignedToColumns())
             return false;
         return true;
+    }
+    
+    public  void addPropertyChangeListener(PropertyChangeListener listener) {
+        if (listener == null) {
+            return;
+        }
+        changeSupport.addPropertyChangeListener(listener);
+    }
+    
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        if (listener == null) {
+            return;
+        }
+        changeSupport.removePropertyChangeListener(listener);
     }
 }

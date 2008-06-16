@@ -1,5 +1,6 @@
 package at.ac.arcs.rgg.element.maimporter.ui;
 
+import at.ac.arcs.rgg.element.maimporter.array.Array;
 import at.ac.arcs.rgg.element.maimporter.ui.inputselection.AdjustmentController;
 import at.ac.arcs.rgg.element.maimporter.ui.inputselection.InputSelectorTable;
 import at.ac.arcs.rgg.element.maimporter.ui.model.RGListTableModel;
@@ -8,6 +9,9 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.util.DefaultUnitConverter;
 import com.jgoodies.forms.util.UnitConverter;
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultCellEditor;
@@ -18,29 +22,35 @@ import org.jdesktop.swingx.JXTable;
  *
  * @author ilhami
  */
-public class RGListSettingsPanel extends javax.swing.JPanel {
+public class RGListSettingsPanel extends javax.swing.JPanel implements PropertyChangeListener {
 
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
+    private String[] columns = new String[4];
+    private String[] annotations;
     private JXTable table;
     private InputSelectorTable inputSelectorTable;
     private RGListTableModel model;
     private UnitConverter converter = DefaultUnitConverter.getInstance();
-    private int height=50;
+    private int height = 50;
+
     /** Creates new form RGListSettingsPanel */
     public RGListSettingsPanel() {
         initComponents();
     }
 
-    public RGListSettingsPanel(int height) {
-        this.height=height+15;
+    public RGListSettingsPanel(int height) {        
+        this.height = height + converter.dialogUnitYAsPixel(35, this);
         initComponents();
     }
-    
+
     public void setModel(RGListTableModel model) {
         this.model = model;
+        model.addPropertyChangeListener(this);
         table.setModel(model);
         inputSelectorTable.setOptions(model.getInputList());
+        propertyChange(new PropertyChangeEvent(this,Array.PROP_Annotation, null, annotations));
     }
-    
+
     public String getRHeader() {
         return inputSelectorTable.getColumnName(model.getArray().getR().getFirstColumn());
     }
@@ -72,8 +82,8 @@ public class RGListSettingsPanel extends javax.swing.JPanel {
         inputSelectorScrollPane = new javax.swing.JScrollPane();
         tableScrollPane = new javax.swing.JScrollPane();
 
-        jXHeader1.setDescription("Description");
-        jXHeader1.setTitle("RGListPanel");
+        jXHeader1.setDescription("Please define input parameters in the drop-down menus (required and optional parameters).");
+        jXHeader1.setTitle("");
 
         inputSelectorScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         inputSelectorScrollPane.getVerticalScrollBar().setEnabled(false);
@@ -82,22 +92,22 @@ public class RGListSettingsPanel extends javax.swing.JPanel {
         table = new JXTable();
         table.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
         table.setColumnControlVisible(true);
-        
+
         tableScrollPane.setViewportView(table);
         tableScrollPane.setBorder(null);
         tableScrollPane.setPreferredSize(new Dimension(table.getPreferredScrollableViewportSize().width, height));
-        
-        inputSelectorTable = new InputSelectorTable(table);        
+
+        inputSelectorTable = new InputSelectorTable(table);
         table.setHorizontalScrollEnabled(true);
         inputSelectorScrollPane.setPreferredSize(
                 new Dimension(inputSelectorTable.getPreferredScrollableViewportSize().width,
                 converter.dialogUnitXAsPixel(inputSelectorTable.getFont().getSize() + 4, inputSelectorTable)));
         inputSelectorScrollPane.setViewportView(inputSelectorTable);
-                
+
         AdjustmentController controller = new AdjustmentController();
         controller.registerScrollPane(tableScrollPane);
         controller.registerScrollPane(inputSelectorScrollPane);
-        
+
         FormLayout layout = new FormLayout("fill:min:grow",//cols
                 "min,2dlu,pref,fill:pref:grow");
         setLayout(layout);
@@ -110,4 +120,47 @@ public class RGListSettingsPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane inputSelectorScrollPane;
     private org.jdesktop.swingx.JXHeader jXHeader1;
     private javax.swing.JScrollPane tableScrollPane;
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (Array.PROP_Annotation.equals(evt.getPropertyName())) {
+            String[] old = annotations;
+            annotations = new String[model.getArray().getAnnotations().getColumns().size()];
+            for(int i=0;i<model.getArray().getAnnotations().getColumns().size();i++){
+                annotations[i] = inputSelectorTable.getColumnName(model.getArray().getAnnotations().getColumns().get(i));
+            }
+            changeSupport.firePropertyChange(Array.PROP_Annotation, old, annotations);
+        }else if(Array.PROP_G.equals(evt.getPropertyName())){
+            
+        }else if(Array.PROP_Gb.equals(evt.getPropertyName())){
+            
+        }else if(Array.PROP_R.equals(evt.getPropertyName())){
+            
+        }else if(Array.PROP_Rb.equals(evt.getPropertyName())){
+            
+        }
+    }
+
+    public String[] getAnnotations() {
+        return annotations;
+    }
+
+    public String[] getColumns() {
+        return columns;
+    }
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        if (listener == null) {
+            return;
+        }
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        if (listener == null) {
+            return;
+        }
+        changeSupport.removePropertyChangeListener(listener);
+    }
 }

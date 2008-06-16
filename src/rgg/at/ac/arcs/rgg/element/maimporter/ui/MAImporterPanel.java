@@ -29,27 +29,21 @@ import com.jgoodies.forms.util.DefaultUnitConverter;
 import com.jgoodies.forms.util.UnitConverter;
 import java.awt.Dimension;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import org.jdesktop.swingworker.SwingWorker;
+import org.jdesktop.swingx.JXHyperlink;
 
 /**
  *
  * @author  ilhami
  */
-public class MAImporterPanel extends javax.swing.JPanel {
+public class MAImporterPanel extends javax.swing.JPanel implements PropertyChangeListener {
 
-    private TargetFile targetfile;
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private String arraySource;
     private MAImporterModel mamodel;
-    private PropertyChangeListener pclistener = new PropertyChangeListener() {
-
-        public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName() == MAImporterModel.RGLISTTABLEMODELPROPERTY) {
-                rgListPanel.setModel((RGListTableModel) evt.getNewValue());
-            }
-        }
-    };
 
     /** Creates new form MAImporterPanel */
     public MAImporterPanel() {
@@ -57,8 +51,14 @@ public class MAImporterPanel extends javax.swing.JPanel {
         addTabs();
     }
 
-    public TargetFile getTargetFile() {
-        return targetfile;
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(MAImporterModel.RGLISTTABLEMODELPROPERTY)) {
+            rgListPanel.setModel((RGListTableModel) evt.getNewValue());
+        } else if (evt.getPropertyName().equals(Array.PROP_Annotation)) {
+            changeSupport.firePropertyChange(evt);
+        }else if(evt.getPropertyName().equals(MAImporterModel.PROP_TargetFile)){
+            changeSupport.firePropertyChange(evt);
+        }
     }
 
     public String getRHeader() {
@@ -85,6 +85,10 @@ public class MAImporterPanel extends javax.swing.JPanel {
         return arraySource;
     }
 
+    public MAImporterModel getModel() {
+        return mamodel;
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -94,14 +98,16 @@ public class MAImporterPanel extends javax.swing.JPanel {
     private void initComponents() {
         loadTargetFileXHyperlink = new org.jdesktop.swingx.JXHyperlink();
         chooseMicroArraysXHyperlink = new org.jdesktop.swingx.JXHyperlink();
+        loadAffymetrixTargetFileXHyperlink = new JXHyperlink();
         jXHeader1 = new org.jdesktop.swingx.JXHeader();
         targetFileChooser = new javax.swing.JFileChooser();
         arraysFileChooser = new javax.swing.JFileChooser();
         tabbedPane = new javax.swing.JTabbedPane();
 
-        loadTargetFileXHyperlink.setClickedColor(new java.awt.Color(0, 51, 255));
-        loadTargetFileXHyperlink.setText("Load Target File");
-        loadTargetFileXHyperlink.setFont(new java.awt.Font("Tahoma", 0, 14));
+        loadTargetFileXHyperlink.setClickedColor(new java.awt.Color(0, 0, 0));
+        loadTargetFileXHyperlink.setUnclickedColor(new java.awt.Color(0, 0, 0));
+        loadTargetFileXHyperlink.setText("Sample annotation file");
+        loadTargetFileXHyperlink.setFont(new java.awt.Font("Tahoma", 1, 11));
         loadTargetFileXHyperlink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         loadTargetFileXHyperlink.addActionListener(new java.awt.event.ActionListener() {
@@ -112,7 +118,7 @@ public class MAImporterPanel extends javax.swing.JPanel {
         });
 
         chooseMicroArraysXHyperlink.setClickedColor(new java.awt.Color(0, 51, 255));
-        chooseMicroArraysXHyperlink.setText("Choose Microarrays");
+        chooseMicroArraysXHyperlink.setText("Micro array files");
         chooseMicroArraysXHyperlink.setFont(new java.awt.Font("Tahoma", 0, 14));
         chooseMicroArraysXHyperlink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         chooseMicroArraysXHyperlink.addActionListener(new java.awt.event.ActionListener() {
@@ -122,9 +128,15 @@ public class MAImporterPanel extends javax.swing.JPanel {
             }
         });
 
-        jXHeader1.setDescription("Please use the ...");
-        jXHeader1.setTitle("Tasks");
+        loadAffymetrixTargetFileXHyperlink.setClickedColor(new java.awt.Color(0, 51, 255));
+        loadAffymetrixTargetFileXHyperlink.setText("Sample annotation file for Affymetrix");
+        loadAffymetrixTargetFileXHyperlink.setFont(new java.awt.Font("Tahoma", 0, 14));
+        loadAffymetrixTargetFileXHyperlink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
+        jXHeader1.setDescription("For none affymetrics please select \"microarray data files\"" +
+                " or \"sample annotation file (target file url here) or " +
+                "\"phenotypic data file (url and richtiger name)\" for affymetrics.");
+        
         targetFileChooser.setFileFilter(new RGGFileExtensionFilter("Target File", "txt"));
 
         arraysFileChooser.setDialogTitle("Microarrays");
@@ -137,16 +149,20 @@ public class MAImporterPanel extends javax.swing.JPanel {
 
         //#############Layout#################
         CellConstraints cc = new CellConstraints();
+        
+        JPanel hyperLinkPanel = new JPanel(new FormLayout("left:pref",
+                "15dlu,pref,5dlu,pref,5dlu,pref"));
+        
+//        BoxLayout boxlayout = new BoxLayout(hyperLinkPanel, BoxLayout.Y_AXIS);        
+//        hyperLinkPanel.setLayout(boxlayout);        
+        hyperLinkPanel.add(chooseMicroArraysXHyperlink,cc.xy(1,2));
+        hyperLinkPanel.add(loadTargetFileXHyperlink,cc.xy(1,4));
+        hyperLinkPanel.add(loadAffymetrixTargetFileXHyperlink,cc.xy(1,6));
+        
         FormLayout inputPanelLayout =
                 new FormLayout("center:pref",//cols
                 "min,5dlu,pref");//rows
-
-        JPanel hyperLinkPanel = new JPanel();
-        BoxLayout boxlayout = new BoxLayout(hyperLinkPanel, BoxLayout.Y_AXIS);
-        hyperLinkPanel.setLayout(boxlayout);
-        hyperLinkPanel.add(loadTargetFileXHyperlink);
-        hyperLinkPanel.add(chooseMicroArraysXHyperlink);
-
+        
         DefaultFormBuilder builder = new DefaultFormBuilder(inputPanelLayout);
         builder.add(jXHeader1, cc.xy(1, 1));
 //        builder.add(loadTargetFileXHyperlink, cc.xy(1, 3));
@@ -157,7 +173,7 @@ public class MAImporterPanel extends javax.swing.JPanel {
         inputPanel.setPreferredSize(new Dimension(converter.dialogUnitXAsPixel(300, inputPanel),
                 converter.dialogUnitXAsPixel(200, inputPanel)));
 
-        FormLayout mainLayout = new FormLayout("fill:pref:grow", "fill:pref:grow");
+        FormLayout mainLayout = new FormLayout("fill:pref:grow", "fill:pref");
         setLayout(mainLayout);
         add(tabbedPane, cc.xy(1, 1));
     }
@@ -175,7 +191,7 @@ public class MAImporterPanel extends javax.swing.JPanel {
         if (status == JFileChooser.APPROVE_OPTION) {
             try {
                 mamodel = createMAModel(1);
-                mamodel.addPropertyChangeListener(pclistener);
+                mamodel.addPropertyChangeListener(this);                
                 setPanels();
             } catch (ArrayDetectionException ex) {
                 Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -193,12 +209,26 @@ public class MAImporterPanel extends javax.swing.JPanel {
         }
     }
 
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        if (listener == null) {
+            return;
+        }
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        if (listener == null) {
+            return;
+        }
+        changeSupport.removePropertyChangeListener(listener);
+    }
+
     private void chooseMicroArraysXHyperlinkActionPerformed(java.awt.event.ActionEvent evt) {
         int status = arraysFileChooser.showOpenDialog(chooseMicroArraysXHyperlink);
         if (status == JFileChooser.APPROVE_OPTION) {
             try {
                 mamodel = createMAModel(2);
-                mamodel.addPropertyChangeListener(pclistener);
+                mamodel.addPropertyChangeListener(this);
                 setPanels();
             } catch (ArrayDetectionException ex) {
                 Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -235,7 +265,7 @@ public class MAImporterPanel extends javax.swing.JPanel {
             worker.execute();
 
             mamodel = worker.get();
-            mamodel.addPropertyChangeListener(pclistener);
+            mamodel.addPropertyChangeListener(this);
             setPanels();
         } catch (InterruptedException ex) {
             Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -266,6 +296,13 @@ public class MAImporterPanel extends javax.swing.JPanel {
             protected void done() {
                 super.done();
                 busy.setVisible(false);
+                try {
+                    changeSupport.firePropertyChange(MAImporterModel.PROP_TargetFile, null, get().getTargetFile());
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ExecutionException ex) {
+                    Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         };
 
@@ -296,21 +333,24 @@ public class MAImporterPanel extends javax.swing.JPanel {
 
     private void addTabs() {
         int height = 0;
-        VTextIcon textIcon = new VTextIcon(tabbedPane, "Select Microarray Data", VTextIcon.ROTATE_LEFT);
+        VTextIcon textIcon = new VTextIcon(tabbedPane, "Input Files", VTextIcon.ROTATE_LEFT);
         height += textIcon.getIconHeight();
         tabbedPane.addTab(null, textIcon, inputPanel);
 
-        textIcon = new VTextIcon(tabbedPane, "Set Header Line", VTextIcon.ROTATE_LEFT);
+        textIcon = new VTextIcon(tabbedPane, "Header Line", VTextIcon.ROTATE_LEFT);
         height += textIcon.getIconHeight();
         tabbedPane.addTab(null, textIcon, arrayheaderrowselectionpanel);
 
-        textIcon = new VTextIcon(tabbedPane, "Target File", VTextIcon.ROTATE_LEFT);
+        textIcon = new VTextIcon(tabbedPane, "Sample Annotation", VTextIcon.ROTATE_LEFT);
         tabbedPane.addTab(null, textIcon, targetFilePanel);
 
-        textIcon = new VTextIcon(tabbedPane, "Settings", VTextIcon.ROTATE_LEFT);
+        textIcon = new VTextIcon(tabbedPane, "Parameters", VTextIcon.ROTATE_LEFT);
         height += textIcon.getIconHeight();
         rgListPanel = new RGListSettingsPanel(height);
+        rgListPanel.addPropertyChangeListener(this);
         tabbedPane.addTab(null, textIcon, rgListPanel);
+        
+        targetFilePanel.setPrefferedHeight(height);
     }
 
     public static void main(String[] args) {
@@ -329,7 +369,7 @@ public class MAImporterPanel extends javax.swing.JPanel {
                 MAImporterPanel mapanel = new MAImporterPanel();
                 mapanel.yapiste(input);
                 f.setContentPane(mapanel);
-                f.setSize(mapanel.getPreferredSize().width+200,mapanel.getPreferredSize().height+200);
+                f.setSize(mapanel.getPreferredSize().width+100, mapanel.getPreferredSize().height+100);
                 f.setVisible(true);
             }
         });
@@ -343,6 +383,7 @@ public class MAImporterPanel extends javax.swing.JPanel {
     private javax.swing.JPanel inputPanel;
     private org.jdesktop.swingx.JXHeader jXHeader1;
     private org.jdesktop.swingx.JXHyperlink loadTargetFileXHyperlink;
+    private org.jdesktop.swingx.JXHyperlink loadAffymetrixTargetFileXHyperlink;
     private javax.swing.JTabbedPane tabbedPane;
     private javax.swing.JFileChooser targetFileChooser;
 }

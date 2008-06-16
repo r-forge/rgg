@@ -16,6 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 /**
  *
@@ -31,6 +33,8 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
     private ArrayHeaderRowTableModel arrayHeaderRowTableModel;
     private RGListTableModel rGListTableModel;
 
+    public static final String PROP_TargetFile = "targetFile";
+    
     public static MAImporterModel createModelFromArrays(File[] arrays)
             throws IOException, ArrayDetectionException {
 
@@ -78,6 +82,7 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
 
     public void setTargetFile(TargetFile targetFile) {
         this.targetFile = targetFile;
+        changeSupport.firePropertyChange(PROP_TargetFile, null, targetFile);
     }
 
     public TargetFileTableModel getTargetFileModel() {
@@ -86,6 +91,12 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
 
     public void setTargetFileModel(TargetFileTableModel targetFileModel) {
         this.targetFileModel = targetFileModel;
+        targetFileModel.addTableModelListener(new TableModelListener() {
+
+            public void tableChanged(TableModelEvent e) {
+                
+            }
+        });
     }
 
     public ArrayList<ArrayInfo> getArrayInfos() {
