@@ -24,16 +24,16 @@ public class RMAImporter extends RElement {
         MAImporterPanel mapanel = vMAImporter.getMAImporterPanel();
         StringBuffer rbuf = new StringBuffer();
         rbuf.append("matargetfile = ");
-        rbuf.append(mapanel.getTargetFile().toRCode());
+//        rbuf.append(mapanel.getTargetFile().toRCode());
         rbuf.append("\n");
 
         if (StringUtils.isNotBlank(var)) {
             rbuf.append(var + "=");
         }
 
-        rbuf.append("read.maimages(files=matargetfile$FileName, " +
-                "source=\"" + mapanel.getArraySource()+"\"," +
-                " path=\""+mapanel.getTargetFile().getPath().getAbsolutePath());
+//        rbuf.append("read.maimages(files=matargetfile$FileName, " +
+//                "source=\"" + mapanel.getArraySource()+"\"," +
+//                " path=\""+mapanel.getTargetFile().getPath().getAbsolutePath());
         rbuf.append(", columns = list(");
         rbuf.append("G=\"" + mapanel.getGHeader() + "\"");
         rbuf.append(", Gb=\"" + mapanel.getGbHeader() + "\"");

@@ -7,8 +7,7 @@ package at.ac.arcs.rgg.element.maimporter.ui;
 import at.ac.arcs.rgg.element.maimporter.ui.model.TargetFileTableModel;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.util.DefaultUnitConverter;
-import com.jgoodies.forms.util.UnitConverter;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -51,6 +50,11 @@ public class TargetFilePanel extends JPanel {
         if (tableScrollPane.getViewport().getView() == jLabel1) {
             tableScrollPane.setViewportView(jxTable);
         }
+    }
+
+    void setPrefferedHeight(int height) {
+        jxTable.setPreferredScrollableViewportSize(new Dimension(
+        jxTable.getPreferredScrollableViewportSize().width,height));
     }
 
     private void initComponents() {
@@ -140,31 +144,36 @@ public class TargetFilePanel extends JPanel {
         jLabel1.setForeground(new java.awt.Color(0, 51, 255));
         tableScrollPane.setViewportView(jLabel1);
 
-        jXHeader1.setDescription("Edit ...");
-        jXHeader1.setTitle("Target File Editor");
+        jXHeader1.setDescription("Add sample annotation (phenotypic and technical). Also microarrays can be removed.");
 
-        UnitConverter converter = DefaultUnitConverter.getInstance();
-        tableScrollPane.setPreferredSize(new Dimension(converter.dialogUnitXAsPixel(200, tableScrollPane),
-                converter.dialogUnitXAsPixel(100, tableScrollPane)));
+//        UnitConverter converter = DefaultUnitConverter.getInstance();
+//        tableScrollPane.setPreferredSize(new Dimension(converter.dialogUnitXAsPixel(200, tableScrollPane),
+//                converter.dialogUnitXAsPixel(100, tableScrollPane)));
         /****************Layout**********************/
         CellConstraints cc = new CellConstraints();
         FormLayout layout = new FormLayout("pref,2dlu,pref,2dlu,pref,25dlu,pref,2dlu,pref,2dlu,pref",//cols
-                "pref");
+                "3dlu,pref,2dlu");
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(layout);
-        buttonPanel.add(rowLabel, cc.xy(1, 1));
-        buttonPanel.add(addRowHyperlink, cc.xy(3, 1));
-        buttonPanel.add(removeRowHyperlink, cc.xy(5, 1));
-        buttonPanel.add(columnLabel, cc.xy(7, 1));
-        buttonPanel.add(addColumnHyperlink, cc.xy(9, 1));
-        buttonPanel.add(removeColumnHyperlink, cc.xy(11, 1));
+        buttonPanel.add(rowLabel, cc.xy(1, 2));
+        buttonPanel.add(addRowHyperlink, cc.xy(3, 2));
+        buttonPanel.add(removeRowHyperlink, cc.xy(5, 2));
+        buttonPanel.add(columnLabel, cc.xy(7, 2));
+        buttonPanel.add(addColumnHyperlink, cc.xy(9, 2));
+        buttonPanel.add(removeColumnHyperlink, cc.xy(11, 2));
 
-        layout = new FormLayout("pref:grow", "pref,1dlu,fill:pref:grow,1dlu,pref");
-        setLayout(layout);
-
-        add(jXHeader1, cc.xy(1, 1));
-        add(tableScrollPane, cc.xy(1, 3));
-        add(buttonPanel, cc.xy(1, 5));
+//        layout = new FormLayout("pref:grow", "pref,pref,pref");
+//        setLayout(layout);
+//
+//        add(jXHeader1, cc.xy(1, 1));
+//        add(tableScrollPane, cc.xy(1, 2));
+//        add(buttonPanel, cc.xy(1, 3));
+//        setBorder(null);
+        
+        setLayout(new BorderLayout());
+        add(jXHeader1, BorderLayout.NORTH);
+        add(tableScrollPane, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
         setBorder(null);
     }
 

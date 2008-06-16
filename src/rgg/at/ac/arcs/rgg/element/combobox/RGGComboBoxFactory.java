@@ -6,7 +6,6 @@
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
  */
-
 package at.ac.arcs.rgg.element.combobox;
 
 import org.apache.commons.lang.StringUtils;
@@ -27,13 +26,13 @@ import org.w3c.dom.Element;
  */
 public class RGGComboBoxFactory extends RElementFactory {
 
-    public RElement createRGGElement(Element element,RGG rggInstance) {
+    public RElement createRGGElement(Element element, RGG rggInstance) {
         if (element.getNodeType() != Element.ELEMENT_NODE) {
             throw new IllegalArgumentException("elements node type must be ELEMENT_NODE");
         }
-        
+
         Perl5Util util = new Perl5Util();
-        
+
         VComboBox vComboBox = new VComboBox();
         RComboBox rComboBox = new RComboBox(vComboBox);
 
@@ -46,8 +45,8 @@ public class RGGComboBoxFactory extends RElementFactory {
         String selecteditem = element.getAttribute(RGG.getConfiguration().getString("SELECTED-ITEM"));
         String datatype = element.getAttribute(RGG.getConfiguration().getString("DATA-TYPE"));
         String enabled = element.getAttribute(RGG.getConfiguration().getString("ENABLED"));
+        String id = element.getAttribute(RGG.getConfiguration().getString("ID"));
         /***********************************************************************************************/
-
         if (StringUtils.isNotBlank(var)) {
             rComboBox.setVar(var);
         }
@@ -67,7 +66,20 @@ public class RGGComboBoxFactory extends RElementFactory {
         }
 
         if (StringUtils.isNotBlank(items)) {
-            rComboBox.setItems(StringUtils.split(items, ','));
+            if (util.match("/\\$\\{(\\w+)\\.(\\w+)\\}/", items)) {
+                String sourceId = util.group(1);
+                String property = util.group(2);
+                AutoBinding<Object, Object, Object, Object> binding =
+                        Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, // one-way binding
+                        rggInstance.getObject(sourceId), // source of value
+                        BeanProperty.create(property), // the property to get
+                        vComboBox, // the "backing bean"
+                        BeanProperty.create("items") // property to set
+                        );
+                binding.bind();
+            } else {
+                rComboBox.setItems(StringUtils.split(items, ','));
+            }
         }
 
         if (StringUtils.isNotBlank(selectedindex)) {
@@ -87,14 +99,18 @@ public class RGGComboBoxFactory extends RElementFactory {
                 rComboBox.setNumeric(true);
             }
         }
-        
+
+        if (StringUtils.isNotBlank(id)) {
+            rggInstance.addObject(id, vComboBox);
+        }
+
         if (StringUtils.isNotBlank(enabled)) {
             if (util.match("/(\\w+)\\./", enabled)) {
-                String id = util.group(1);
-                enabled = util.substitute("s/" + id + "\\.//g", enabled);
+                String sourceId = util.group(1);
+                enabled = util.substitute("s/" + sourceId + "\\.//g", enabled);
                 AutoBinding<Object, Object, Object, Object> binding =
                         Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, // one-way binding
-                        rggInstance.getObject(id), // source of value
+                        rggInstance.getObject(sourceId), // source of value
                         ELProperty.create(enabled), // the property to get
                         vComboBox, // the "backing bean"
                         BeanProperty.create("enabled") // property to set

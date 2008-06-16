@@ -7,18 +7,17 @@
 package at.ac.arcs.rgg.element.label;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import at.ac.arcs.rgg.component.VisualComponent;
 import at.ac.arcs.rgg.layout.LayoutInfo;
+import org.jdesktop.swingx.JXLabel;
 
 /**
  *
  * @author ilhami
  */
 public class VLabel extends VisualComponent{
-    private JLabel label;
+    private JXLabel label;
     private String text;
     private JComponent[][] swingMatrix;
     private boolean enabled;
@@ -27,7 +26,8 @@ public class VLabel extends VisualComponent{
     public VLabel(String text) {
         enabled=true;
         this.text = text;
-        label = new JLabel(text);
+        label = new JXLabel(text);
+        label.setLineWrap(true);
         swingMatrix = new JComponent[][]{{label}};
     }
     

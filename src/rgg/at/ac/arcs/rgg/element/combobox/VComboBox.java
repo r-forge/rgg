@@ -24,6 +24,7 @@ public class VComboBox extends VisualComponent {
     private boolean labelTextSet = false;
     private JComponent[][] swingMatrix;
     private boolean enabled;
+    private Object[] items;
 
     /**
      * Creates a new instance of VComboBox
@@ -34,7 +35,7 @@ public class VComboBox extends VisualComponent {
     }
 
     private void initComponents() {
-        comboBox = new JComboBox();
+        comboBox = new JComboBox(new String[]{"          "});        
         label = new JLabel();
     }
 
@@ -116,7 +117,14 @@ public class VComboBox extends VisualComponent {
         }
     }
 
+    public Object[] getItems() {
+        return items;
+    }
+
     public void setItems(Object[] items) {
-        comboBox.setModel(new DefaultComboBoxModel(items));
+        if (items != null) {
+            this.items = items;
+            comboBox.setModel(new DefaultComboBoxModel(items));
+        }
     }
 }

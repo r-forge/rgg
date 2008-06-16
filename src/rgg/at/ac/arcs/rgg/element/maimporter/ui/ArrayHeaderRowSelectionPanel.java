@@ -25,8 +25,7 @@ public class ArrayHeaderRowSelectionPanel extends JPanel{
         setLayout(new BorderLayout());
         
         JXHeader header = new JXHeader();
-        header.setDescription("Description");
-        header.setTitle("Title");
+        header.setDescription("Please set the header line");
         add(header, BorderLayout.NORTH);
         
         table = new ARCTable();        

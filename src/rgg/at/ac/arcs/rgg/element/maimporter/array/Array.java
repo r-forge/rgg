@@ -1,6 +1,7 @@
 
 package at.ac.arcs.rgg.element.maimporter.array;
 
+import at.ac.arcs.rgg.element.maimporter.ui.inputselection.InputInfo;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,16 +12,22 @@ import java.util.List;
  * @author ilhami
  */
 public class Array {
+    public static final String PROP_G = "G";
+    public static final String PROP_Gb = "Gb";
+    public static final String PROP_R = "R";
+    public static final String PROP_Rb = "Rb";
+    public static final String PROP_Annotation = "annotation";
+    public static final String PROP_OtherColumns = "othercolumns";
     
     private File file;
     private String source;
     private ArrayInfo arrayInfo;
         
-    private InputInfo G = new InputInfo("G", InputInfo.OptionType.ONE_TO_ONE);         
-    private InputInfo Gb = new InputInfo("Gb", InputInfo.OptionType.ONE_TO_ONE);
-    private InputInfo R = new InputInfo("R", InputInfo.OptionType.ONE_TO_ONE);
-    private InputInfo Rb = new InputInfo("Rb", InputInfo.OptionType.ONE_TO_ONE);
-    private InputInfo annotations = new InputInfo("Annotation", InputInfo.OptionType.MANY_TO_ONE);
+    private InputInfo G = new InputInfo(PROP_G, InputInfo.OptionType.ONE_TO_ONE);         
+    private InputInfo Gb = new InputInfo(PROP_Gb, InputInfo.OptionType.ONE_TO_ONE);
+    private InputInfo R = new InputInfo(PROP_R, InputInfo.OptionType.ONE_TO_ONE);
+    private InputInfo Rb = new InputInfo(PROP_Rb, InputInfo.OptionType.ONE_TO_ONE);
+    private InputInfo annotations = new InputInfo(PROP_Annotation, InputInfo.OptionType.MANY_TO_ONE);
     private ArrayList<String> allHeaders = new ArrayList<String>();
     
 
