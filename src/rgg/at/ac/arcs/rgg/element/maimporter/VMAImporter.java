@@ -30,13 +30,13 @@ public class VMAImporter extends VisualComponent implements PropertyChangeListen
     /**
      * Creates a new instance of VTextField
      */
-    public VMAImporter(RGG rggInstance) {
+    public VMAImporter(RGG rggInstance,String[] othercolumns) {
         this.rggInstance = rggInstance;
-        initializeComponents();
+        initializeComponents(othercolumns);
     }
 
-    private void initializeComponents() {
-        mapanel = new MAImporterPanel();
+    private void initializeComponents(String[] othercolumns) {
+        mapanel = new MAImporterPanel(othercolumns);
         mapanel.addPropertyChangeListener(this);
     }
 
@@ -62,7 +62,7 @@ public class VMAImporter extends VisualComponent implements PropertyChangeListen
     }
 
     public MAImporterModel getMAModel() {
-        return mapanel.getModel();
+        return mapanel.getMAModel();
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
@@ -80,8 +80,8 @@ public class VMAImporter extends VisualComponent implements PropertyChangeListen
             }
             changeSupport.firePropertyChange("targetfileheader", old, this.targetfileheader);
         }else{
-            columns = (String[])evt.getNewValue();
-            changeSupport.firePropertyChange("columns", evt.getOldValue(), evt.getNewValue());
+//            columns = (String[])evt.getNewValue();
+//            changeSupport.firePropertyChange("columns", evt.getOldValue(), evt.getNewValue());
         }
     }
 

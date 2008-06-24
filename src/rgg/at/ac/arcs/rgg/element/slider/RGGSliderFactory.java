@@ -5,6 +5,11 @@ import org.apache.commons.lang.StringUtils;
 import at.ac.arcs.rgg.RGG;
 import at.ac.arcs.rgg.factories.RElementFactory;
 import at.ac.arcs.rgg.layout.LayoutInfo;
+import org.apache.oro.text.perl.Perl5Util;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.Bindings;
+import org.jdesktop.beansbinding.ELProperty;
 import org.w3c.dom.Element;
 
 /**
@@ -33,6 +38,7 @@ public class RGGSliderFactory extends RElementFactory{
         String paintvalue = element.getAttribute(RGG.getConfiguration().getString("PAINT-VALUE"));
         String majortickspacing = element.getAttribute(RGG.getConfiguration().getString("MAJOR-TICK-SPACING"));
         String minortickspacing = element.getAttribute(RGG.getConfiguration().getString("MINOR-TICK-SPACING"));
+        String enabled = element.getAttribute(RGG.getConfiguration().getString("ENABLED"));
         /***********************************************************************************************/
         
         if(StringUtils.isNotBlank(var)){
@@ -136,6 +142,22 @@ public class RGGSliderFactory extends RElementFactory{
             }else
                 throw new NumberFormatException(RGG.getConfiguration().getString("MINOR-TICK-SPACING")
                         +" seems not to be a number: " + minortickspacing);
+        }
+        
+        Perl5Util util = new Perl5Util();
+        if (StringUtils.isNotBlank(enabled)) {
+            if (util.match("/(\\w+)\\./", enabled)) {
+                String sourceid = util.group(1);
+                enabled = util.substitute("s/" + sourceid + "\\.//g", enabled);
+                AutoBinding<Object, Object, Object, Object> binding =
+                        Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, // one-way binding
+                        rggInstance.getObject(sourceid), // source of value
+                        ELProperty.create(enabled), // the property to get
+                        vslider, // the "backing bean"
+                        BeanProperty.create("enabled") // property to set
+                        );
+                binding.bind();
+            }
         }
         
         rslider.setTextfield(vslider);

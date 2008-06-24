@@ -147,6 +147,15 @@ public class TargetFile {
         return false;
     }
 
+    public String getFileNameHeader(){
+        for (String str : header) {
+            if (str.equalsIgnoreCase("FileName")) {
+                return str;
+            }
+        }
+        return null;
+    }
+    
     public static TargetFile createTargetFile(File targetFile)
             throws TargetFileException {
         BufferedReader reader = null;
@@ -191,8 +200,10 @@ public class TargetFile {
         rbuf.append("data.frame(");
         for (int i = 0; i < header.size(); i++) {
             rbuf.append(header.get(i) + " = c(");
-            for (String s : targetFileData.get(i)) {
-                rbuf.append(s + ",");
+            for(ArrayList<String> line:targetFileData){
+                rbuf.append("\"");
+                rbuf.append(line.get(i));
+                rbuf.append("\",");
             }
             rbuf.deleteCharAt(rbuf.length() - 1);
             rbuf.append("),");

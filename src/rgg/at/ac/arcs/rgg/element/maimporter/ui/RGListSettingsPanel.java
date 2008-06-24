@@ -75,7 +75,14 @@ public class RGListSettingsPanel extends javax.swing.JPanel implements PropertyC
         return anns;
     }
 
-    @SuppressWarnings("unchecked")
+    public List<String> getOtherColumnHeaders(){
+        ArrayList<String> others = new ArrayList<String>();
+        for (Integer i : model.getOtherColumnsIndices()) {
+            others.add(inputSelectorTable.getColumnName(i));
+        }
+        return others;
+    }    
+        
     private void initComponents() {
 
         jXHeader1 = new org.jdesktop.swingx.JXHeader();
@@ -83,7 +90,6 @@ public class RGListSettingsPanel extends javax.swing.JPanel implements PropertyC
         tableScrollPane = new javax.swing.JScrollPane();
 
         jXHeader1.setDescription("Please define input parameters in the drop-down menus (required and optional parameters).");
-        jXHeader1.setTitle("");
 
         inputSelectorScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         inputSelectorScrollPane.getVerticalScrollBar().setEnabled(false);
@@ -107,15 +113,22 @@ public class RGListSettingsPanel extends javax.swing.JPanel implements PropertyC
         AdjustmentController controller = new AdjustmentController();
         controller.registerScrollPane(tableScrollPane);
         controller.registerScrollPane(inputSelectorScrollPane);
-
+                
         FormLayout layout = new FormLayout("fill:min:grow",//cols
                 "min,2dlu,pref,fill:pref:grow");
         setLayout(layout);
         CellConstraints cc = new CellConstraints();
-
-        add(jXHeader1, cc.xy(1, 1));
+        add(new javax.swing.JLabel("<html><br>Please define input parameters in the drop-down menus " +
+                "(required and optional parameters).<br><br></html>"), cc.xy(1, 1));
         add(inputSelectorScrollPane, cc.xy(1, 3));
         add(tableScrollPane, cc.xy(1, 4));
+        
+//        setLayout(new BorderLayout(0,2));
+//        JPanel northpanel = new JPanel(new BorderLayout());
+//        northpanel.add(jXHeader1,BorderLayout.NORTH);
+//        northpanel.add(inputSelectorScrollPane,BorderLayout.CENTER);        
+//        add(northpanel,BorderLayout.NORTH);
+//        add(tableScrollPane);
     }
     private javax.swing.JScrollPane inputSelectorScrollPane;
     private org.jdesktop.swingx.JXHeader jXHeader1;

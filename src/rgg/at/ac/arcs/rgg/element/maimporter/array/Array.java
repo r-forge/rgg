@@ -28,6 +28,7 @@ public class Array {
     private InputInfo R = new InputInfo(PROP_R, InputInfo.OptionType.ONE_TO_ONE);
     private InputInfo Rb = new InputInfo(PROP_Rb, InputInfo.OptionType.ONE_TO_ONE);
     private InputInfo annotations = new InputInfo(PROP_Annotation, InputInfo.OptionType.MANY_TO_ONE);
+    public ArrayList<InputInfo> othercolumns = new ArrayList<InputInfo>();
     private ArrayList<String> allHeaders = new ArrayList<String>();
     
 
