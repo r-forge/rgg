@@ -1,6 +1,7 @@
 package at.ac.arcs.rgg.element.maimporter.ui.model;
 
 import at.ac.arcs.rgg.element.maimporter.array.Array;
+import at.ac.arcs.rgg.element.maimporter.ui.inputselection.InputInfo;
 import at.ac.arcs.rgg.element.maimporter.ui.inputselection.InputList;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -19,15 +20,15 @@ public class RGListTableModel extends AbstractTableModel implements PropertyChan
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private ArrayList<Integer> columns = new ArrayList<Integer>();
     private ArrayList<Integer> annotations;
-    private ArrayList<Integer> othercolumns = new ArrayList<Integer>();
     private InputList ilist;
     private Array array;
     // contains the array header line
     private List<String> colNames = new ArrayList<String>();    // arraylist of arraylists
     private List<List<String>> data = new ArrayList<List<String>>();
-
-    public RGListTableModel(Array array) throws IOException {
+    
+    public RGListTableModel(Array array, String[] othercolumns) throws IOException {
         this.array = array;
+
         ilist = new InputList();
         ilist.put(array.getG());
         array.getG().addPropertyChangeListener(this);
@@ -43,6 +44,15 @@ public class RGListTableModel extends AbstractTableModel implements PropertyChan
 
         colNames.addAll(array.getHeaders());
         data.addAll(array.readAssayData(50));
+
+        if (othercolumns != null && othercolumns.length > 0) {
+            InputInfo otherinput;
+            for (String othercol : othercolumns) {
+                otherinput = new InputInfo(othercol, InputInfo.OptionType.ONE_TO_ONE);
+                array.othercolumns.add(otherinput);
+                ilist.put(otherinput);
+            }
+        }
     }
 
     public int getRowCount() {
@@ -85,11 +95,23 @@ public class RGListTableModel extends AbstractTableModel implements PropertyChan
         return ilist;
     }
 
+    public ArrayList<Integer> getOtherColumnsIndices() {
+        ArrayList<Integer> indices = new ArrayList<Integer>();
+        for (InputInfo inf : array.othercolumns) {
+            if (inf.getFirstColumn() != -1) {
+                indices.add(inf.getFirstColumn());
+            }
+        }
+        return indices;
+    }
+
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(Array.PROP_Annotation)) {
             changeSupport.firePropertyChange(Array.PROP_Annotation, evt.getOldValue(), evt.getNewValue());
-        } else {
-            System.out.println("1");
+        } else if (!evt.getPropertyName().equals(Array.PROP_G) &&
+                !evt.getPropertyName().equals(Array.PROP_Gb) &&
+                !evt.getPropertyName().equals(Array.PROP_R) &&
+                !evt.getPropertyName().equals(Array.PROP_Rb)) {
         }
     }
 

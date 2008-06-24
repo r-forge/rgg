@@ -14,10 +14,8 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
+import org.jdesktop.swingworker.SwingWorker;
 
 /**
  *
@@ -32,13 +30,15 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
     private ArrayList<ArrayInfo> arrayInfos;
     private ArrayHeaderRowTableModel arrayHeaderRowTableModel;
     private RGListTableModel rGListTableModel;
+    private String[] othercolumns;
 
     public static final String PROP_TargetFile = "targetFile";
     
-    public static MAImporterModel createModelFromArrays(File[] arrays)
+    public static MAImporterModel createModelFromArrays(File[] arrays,String[] othercolumns)
             throws IOException, ArrayDetectionException {
 
         MAImporterModel model = new MAImporterModel();
+        model.othercolumns = othercolumns;
         //create and set TargetFile
         model.setTargetFile(TargetFile.createTargetFile(arrays));
         model.setTargetFileModel(new TargetFileTableModel(model.getTargetFile()));
@@ -50,13 +50,14 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
         model.setArrayHeaderRowTableModel(
                 ArrayHeaderRowTableModel.createArrayHeaderRowTableModel(model.getArrayInfos().get(0)));
         Array array = model.getArrayInfos().get(0).getArrayCreator().makeArray(model.getArrayInfos().get(0));
-        model.setRGListTableModel(new RGListTableModel(array));
+        model.setRGListTableModel(new RGListTableModel(array,othercolumns));
         return model;
     }
 
-    public static MAImporterModel createModelFromTargetFile(File targetFile)
+    public static MAImporterModel createModelFromTargetFile(File targetFile,String[] othercolumns)
             throws TargetFileException, ArrayDetectionException, IOException {
         MAImporterModel model = new MAImporterModel();
+        model.othercolumns = othercolumns;
         //create and set TargetFile
         model.setTargetFile(TargetFile.createTargetFile(targetFile));
         model.setTargetFileModel(new TargetFileTableModel(model.getTargetFile()));
@@ -68,7 +69,7 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
         model.setArrayHeaderRowTableModel(
                 ArrayHeaderRowTableModel.createArrayHeaderRowTableModel(model.getArrayInfos().get(0)));
         Array array = model.getArrayInfos().get(0).getArrayCreator().makeArray(model.getArrayInfos().get(0));
-        model.setRGListTableModel(new RGListTableModel(array));
+        model.setRGListTableModel(new RGListTableModel(array,othercolumns));
         return model;
     }
 
@@ -91,12 +92,6 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
 
     public void setTargetFileModel(TargetFileTableModel targetFileModel) {
         this.targetFileModel = targetFileModel;
-        targetFileModel.addTableModelListener(new TableModelListener() {
-
-            public void tableChanged(TableModelEvent e) {
-                
-            }
-        });
     }
 
     public ArrayList<ArrayInfo> getArrayInfos() {
@@ -134,13 +129,13 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
             @Override
             protected RGListTableModel doInBackground() throws Exception {
                 Array array = arrayInfos.get(0).getArrayCreator().makeArray(arrayInfos.get(0));
-                return new RGListTableModel(array);
+                return new RGListTableModel(array,othercolumns);
             }
 
             @Override
             protected void done() {
-                super.done();                
                 try {
+                    super.done();
                     RGListTableModel oldModel = MAImporterModel.this.rGListTableModel;
                     MAImporterModel.this.rGListTableModel = get();
                     changeSupport.firePropertyChange(RGLISTTABLEMODELPROPERTY, oldModel, rGListTableModel);

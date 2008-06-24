@@ -4,6 +4,7 @@
  */
 package at.ac.arcs.rgg.element.maimporter.array;
 
+import at.ac.arcs.rgg.element.maimporter.array.affymetrix.AffymetrixArrayRecognizer;
 import java.io.File;
 import java.util.ArrayList;
 import at.ac.arcs.rgg.element.maimporter.array.agilent.AgilentArrayRecognizer;
@@ -20,6 +21,7 @@ public class ArrayRecognizers {
     public static ArrayList<IArrayRecognizer> constructArrayRecognizersList() {
         if (list == null) {
             list = new ArrayList<IArrayRecognizer>();
+            list.add(new AffymetrixArrayRecognizer());
             list.add(new GenepixArrayRecognizer());
             list.add(new AgilentArrayRecognizer());
         }

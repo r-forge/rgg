@@ -53,7 +53,7 @@ public class GenepixArrayCreator extends ArrayCreator {
             return filterHeaders(headerSplitted, arrayInfo.getColorInfo());
         } else {
             ArrayList<String> headerList = new ArrayList<String>();
-            for (int i = 2; i < headerSplitted.length; i++) {
+            for (int i = 0; i < headerSplitted.length; i++) {
                 headerList.add(StringUtils.strip(headerSplitted[i], "\""));
             }
             return headerList;

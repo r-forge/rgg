@@ -13,6 +13,8 @@ import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
 import at.ac.arcs.rgg.component.VisualComponent;
 import at.ac.arcs.rgg.layout.LayoutInfo;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
 
 /**
  *
@@ -41,16 +43,20 @@ public class VSlider extends VisualComponent {
         slider = new JSlider();
 
         slider.addChangeListener(l = new javax.swing.event.ChangeListener() {
-
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 sliderValueLabel.setText("" + slider.getValue());
             }
         });
-
+        
+        CellConstraints cc = new CellConstraints();
         sliderPanel = new JPanel();
-        sliderPanel.setLayout(new BoxLayout(sliderPanel, BoxLayout.Y_AXIS));
-        sliderPanel.add("sliderValueLabel", sliderValueLabel);
-        sliderPanel.add("slider", slider);
+        sliderPanel.setLayout(new FormLayout("center:pref", "min,pref"));
+        sliderPanel.add(sliderValueLabel,cc.xy(1,1));
+        sliderPanel.add(slider,cc.xy(1, 2));
+//        
+//        sliderPanel.setLayout(new BoxLayout(sliderPanel, BoxLayout.Y_AXIS));
+//        sliderPanel.add("sliderValueLabel", sliderValueLabel);
+//        sliderPanel.add("slider", slider);
     }
 
     public boolean isVisualComponent() {
