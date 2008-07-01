@@ -21,9 +21,9 @@ import org.apache.commons.lang.StringUtils;
  */
 public class AgilentArrayCreator extends ArrayCreator {
 
-    private static String[] columns = //G,Gb,R,Rb
+    public static final String[] columns = //G,Gb,R,Rb
             {"gMeanSignal", "gBGMedianSignal", "rMeanSignal", "rBGMedianSignal"};
-    private static String[] annotations = {"Row", "Col", "Start", "Sequence",
+    public static final String[] annotations = {"Row", "Col", "Start", "Sequence",
         "SwissProt", "GenBank", "Primate", "GenPept", "ProbeUID", "ControlType",
         "ProbeName", "GeneName", "SystematicName", "Description"
     };

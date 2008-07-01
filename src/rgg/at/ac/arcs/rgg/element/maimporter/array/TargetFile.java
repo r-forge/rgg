@@ -38,11 +38,13 @@ public class TargetFile {
     private TargetFile(File[] arrays) {
         header = new ArrayList<String>();
         header.add("FileName");
+        this.path = arrays[0].getParentFile();
+
         targetFileData = new ArrayList<ArrayList<String>>();
         ArrayList<String> dataLine;
         for (File array : arrays) {
             dataLine = new ArrayList<String>();
-            dataLine.add(array.getAbsolutePath());
+            dataLine.add(array.getName());
             targetFileData.add(dataLine);
         }
         this.files = arrays;
@@ -147,7 +149,7 @@ public class TargetFile {
         return false;
     }
 
-    public String getFileNameHeader(){
+    public String getFileNameHeader() {
         for (String str : header) {
             if (str.equalsIgnoreCase("FileName")) {
                 return str;
@@ -155,14 +157,17 @@ public class TargetFile {
         }
         return null;
     }
-    
+
     public static TargetFile createTargetFile(File targetFile)
             throws TargetFileException {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(targetFile));
             String line = reader.readLine();
-
+            while (line.trim().startsWith("#")) {
+                line = reader.readLine();
+            }
+            
             String[] header = getHeader(targetFile, line);
             if (!hasFileNameHeader(header)) {
                 throw new TargetFileException("Couldn't find the header \"FileName\" " +
@@ -200,7 +205,7 @@ public class TargetFile {
         rbuf.append("data.frame(");
         for (int i = 0; i < header.size(); i++) {
             rbuf.append(header.get(i) + " = c(");
-            for(ArrayList<String> line:targetFileData){
+            for (ArrayList<String> line : targetFileData) {
                 rbuf.append("\"");
                 rbuf.append(line.get(i));
                 rbuf.append("\",");

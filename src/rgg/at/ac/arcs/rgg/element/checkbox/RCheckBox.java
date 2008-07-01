@@ -32,7 +32,7 @@ public class RCheckBox extends RElement {
 
     public String getRCode() {
         String value;
-        if (vcheckbox.isSelected()) {
+        if (vcheckbox.isSelected() && vcheckbox.isEnabled()) {
             value = returnValueBySelected;
         } else {
             value = returnValueByNotSelected;

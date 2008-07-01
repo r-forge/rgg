@@ -31,10 +31,9 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
     private ArrayHeaderRowTableModel arrayHeaderRowTableModel;
     private RGListTableModel rGListTableModel;
     private String[] othercolumns;
-
     public static final String PROP_TargetFile = "targetFile";
-    
-    public static MAImporterModel createModelFromArrays(File[] arrays,String[] othercolumns)
+
+    public static MAImporterModel createModelFromArrays(File[] arrays, String[] othercolumns)
             throws IOException, ArrayDetectionException {
 
         MAImporterModel model = new MAImporterModel();
@@ -45,16 +44,17 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
         //Recognize files
         model.setArrayInfos(recognize(model.getTargetFile()));
         //TODO check arrayinfos here. same array type,same layout...
-
-        //create and set ArrayHeaderRowTableModel
-        model.setArrayHeaderRowTableModel(
-                ArrayHeaderRowTableModel.createArrayHeaderRowTableModel(model.getArrayInfos().get(0)));
-        Array array = model.getArrayInfos().get(0).getArrayCreator().makeArray(model.getArrayInfos().get(0));
-        model.setRGListTableModel(new RGListTableModel(array,othercolumns));
+        if (!model.getArrayInfos().get(0).getArraySource().equals("affymetrix")) {
+            //create and set ArrayHeaderRowTableModel
+            model.setArrayHeaderRowTableModel(
+                    ArrayHeaderRowTableModel.createArrayHeaderRowTableModel(model.getArrayInfos().get(0)));
+            Array array = model.getArrayInfos().get(0).getArrayCreator().makeArray(model.getArrayInfos().get(0));
+            model.setRGListTableModel(new RGListTableModel(array, othercolumns));
+        }
         return model;
     }
 
-    public static MAImporterModel createModelFromTargetFile(File targetFile,String[] othercolumns)
+    public static MAImporterModel createModelFromTargetFile(File targetFile, String[] othercolumns)
             throws TargetFileException, ArrayDetectionException, IOException {
         MAImporterModel model = new MAImporterModel();
         model.othercolumns = othercolumns;
@@ -64,12 +64,13 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
         //Recognize files
         model.setArrayInfos(recognize(model.getTargetFile()));
         //TODO check arrayinfos here. same array type,same layout...
-
-        //create and set ArrayHeaderRowTableModel
-        model.setArrayHeaderRowTableModel(
-                ArrayHeaderRowTableModel.createArrayHeaderRowTableModel(model.getArrayInfos().get(0)));
-        Array array = model.getArrayInfos().get(0).getArrayCreator().makeArray(model.getArrayInfos().get(0));
-        model.setRGListTableModel(new RGListTableModel(array,othercolumns));
+        if (!model.getArrayInfos().get(0).getArraySource().equals("affymetrix")) {
+            //create and set ArrayHeaderRowTableModel
+            model.setArrayHeaderRowTableModel(
+                    ArrayHeaderRowTableModel.createArrayHeaderRowTableModel(model.getArrayInfos().get(0)));
+            Array array = model.getArrayInfos().get(0).getArrayCreator().makeArray(model.getArrayInfos().get(0));
+            model.setRGListTableModel(new RGListTableModel(array, othercolumns));
+        }
         return model;
     }
 
@@ -121,7 +122,7 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
 
     public void stateChanged(ArrayHeaderChangedEvent evt) {
         for (ArrayInfo inf : arrayInfos) {
-            inf.setHeaderLineNo(evt.getHeaderRow()+1);
+            inf.setHeaderLineNo(evt.getHeaderRow() + 1);
         }
 
         SwingWorker<RGListTableModel, Object> worker = new SwingWorker<RGListTableModel, Object>() {
@@ -129,7 +130,7 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
             @Override
             protected RGListTableModel doInBackground() throws Exception {
                 Array array = arrayInfos.get(0).getArrayCreator().makeArray(arrayInfos.get(0));
-                return new RGListTableModel(array,othercolumns);
+                return new RGListTableModel(array, othercolumns);
             }
 
             @Override

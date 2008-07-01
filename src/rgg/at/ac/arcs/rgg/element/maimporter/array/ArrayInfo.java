@@ -13,7 +13,7 @@ public class ArrayInfo {
     private ArrayChannelInfo channelInfo;
     private ArrayColorInfo colorInfo;
     private ArrayCreator arrayCreator;
-    private String arrayType;
+    private String arraySource;
     private int headerLineNo=1;
     private File arrayFile;
     
@@ -24,12 +24,12 @@ public class ArrayInfo {
         this.arrayCreator=arrayCreator;
         this.channelInfo=channelInfo;
         this.colorInfo=colorInfo;
-        this.arrayType = arrayType;
+        this.arraySource = arrayType;
         this.headerLineNo=headerLineNo;
     }
 
     public boolean isGenericType(){
-      return arrayType.equals(GENERIC);          
+      return arraySource.equals(GENERIC);          
     }
 
     public File getArrayFile() {
@@ -73,11 +73,11 @@ public class ArrayInfo {
     }
 
     public String getArraySource() {
-        return arrayType;
+        return arraySource;
     }
 
-    public void setArrayType(String arrayType) {
-        this.arrayType = arrayType;
+    public void setArraySource(String arraySource) {
+        this.arraySource = arraySource;
     }
 
     List<List<String>> readAssayData(int rownumber) throws IOException {

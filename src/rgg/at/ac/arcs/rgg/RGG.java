@@ -3,6 +3,8 @@ package at.ac.arcs.rgg;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -39,10 +41,11 @@ public class RGG {
         this.rGGFileDir = rggFile.getParentFile();
     }
 
-    private static void initRGG() throws ConfigurationException {
+    private static void initRGG() {
         if (config == null) {
-            config = new CompositeConfiguration();
             try {
+                config = new CompositeConfiguration();
+
                 config.addConfiguration(
                         new PropertiesConfiguration(
                         RGG.class.getResource("/at/ac/arcs/rgg/config/elementfactory.properties")));
@@ -50,22 +53,22 @@ public class RGG {
                         new PropertiesConfiguration(
                         RGG.class.getResource("/at/ac/arcs/rgg/config/rgg-attributes.properties")));
             } catch (ConfigurationException ex) {
-                log.fatal("Couldn't initialize RGG", ex.getCause());
-                throw ex;
+                Logger.getLogger(RGG.class.getName()).log(Level.SEVERE, null, ex);
             }
+
         }
     }
 
     public static RGG newInstance(File rggFile)
-            throws ConfigurationException, ParserConfigurationException, 
-            SAXException, IOException, ClassNotFoundException, 
+            throws ParserConfigurationException,
+            SAXException, IOException, ClassNotFoundException,
             InstantiationException, IllegalAccessException {
         if (config == null) {
             initRGG();
         }
 
         RGG rgg = new RGG(rggFile);
-        
+
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(rggFile);
@@ -77,6 +80,7 @@ public class RGG {
         }
 
         rgg.setRggModel(RGGFactory.createRGGModel(rggElement, rgg));
+        
         rgg.setRggPanelModel(new RGGPanelModel(rgg.getRggModel()));
         return rgg;
     }

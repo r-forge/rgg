@@ -11,7 +11,6 @@ import com.jgoodies.forms.util.UnitConverter;
 import java.awt.Dimension;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultCellEditor;
@@ -24,7 +23,7 @@ import org.jdesktop.swingx.JXTable;
  */
 public class RGListSettingsPanel extends javax.swing.JPanel implements PropertyChangeListener {
 
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
+//    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private String[] columns = new String[4];
     private String[] annotations;
     private JXTable table;
@@ -141,7 +140,7 @@ public class RGListSettingsPanel extends javax.swing.JPanel implements PropertyC
             for(int i=0;i<model.getArray().getAnnotations().getColumns().size();i++){
                 annotations[i] = inputSelectorTable.getColumnName(model.getArray().getAnnotations().getColumns().get(i));
             }
-            changeSupport.firePropertyChange(Array.PROP_Annotation, old, annotations);
+            firePropertyChange(Array.PROP_Annotation, old, annotations);
         }else if(Array.PROP_G.equals(evt.getPropertyName())){
             
         }else if(Array.PROP_Gb.equals(evt.getPropertyName())){
@@ -159,21 +158,5 @@ public class RGListSettingsPanel extends javax.swing.JPanel implements PropertyC
 
     public String[] getColumns() {
         return columns;
-    }
-
-    @Override
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        if (listener == null) {
-            return;
-        }
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    @Override
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        if (listener == null) {
-            return;
-        }
-        changeSupport.removePropertyChangeListener(listener);
     }
 }

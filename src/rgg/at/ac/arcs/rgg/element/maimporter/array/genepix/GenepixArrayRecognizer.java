@@ -29,7 +29,7 @@ public class GenepixArrayRecognizer implements IArrayRecognizer {
 
             if (checkATF(line)) {
                 ArrayInfo inf = new ArrayInfo();
-                inf.setArrayType("genepix");
+                inf.setArraySource("genepix");
                 inf.setArrayFile(array);
                 inf.setArrayCreator(new GenepixArrayCreator());
 
