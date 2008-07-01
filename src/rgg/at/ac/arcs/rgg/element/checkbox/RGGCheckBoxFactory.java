@@ -97,7 +97,7 @@ public class RGGCheckBoxFactory extends RElementFactory {
                         ELProperty.create(enabled), // the property to get
                         vcheckbox, // the "backing bean"
                         BeanProperty.create("enabled") // property to set
-                        );
+                        );                
                 binding.bind();
             }
         }       

@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import at.ac.arcs.rgg.element.maimporter.array.ArrayChannelInfo;
+import at.ac.arcs.rgg.element.maimporter.array.ArrayColorInfo;
 import at.ac.arcs.rgg.element.maimporter.array.ArrayDetectionException;
 import at.ac.arcs.rgg.element.maimporter.array.ArrayInfo;
 import at.ac.arcs.rgg.element.maimporter.array.IArrayRecognizer;
@@ -59,8 +60,8 @@ public class AgilentArrayRecognizer implements IArrayRecognizer {
 
     private ArrayInfo checkAndCreateArrayInfo(String line) {
         ArrayInfo inf = new ArrayInfo();
-        inf.setArrayType("agilent");
-        String[] parts = StringUtils.split(line,'\t');
+        inf.setArraySource("agilent");
+        String[] parts = StringUtils.split(line, '\t');
         if (parts.length > 5 && parts[4].contains("Agilent")) {
             inf.setArrayCreator(new AgilentArrayCreator());
             if (StringUtils.isNumeric(parts[5])) {
@@ -98,9 +99,38 @@ public class AgilentArrayRecognizer implements IArrayRecognizer {
         while ((line = reader.readLine()) != null) {
             if (line.startsWith("FEATURES")) {
                 inf.setHeaderLineNo(reader.getLineNumber());
+                if (inf.getChannelInfo() == ArrayChannelInfo.ONECHANNEL) {
+                    setArrayColor(inf, line);
+                }
                 return inf;
             }
         }
         return null;
+    }
+
+    private void setArrayColor(ArrayInfo inf, String line) {
+        String[] fields = StringUtils.split(line, '\t');
+        boolean gFlag = false;
+        boolean rFlag = false;
+        for (String field : fields) {
+            for (String column : AgilentArrayCreator.columns) {
+                if (field.equalsIgnoreCase(column)) {
+                    if (column.charAt(0) == 'g') {
+                        gFlag = true;
+                    }
+                    if (column.charAt(0) == 'r') {
+                        rFlag = true;
+                    }
+                }
+            }
+            if (gFlag || rFlag) {
+                if (gFlag) {
+                    inf.setColorInfo(ArrayColorInfo.G);
+                } else {
+                    inf.setColorInfo(ArrayColorInfo.R);
+                }
+                break;
+            }
+        }
     }
 }

@@ -4,6 +4,8 @@ import org.apache.commons.lang.StringUtils;
 import at.ac.arcs.rgg.RGG;
 import at.ac.arcs.rgg.factories.RElementFactory;
 import at.ac.arcs.rgg.layout.LayoutInfo;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Element;
 
 /**
@@ -12,11 +14,14 @@ import org.w3c.dom.Element;
  */
 public class RGGMAImporterFactory extends RElementFactory {
 
-    public RMAImporter createRGGElement(Element element, at.ac.arcs.rgg.RGG rggInstance) {
+    private static Log log = LogFactory.getLog(RGGMAImporterFactory.class);
+
+    public RMAImporter createRGGElement(Element element, RGG rggInstance) {
         if (element.getNodeType() != Element.ELEMENT_NODE) {
             throw new IllegalArgumentException("elements node type must be ELEMENT_NODE");
         /****************** initialize and set attributes values **************************************/
         }
+
         String var = element.getAttribute(RGG.getConfiguration().getString("VAR"));
         String colspan = element.getAttribute(RGG.getConfiguration().getString("COLUMN-SPAN"));
         String id = element.getAttribute(RGG.getConfiguration().getString("ID"));
@@ -30,7 +35,7 @@ public class RGGMAImporterFactory extends RElementFactory {
         } else {
             vMAImporter = new VMAImporter(rggInstance, null);
         }
-        
+
         if (StringUtils.isNotBlank(var)) {
             rMAImporter.setVar(var);
         }

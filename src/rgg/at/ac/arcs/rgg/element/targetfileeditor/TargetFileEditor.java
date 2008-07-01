@@ -72,28 +72,28 @@ class TargetFileEditor extends javax.swing.JPanel {
             }
         });
 
-        addRowButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/arcs/rgg/element/targetfileeditor/icons/add-small.png"))); // NOI18N
+        addRowButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/at/ac/arcs/rgg/element/targetfileeditor/icons/add-small.png"))); // NOI18N
         addRowButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addRowButtonActionPerformed(evt);
             }
         });
 
-        removeRowButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/arcs/rgg/element/targetfileeditor/icons/remove-small.png"))); // NOI18N
+        removeRowButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/at/ac/arcs/rgg/element/targetfileeditor/icons/remove-small.png"))); // NOI18N
         removeRowButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeRowButtonActionPerformed(evt);
             }
         });
 
-        addColumnButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/arcs/rgg/element/targetfileeditor/icons/add-small.png"))); // NOI18N
+        addColumnButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/at/ac/arcs/rgg/element/targetfileeditor/icons/add-small.png"))); // NOI18N
         addColumnButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addColumnButtonActionPerformed(evt);
             }
         });
 
-        removeColumnButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/arcs/rgg/element/targetfileeditor/icons/remove-small.png"))); // NOI18N
+        removeColumnButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/at/ac/arcs/rgg/element/targetfileeditor/icons/remove-small.png"))); // NOI18N
         removeColumnButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeColumnButtonActionPerformed(evt);

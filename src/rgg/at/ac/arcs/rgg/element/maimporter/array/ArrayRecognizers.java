@@ -65,7 +65,7 @@ public class ArrayRecognizers {
 
     private static ArrayInfo createGenericTypeArrayInfo(File array) {
         ArrayInfo inf = new ArrayInfo();
-        inf.setArrayType(ArrayInfo.GENERIC);
+        inf.setArraySource(ArrayInfo.GENERIC);
         inf.setArrayFile(array);
         inf.setArrayCreator(new GenericArrayCreator());
         return inf;

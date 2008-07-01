@@ -10,6 +10,8 @@ import at.ac.arcs.rgg.RGG;
 import at.ac.arcs.rgg.element.RElement;
 import at.ac.arcs.rgg.factories.RElementFactory;
 import at.ac.arcs.rgg.layout.LayoutInfo;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Element;
 
 /**
@@ -17,7 +19,7 @@ import org.w3c.dom.Element;
  * @author ilhami
  */
 public class RGGSeparatorFactory extends RElementFactory {
-
+private static Log log = LogFactory.getLog(RGGSeparatorFactory.class);
     @Override
     public RElement createRGGElement(Element element, RGG rggInstance) {
         if (element.getNodeType() != Element.ELEMENT_NODE) {

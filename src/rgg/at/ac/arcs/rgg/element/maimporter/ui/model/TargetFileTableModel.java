@@ -75,5 +75,6 @@ public class TargetFileTableModel extends AbstractTableModel {
     
     public void removeRow(int rowIndex){
         targetFile.getTargetFileData().remove(rowIndex);
+        fireTableRowsDeleted(rowIndex, rowIndex);
     }
 }

@@ -113,7 +113,7 @@
         <Component class="javax.swing.JButton" name="addRowButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/arcs/rgg/element/targetfileeditor/icons/add-small.png"/>
+              <Image iconType="3" name="/at/ac/arcs/rgg/element/targetfileeditor/icons/add-small.png"/>
             </Property>
           </Properties>
           <Events>
@@ -123,7 +123,7 @@
         <Component class="javax.swing.JButton" name="removeRowButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/arcs/rgg/element/targetfileeditor/icons/remove-small.png"/>
+              <Image iconType="3" name="/at/ac/arcs/rgg/element/targetfileeditor/icons/remove-small.png"/>
             </Property>
           </Properties>
           <Events>
@@ -133,7 +133,7 @@
         <Component class="javax.swing.JButton" name="addColumnButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/arcs/rgg/element/targetfileeditor/icons/add-small.png"/>
+              <Image iconType="3" name="/at/ac/arcs/rgg/element/targetfileeditor/icons/add-small.png"/>
             </Property>
           </Properties>
           <Events>
@@ -143,7 +143,7 @@
         <Component class="javax.swing.JButton" name="removeColumnButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/org/arcs/rgg/element/targetfileeditor/icons/remove-small.png"/>
+              <Image iconType="3" name="/at/ac/arcs/rgg/element/targetfileeditor/icons/remove-small.png"/>
             </Property>
           </Properties>
           <Events>

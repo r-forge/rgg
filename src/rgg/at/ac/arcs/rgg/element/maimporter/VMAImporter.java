@@ -21,6 +21,8 @@ public class VMAImporter extends VisualComponent implements PropertyChangeListen
     private String[] columns;
     private String[] annotation;
     private String[] targetfileheader;
+    private String arraysource;
+    private boolean affymetrix;
     
     
     private MAImporterPanel mapanel;
@@ -79,9 +81,9 @@ public class VMAImporter extends VisualComponent implements PropertyChangeListen
                 targetfileheader[i]=headers.get(i);
             }
             changeSupport.firePropertyChange("targetfileheader", old, this.targetfileheader);
-        }else{
-//            columns = (String[])evt.getNewValue();
-//            changeSupport.firePropertyChange("columns", evt.getOldValue(), evt.getNewValue());
+        }else if(evt.getPropertyName().equalsIgnoreCase("arraysource")){
+            arraysource = (String)evt.getNewValue();
+            changeSupport.firePropertyChange("affymetrix",affymetrix,isAffymetrix());
         }
     }
 
@@ -107,6 +109,20 @@ public class VMAImporter extends VisualComponent implements PropertyChangeListen
 
     public void setTargetfileheader(String[] targetfileheader) {
         this.targetfileheader = targetfileheader;
+    }
+
+    public boolean isAffymetrix(){
+        if(arraysource == null)
+            return false;
+        return arraysource.equals("affymetrix");
+    }
+    
+    public String getArraysource() {
+        return arraysource;
+    }
+
+    public void setArraysource(String arraysource) {
+        this.arraysource = arraysource;
     }
     
 }
