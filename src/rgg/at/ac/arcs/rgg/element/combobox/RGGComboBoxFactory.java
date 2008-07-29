@@ -78,7 +78,11 @@ public class RGGComboBoxFactory extends RElementFactory {
                         );
                 binding.bind();
             } else {
-                rComboBox.setItems(StringUtils.split(items, ','));
+                String[] _items = StringUtils.split(items, ',');
+                for(int i = 0;i<_items.length;i++){
+                    _items[i]=_items[i].trim();
+                }
+                rComboBox.setItems(_items);
             }
         }
 
