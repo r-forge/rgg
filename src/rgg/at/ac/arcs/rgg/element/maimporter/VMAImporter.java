@@ -23,6 +23,7 @@ public class VMAImporter extends VisualComponent implements PropertyChangeListen
     private String[] targetfileheader;
     private String arraysource;
     private boolean affymetrix;
+    String[] othercolumns;
     
     
     private MAImporterPanel mapanel;
@@ -32,8 +33,9 @@ public class VMAImporter extends VisualComponent implements PropertyChangeListen
     /**
      * Creates a new instance of VTextField
      */
-    public VMAImporter(RGG rggInstance,String[] othercolumns) {
+    public VMAImporter(RGG rggInstance,String[] othercolumns) {        
         this.rggInstance = rggInstance;
+        this.othercolumns = othercolumns;
         initializeComponents(othercolumns);
     }
 
