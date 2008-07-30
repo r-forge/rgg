@@ -9,13 +9,14 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.TableColumnModelListener;
 import org.apache.commons.lang.StringUtils;
-import org.jdesktop.swingx.JXBusyLabel;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.Highlighter;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
@@ -138,17 +139,8 @@ public class TargetFilePanel extends JPanel {
         jxTable.setHorizontalScrollEnabled(true);
         jxTable.setAutoStartEditOnKeyStroke(true);
         jxTable.setCellSelectionEnabled(true);
+        jxTable.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
 
-//        jxTable.addComponentListener(new ComponentAdapter() {
-//
-//            @Override
-//            public void componentResized(ComponentEvent e) {
-//                System.out.println(e.paramString());
-//                System.out.println(e.getComponent());
-//            }
-//        
-//        });
-        
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Use \"Add Microarrays\" button to add microarray files");
         jLabel1.setForeground(new java.awt.Color(0, 51, 255));
@@ -156,9 +148,6 @@ public class TargetFilePanel extends JPanel {
 
         jXHeader1.setDescription("Add sample annotation (phenotypic and technical). Also microarrays can be removed.");
 
-//        UnitConverter converter = DefaultUnitConverter.getInstance();
-//        tableScrollPane.setPreferredSize(new Dimension(converter.dialogUnitXAsPixel(200, tableScrollPane),
-//                converter.dialogUnitXAsPixel(100, tableScrollPane)));
         /****************Layout**********************/
         CellConstraints cc = new CellConstraints();
         FormLayout layout = new FormLayout("pref,2dlu,pref,2dlu,pref,25dlu,pref,2dlu,pref,2dlu,pref",//cols
@@ -171,13 +160,6 @@ public class TargetFilePanel extends JPanel {
         buttonPanel.add(columnLabel, cc.xy(7, 2));
         buttonPanel.add(addColumnHyperlink, cc.xy(9, 2));
         buttonPanel.add(removeColumnHyperlink, cc.xy(11, 2));
-
-//        layout = new FormLayout("pref", "pref,pref,pref");
-//        setLayout(layout);
-//        add(jXHeader1, cc.xy(1, 1));
-//        add(tableScrollPane, cc.xy(1, 2));
-//        add(buttonPanel, cc.xy(1, 3));
-//        setBorder(null);
 
         setLayout(new BorderLayout());
         add(jXHeader1, BorderLayout.NORTH);
@@ -248,10 +230,8 @@ public class TargetFilePanel extends JPanel {
     public void addTargetFileTableColumnListener(TableColumnModelListener l) {
         jxTable.getColumnModel().addColumnModelListener(l);
     }
-    private JXTable jxTable;
-//    private JTable jxTable;
-    JXBusyLabel busyLabel;
-    // Variables declaration - do not modify                     
+    
+    private JXTable jxTable;              
     private org.jdesktop.swingx.JXHyperlink addColumnHyperlink;
     private org.jdesktop.swingx.JXHyperlink addRowHyperlink;
     private javax.swing.JButton browseButton;

@@ -30,7 +30,7 @@ library("arrayQualityMetrics")
 <separator label="Data import" span="full"/>
 
 <maimporter id="ma" targetfile-var="targetfile" source-var="source" 
-other-columns="Row,Column" other-columns-var="other.columns" columns-var="columns"
+other-columns="Row,Column,Signal" other-columns-var="other.columns" columns-var="columns"
 annotation-var="annotation" path-var="path"/>
 
 rowvar = (1:ncol(targetfile))[grep("filename",colnames(targetfile), ignore.case=TRUE)]
