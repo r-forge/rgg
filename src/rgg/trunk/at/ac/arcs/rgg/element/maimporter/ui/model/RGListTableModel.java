@@ -25,19 +25,27 @@ public class RGListTableModel extends AbstractTableModel implements PropertyChan
     // contains the array header line
     private List<String> colNames = new ArrayList<String>();    // arraylist of arraylists
     private List<List<String>> data = new ArrayList<List<String>>();
-    
+
     public RGListTableModel(Array array, String[] othercolumns) throws IOException {
         this.array = array;
 
         ilist = new InputList();
-        ilist.put(array.getG());
-        array.getG().addPropertyChangeListener(this);
-        ilist.put(array.getGb());
-        array.getGb().addPropertyChangeListener(this);
-        ilist.put(array.getR());
-        array.getR().addPropertyChangeListener(this);
-        ilist.put(array.getRb());
-        array.getRb().addPropertyChangeListener(this);
+        if (array.getG() != null) {
+            ilist.put(array.getG());
+            array.getG().addPropertyChangeListener(this);
+        }
+        if (array.getGb() != null) {
+            ilist.put(array.getGb());
+            array.getGb().addPropertyChangeListener(this);
+        }
+        if (array.getR() != null) {
+            ilist.put(array.getR());
+            array.getR().addPropertyChangeListener(this);
+        }
+        if (array.getRb() != null) {
+            ilist.put(array.getRb());
+            array.getRb().addPropertyChangeListener(this);
+        }
         ilist.put(array.getAnnotations());
         array.getAnnotations().addPropertyChangeListener(this);
         annotations = array.getAnnotations().getColumns();

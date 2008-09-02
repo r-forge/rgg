@@ -4,6 +4,8 @@ import javax.swing.JComponent;
 import org.apache.commons.lang.StringUtils;
 import at.ac.arcs.rgg.element.RElement;
 import at.ac.arcs.rgg.component.VisualComponent;
+import at.ac.arcs.rgg.element.maimporter.array.ArrayChannelInfo;
+import at.ac.arcs.rgg.element.maimporter.array.ArrayColorInfo;
 import at.ac.arcs.rgg.element.maimporter.ui.MAImporterPanel;
 
 /**
@@ -15,13 +17,7 @@ public class RMAImporter extends RElement {
     private String var;
     private VMAImporter vMAImporter;
     private VisualComponent[][] visualcomponents;
-    private String targetfilevar = "targetfile";
-    private String othercolumnsvar = "other.columns";
-    private String columnsvar = "columns";
-    private String annotationvar = "annotation";
-    private String pathvar = "path";
-    private String sourcevar = "source";
-
+    
     public RMAImporter() {
     }
 
@@ -30,53 +26,84 @@ public class RMAImporter extends RElement {
         //Target file creation
         MAImporterPanel mapanel = vMAImporter.getMAImporterPanel();
         StringBuilder rbuilder = new StringBuilder();
-        if (StringUtils.isNotBlank(targetfilevar)) {
-            rbuilder.append(targetfilevar);
-            rbuilder.append(" = ");
-        } else {
-            rbuilder.append("_matargetfile = ");
-        }
-        rbuilder.append(mapanel.getMAModel().getTargetFile().toRCode());
-        rbuilder.append("\n");
 
-        rbuilder.append(pathvar + " = \"" +
-                StringUtils.replace(mapanel.getMAModel().getTargetFile().getPath().getAbsolutePath(), "\\", "/") + "\"\n");
-        rbuilder.append(sourcevar + " = \"" + mapanel.getArraySource() + "\"\n");
+        if (StringUtils.isNotBlank(var)) {
+            rbuilder.append(var);
+            rbuilder.append(" = ");
+        }
+        //start of list
+        rbuilder.append(" list(");
+        
+        //targetfile
+        rbuilder.append("targetfile=");
+        rbuilder.append(mapanel.getMAModel().getTargetFile().toRCode());
+        //source
+        rbuilder.append(",\nsource=\"");
+        rbuilder.append(mapanel.getArraySource());
+        //path
+        rbuilder.append("\", path=\"");
+        rbuilder.append(StringUtils.replace(mapanel.getMAModel().getTargetFile().getPath().getAbsolutePath(), "\\", "/"));
 
         if (!vMAImporter.isAffymetrix()) {
-            rbuilder.append(columnsvar + " = list(");
-            rbuilder.append("G=\"" + mapanel.getGHeader() + "\"");
-            rbuilder.append(", Gb=\"" + mapanel.getGbHeader() + "\"");
-            rbuilder.append(", R=\"" + mapanel.getRHeader() + "\"");
-            rbuilder.append(", Rb=\"" + mapanel.getRbHeader() + "\"");
-            rbuilder.append(")\n");
-
+            //columns
+            rbuilder.append("\",\ncolumns=list(");
+            if (mapanel.getArrayChannelInfo() == ArrayChannelInfo.TWOCHANNEL) {
+                rbuilder.append("G=\"" + mapanel.getGHeader() + "\"");
+                rbuilder.append(", Gb=\"" + mapanel.getGbHeader() + "\"");
+                rbuilder.append(", R=\"" + mapanel.getRHeader() + "\"");
+                rbuilder.append(", Rb=\"" + mapanel.getRbHeader() + "\")");
+                
+                //channelinfo & colorinfo
+                rbuilder.append(",channel=2,color=\"RG\"");
+                
+            } else { //ONECHANNEL
+                if (mapanel.getArrayColorInfo() == ArrayColorInfo.G) {
+                    rbuilder.append("G=\"" + mapanel.getGHeader() + "\"");
+                    rbuilder.append(", Gb=\"" + mapanel.getGbHeader() + "\"");
+                    rbuilder.append(", R=\"" + mapanel.getGHeader() + "\"");
+                    rbuilder.append(", Rb=\"" + mapanel.getGbHeader() + "\")");
+                    
+                    //channelinfo & colorinfo
+                    rbuilder.append(",channel=1,color=\"G\"");
+                } else { //Red
+                    rbuilder.append("G=\"" + mapanel.getRHeader() + "\"");
+                    rbuilder.append(", Gb=\"" + mapanel.getRbHeader() + "\"");
+                    rbuilder.append(", R=\"" + mapanel.getRHeader() + "\"");
+                    rbuilder.append(", Rb=\"" + mapanel.getRbHeader() + "\")");
+                    //channelinfo & colorinfo
+                    rbuilder.append(",channel=1,color=\"R\"");
+                }
+            }
+            
+            //annotation
+            rbuilder.append(",\nannotation = ");
             if (mapanel.getAnnotationHeaders().size() > 0) {
-                rbuilder.append(annotationvar + " = list(");
+                rbuilder.append("list(");
                 for (String header : mapanel.getAnnotationHeaders()) {
                     rbuilder.append("\"" + header + "\",");
                 }
                 rbuilder.deleteCharAt(rbuilder.length() - 1);
-                rbuilder.append(")\n");
-            }else{
-                rbuilder.append(annotationvar +" = character(0)\n");
+                rbuilder.append(")");
+            } else {
+                rbuilder.append("character(0)");
             }
-
+            
+            //other.columns
+             rbuilder.append(",other.columns = ");
             if (mapanel.getOtherColumnHeaders().size() > 0) {
-                rbuilder.append(othercolumnsvar + " = list(");
-                for(int i=0;i<mapanel.getOtherColumnHeaders().size();i++){
-                    rbuilder.append(vMAImporter.othercolumns[i]+"=\"" + mapanel.getOtherColumnHeaders().get(i) + "\",");
+                rbuilder.append("list(");
+                for (int i = 0; i < mapanel.getOtherColumnHeaders().size(); i++) {
+                    rbuilder.append(vMAImporter.othercolumns[i] + "=\"" + mapanel.getOtherColumnHeaders().get(i) + "\",");
                 }
-//                for (String header : mapanel.getOtherColumnHeaders()) {
-//                    rbuilder.append("\"" + header + "\",");
-//                }
                 rbuilder.deleteCharAt(rbuilder.length() - 1);
                 rbuilder.append(")");
-            }else{
-                rbuilder.append(othercolumnsvar +" = character(0)\n");
+            } else {
+                rbuilder.append("character(0)");
             }
         }
-
+        //end of list
+        rbuilder.append(")");
+        
         return rbuilder.toString();
     }
 
@@ -109,49 +136,5 @@ public class RMAImporter extends RElement {
 
     public JComponent[][] getSwingComponentMatrix() {
         return vMAImporter.getSwingComponents();
-    }
-
-    void setTargetfilevar(String targetfilevar) {
-        this.targetfilevar = targetfilevar;
-    }
-
-    public String getAnnotationvar() {
-        return annotationvar;
-    }
-
-    public void setAnnotationvar(String annotationvar) {
-        this.annotationvar = annotationvar;
-    }
-
-    public String getSourcevar() {
-        return sourcevar;
-    }
-
-    public void setSourcevar(String sourcevar) {
-        this.sourcevar = sourcevar;
-    }
-
-    public String getColumnsvar() {
-        return columnsvar;
-    }
-
-    public void setColumnsvar(String columnsvar) {
-        this.columnsvar = columnsvar;
-    }
-
-    public String getOthercolumnsvar() {
-        return othercolumnsvar;
-    }
-
-    public void setOthercolumnsvar(String othercolumnsvar) {
-        this.othercolumnsvar = othercolumnsvar;
-    }
-
-    public String getPathvar() {
-        return pathvar;
-    }
-
-    public void setPathvar(String pathvar) {
-        this.pathvar = pathvar;
     }
 }

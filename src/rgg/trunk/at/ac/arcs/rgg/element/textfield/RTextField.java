@@ -31,21 +31,20 @@ public class RTextField extends RElement {
     }
 
     public String getRCode() {
-        StringBuffer sbuf = new StringBuffer();
+        StringBuilder rcode = new StringBuilder();
 
         if (StringUtils.isNotBlank(var)) {
-            sbuf.append(var);
-            sbuf.append("<-");
-            return var + "<-" + textfield.getTextFieldValue();
+            rcode.append(var);
+            rcode.append("<-");
         }
         if (textfield.isNumeric()) {
-            sbuf.append(textfield.getTextFieldValue());
+            rcode.append(textfield.getTextFieldValue());
         } else {
-            sbuf.append("\"");
-            sbuf.append(textfield.getTextFieldValue());
-            sbuf.append("\"");
+            rcode.append("\"");
+            rcode.append(textfield.getTextFieldValue());
+            rcode.append("\"");
         }
-        return sbuf.toString();
+        return rcode.toString();
     }
 
     public boolean hasVisualComponents() {

@@ -30,8 +30,6 @@ public class RGGTextFieldFactory extends RElementFactory {
             throw new IllegalArgumentException("elements node type must be ELEMENT_NODE");
         }
 
-        Perl5Util util = new Perl5Util();
-
         RTextField rtextfield = new RTextField();
         VTextField vtextfield = new VTextField();
 

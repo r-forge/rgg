@@ -36,6 +36,7 @@ public class VFileChooser extends VisualComponent {
     private File[] selectedFiles;
     private JComponent[][] swingComps;
     private RGG rggInstance;
+    private boolean enabled = true;
 
     /** Creates a new instance of VFileChooser */
     public VFileChooser(RGG rggInstance) {
@@ -131,6 +132,19 @@ public class VFileChooser extends VisualComponent {
     public void setColumnSpan(int colspan) {
         if (colspan > 0) {
             LayoutInfo.setComponentColumnSpan(selectedFilePathField, colspan);
+        }
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        selectedFilePathField.setEnabled(enabled);
+        button.setEnabled(enabled);
+        if (label != null) {
+            label.setEnabled(enabled);
         }
     }
 }

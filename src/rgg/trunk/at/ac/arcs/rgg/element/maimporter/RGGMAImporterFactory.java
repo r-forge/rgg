@@ -25,7 +25,6 @@ public class RGGMAImporterFactory extends RElementFactory {
         String var = element.getAttribute(RGG.getConfiguration().getString("VAR"));
         String colspan = element.getAttribute(RGG.getConfiguration().getString("COLUMN-SPAN"));
         String id = element.getAttribute(RGG.getConfiguration().getString("ID"));
-        String targetfilevar = element.getAttribute(RGG.getConfiguration().getString("TARGETFILE-VAR"));
         String othercolumns = element.getAttribute(RGG.getConfiguration().getString("OTHER-COLUMNS"));
         /***********************************************************************************************/
         RMAImporter rMAImporter = new RMAImporter();
@@ -38,10 +37,6 @@ public class RGGMAImporterFactory extends RElementFactory {
 
         if (StringUtils.isNotBlank(var)) {
             rMAImporter.setVar(var);
-        }
-
-        if (StringUtils.isNotBlank(targetfilevar)) {
-            rMAImporter.setTargetfilevar(targetfilevar);
         }
 
         if (StringUtils.isNotBlank(colspan)) {
@@ -58,8 +53,7 @@ public class RGGMAImporterFactory extends RElementFactory {
         if (StringUtils.isNotBlank(id)) {
             rggInstance.addObject(id, vMAImporter);
         }
-
-
+        
         rMAImporter.setVMAImporter(vMAImporter);
         return rMAImporter;
     }

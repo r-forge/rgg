@@ -107,6 +107,14 @@ public class MAImporterPanel extends javax.swing.JPanel implements PropertyChang
         return mamodel.getArrayInfos().get(0).getArraySource();
     }
 
+    public ArrayChannelInfo getArrayChannelInfo(){
+        return mamodel.getArrayInfos().get(0).getChannelInfo();
+    }
+    
+    public ArrayColorInfo getArrayColorInfo(){
+        return mamodel.getArrayInfos().get(0).getColorInfo();
+    }
+    
     public MAImporterModel getMAModel() {
         return mamodel;
     }
@@ -202,6 +210,8 @@ public class MAImporterPanel extends javax.swing.JPanel implements PropertyChang
 
             tabbedPane.setEnabledAt(1, false);
             tabbedPane.setEnabledAt(3, false);
+            
+            tabbedPane.setSelectedIndex(2);
         } else {
             arrayheaderrowselectionpanel.setModel(mamodel.getArrayHeaderRowTableModel());
             tabbedPane.setComponentAt(1, arrayheaderrowselectionpanel);
@@ -214,6 +224,8 @@ public class MAImporterPanel extends javax.swing.JPanel implements PropertyChang
             }
             tabbedPane.setEnabledAt(2, true);
             tabbedPane.setEnabledAt(3, true);
+            
+            tabbedPane.setSelectedIndex(3);
         }
     }
 
@@ -227,10 +239,10 @@ public class MAImporterPanel extends javax.swing.JPanel implements PropertyChang
                 }
                 mamodel = createMAModel(1);
 
-                if(mamodel.getArrayInfos().get(0).getChannelInfo() == ArrayChannelInfo.ONECHANNEL){
-                    JOptionPane.showMessageDialog(this, "One-Color Non-Affymetrix Experiments are not yet supported!");
-                    return;
-                }
+//                if(mamodel.getArrayInfos().get(0).getChannelInfo() == ArrayChannelInfo.ONECHANNEL){
+//                    JOptionPane.showMessageDialog(this, "One-Color Non-Affymetrix Experiments are not yet supported!");
+//                    return;
+//                }
                 
                 if (!oldArraySource.equals(getArraySource())) {
                     firePropertyChange("arraysource", oldArraySource, getArraySource());
@@ -264,10 +276,10 @@ public class MAImporterPanel extends javax.swing.JPanel implements PropertyChang
                 }
                 mamodel = createMAModel(2);
 
-                if(mamodel.getArrayInfos().get(0).getChannelInfo() == ArrayChannelInfo.ONECHANNEL){
-                    JOptionPane.showMessageDialog(this, "One-Color Non-Affymetrix Experiments are not yet supported!");
-                    return;
-                }
+//                if(mamodel.getArrayInfos().get(0).getChannelInfo() == ArrayChannelInfo.ONECHANNEL){
+//                    JOptionPane.showMessageDialog(this, "One-Color Non-Affymetrix Experiments are not yet supported!");
+//                    return;
+//                }
                 
                 if (!oldArraySource.equals(getArraySource())) {
                     firePropertyChange("arraysource", oldArraySource, getArraySource());
@@ -334,7 +346,7 @@ public class MAImporterPanel extends javax.swing.JPanel implements PropertyChang
             return worker.get();
         } catch (InterruptedException ex) {
             Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
-            //TODO ist es gute Idee hier null zurÃƒÂ¼ckzugeben???
+            //TODO ist es gute Idee hier null zurückzugeben???
             return null;
         } catch (ExecutionException ex) {
             Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
