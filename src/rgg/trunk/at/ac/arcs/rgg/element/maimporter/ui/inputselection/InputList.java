@@ -4,7 +4,6 @@
  */
 package at.ac.arcs.rgg.element.maimporter.ui.inputselection;
 
-import at.ac.arcs.rgg.element.maimporter.ui.inputselection.InputInfo;
 import java.util.ArrayList;
 
 /**

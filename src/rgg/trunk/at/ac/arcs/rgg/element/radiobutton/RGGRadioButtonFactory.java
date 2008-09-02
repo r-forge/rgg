@@ -42,6 +42,7 @@ public class RGGRadioButtonFactory extends RElementFactory{
         String colspan = element.getAttribute(RGG.getConfiguration().getString("COLUMN-SPAN"));
         String selected = element.getAttribute(RGG.getConfiguration().getString("SELECTED"));
         String returnValueBySelected = element.getAttribute(RGG.getConfiguration().getString("RETURN-VALUE-BY-SELECTED"));
+        String returnValueByNotSelected = element.getAttribute(RGG.getConfiguration().getString("RETURN-VALUE-BY-NOTSELECTED"));
         String labelPosition = element.getAttribute(RGG.getConfiguration().getString("LABELPOSITION"));
         String id = element.getAttribute(RGG.getConfiguration().getString("ID"));
         String enabled = element.getAttribute(RGG.getConfiguration().getString("ENABLED"));
@@ -81,8 +82,12 @@ public class RGGRadioButtonFactory extends RElementFactory{
             }
         }
         
-        if(element.hasAttribute(RGG.getConfiguration().getString("RETURN-VALUE-BY-SELECTED"))){
+        if (StringUtils.isNotBlank(returnValueBySelected)) {
             rradioButton.setReturnValueBySelected(returnValueBySelected);
+        }
+        
+        if (StringUtils.isNotBlank(returnValueByNotSelected)) {
+            rradioButton.setReturnValueByNotSelected(returnValueByNotSelected);
         }
         
         if(StringUtils.isNotBlank(labelPosition)){

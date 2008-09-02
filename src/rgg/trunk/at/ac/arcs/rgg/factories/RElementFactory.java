@@ -6,10 +6,13 @@ import at.ac.arcs.rgg.RGG;
 import at.ac.arcs.rgg.element.RElement;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.oro.text.perl.Perl5Util;
 import org.w3c.dom.Element;
 
 public abstract class RElementFactory {
 
+    protected Perl5Util util = new Perl5Util();
+    
     private static Log log = LogFactory.getLog(RElementFactory.class);
 
     public RElementFactory() {
@@ -23,7 +26,7 @@ public abstract class RElementFactory {
             throw new IllegalArgumentException("Class name cannot be null or empty");
         }
         Class factoryClass = Class.forName(RGG.getConfiguration().getString(classname));
-        
+
         if (!class_factory.containsKey(factoryClass)) {
             class_factory.put(factoryClass, (RElementFactory) factoryClass.newInstance());
         }

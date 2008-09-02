@@ -66,11 +66,11 @@ public class RGGCheckBoxFactory extends RElementFactory {
             }
         }
 
-        if (element.hasAttribute(RGG.getConfiguration().getString("RETURN-VALUE-BY-SELECTED"))) {
+        if (StringUtils.isNotBlank(returnValueBySelected)) {
             rcheckbox.setReturnValueBySelected(returnValueBySelected);
         }
-
-        if (element.hasAttribute(RGG.getConfiguration().getString("RETURN-VALUE-BY-NOTSELECTED"))) {
+        
+        if (StringUtils.isNotBlank(returnValueByNotSelected)) {
             rcheckbox.setReturnValueByNotSelected(returnValueByNotSelected);
         }
 

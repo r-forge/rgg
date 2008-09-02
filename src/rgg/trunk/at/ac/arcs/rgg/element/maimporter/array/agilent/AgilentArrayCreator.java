@@ -41,6 +41,12 @@ public class AgilentArrayCreator extends ArrayCreator {
             array.setGb(getInputInfoIndex(columns[1], headers));
             array.setR(getInputInfoIndex(columns[2], headers));
             array.setRb(getInputInfoIndex(columns[3], headers));
+        }else if(arrayInfo.getColorInfo() == ArrayColorInfo.G){
+            array.setGHeaderIndex(getInputInfoIndex(columns[0], headers));
+            array.setGb(getInputInfoIndex(columns[1], headers));            
+        }else{
+            array.setR(getInputInfoIndex(columns[2], headers));
+            array.setRb(getInputInfoIndex(columns[3], headers));
         }
         setArraysAnnotations(array, headers);
         return array;

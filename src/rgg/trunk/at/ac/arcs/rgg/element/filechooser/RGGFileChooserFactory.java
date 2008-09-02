@@ -15,6 +15,10 @@ import at.ac.arcs.rgg.RGG;
 import at.ac.arcs.rgg.element.RElement;
 import at.ac.arcs.rgg.factories.RElementFactory;
 import at.ac.arcs.rgg.layout.LayoutInfo;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.Bindings;
+import org.jdesktop.beansbinding.ELProperty;
 import org.w3c.dom.Element;
 
 /**
@@ -42,6 +46,7 @@ public class RGGFileChooserFactory  extends RElementFactory{
         String description = element.getAttribute(RGG.getConfiguration().getString("DESCRIPTION"));
         String fileselectionmode = element.getAttribute(RGG.getConfiguration().getString("FILESELECTION-MODE"));
         String multiselectionenabled = element.getAttribute(RGG.getConfiguration().getString("MULTISELECTION-ENABLED"));
+        String enabled = element.getAttribute(RGG.getConfiguration().getString("ENABLED"));
         /***********************************************************************************************/
         
         if(StringUtils.isNotBlank(var)){
@@ -89,6 +94,21 @@ public class RGGFileChooserFactory  extends RElementFactory{
             }else if(StringUtils.equalsIgnoreCase(multiselectionenabled,"F")
             ||StringUtils.equalsIgnoreCase(multiselectionenabled,"FALSE")){
                 vfilechooser.setMultiSelectionEnabled(false);
+            }
+        }
+        
+        if (StringUtils.isNotBlank(enabled)) {
+            if (util.match("/(\\w+)\\./", enabled)) {
+                String id = util.group(1);
+                enabled = util.substitute("s/" + id + "\\.//g", enabled);
+                AutoBinding<Object, Object, Object, Object> binding =
+                        Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ, // one-way binding
+                        rggInstance.getObject(id), // source of value
+                        ELProperty.create(enabled), // the property to get
+                        vfilechooser, // the "backing bean"
+                        BeanProperty.create("enabled") // property to set
+                        );
+                binding.bind();
             }
         }
         
