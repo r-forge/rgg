@@ -42,5 +42,10 @@ public class RH2 extends RElement{
     public JComponent[][] getSwingComponentMatrix() {
         return vh.getSwingComponents();
     }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }

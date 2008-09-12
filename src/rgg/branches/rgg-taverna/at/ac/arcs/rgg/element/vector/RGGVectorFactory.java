@@ -70,7 +70,9 @@ public class RGGVectorFactory extends RElementFactory{
             if(StringUtils.equalsIgnoreCase(RGG.getConfiguration().getString("VERTICAL"),alignment))
                 vvector.setVertical(true);
         }
-        
+        if (element.hasChildNodes()) { //it can only be <iport>
+            setInputPorts(rvector, element);
+        }
         return rvector;
     }
     

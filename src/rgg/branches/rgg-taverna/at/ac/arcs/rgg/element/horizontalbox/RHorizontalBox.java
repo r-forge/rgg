@@ -161,4 +161,9 @@ public class RHorizontalBox extends RElement {
         }
         private JComponent swingComponents[][];
     }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

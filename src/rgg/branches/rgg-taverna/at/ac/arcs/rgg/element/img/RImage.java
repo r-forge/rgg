@@ -44,5 +44,10 @@ public class RImage extends RElement{
     public JComponent[][] getSwingComponentMatrix() {
         return vlabel.getSwingComponents();
     }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }

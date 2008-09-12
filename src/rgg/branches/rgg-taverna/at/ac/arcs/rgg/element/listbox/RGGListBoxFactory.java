@@ -75,7 +75,12 @@ public class RGGListBoxFactory extends RElementFactory{
                 throw new NumberFormatException(RGG.getConfiguration().getString("VISIBLE-ROW-COUNT")
                 +" seems not to be a number: "+
                         visiblerowcount);
-        }        
+        }
+        
+        if (element.hasChildNodes()) { //it can only be <iport>
+            setInputPorts(rListBox, element);
+        }
+        
         return rListBox;
     }
     

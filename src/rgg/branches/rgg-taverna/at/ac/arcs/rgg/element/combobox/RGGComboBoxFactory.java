@@ -123,6 +123,10 @@ public class RGGComboBoxFactory extends RElementFactory {
             }
         }
 
+        if (element.hasChildNodes()) { //it can only be <iport>
+            setInputPorts(rComboBox, element);
+        }
+        
         return rComboBox;
     }
 }

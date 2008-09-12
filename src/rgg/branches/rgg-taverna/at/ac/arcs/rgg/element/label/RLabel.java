@@ -8,6 +8,7 @@ package at.ac.arcs.rgg.element.label;
 import javax.swing.JComponent;
 import at.ac.arcs.rgg.component.VisualComponent;
 import at.ac.arcs.rgg.element.RElement;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,6 +16,8 @@ import at.ac.arcs.rgg.element.RElement;
  */
 public class RLabel extends RElement {
 
+    private static final String bindingpoint = "text";
+    
     private VisualComponent[][] visualcomponents;
     private VLabel vlabel;
 
@@ -42,5 +45,21 @@ public class RLabel extends RElement {
 
     public JComponent[][] getSwingComponentMatrix() {
         return vlabel.getSwingComponents();
+    }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        if(bindTo.equalsIgnoreCase(bindingpoint)){
+            InputPort iport = new InputPort(portName, bindingpoint) {
+
+                @Override
+                public void setValue(Object obj) throws IllegalArgumentException, PortValueSetOperationException {
+                    vlabel.setText(obj.toString());
+                }
+            };
+            
+            inputPorts = new ArrayList<InputPort>();
+            inputPorts.add(iport);
+        }
     }
 }

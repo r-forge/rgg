@@ -13,12 +13,15 @@ import javax.swing.JComponent;
 import org.apache.commons.lang.StringUtils;
 import at.ac.arcs.rgg.component.VisualComponent;
 import at.ac.arcs.rgg.element.RElement;
+import java.util.ArrayList;
 
 /**
  *
  * @author ilhami
  */
 public class RListBox extends RElement{
+    private static final String BINDINGPOINT="items";
+    
     private String var;
     private String label;
     private boolean numeric = false;
@@ -104,5 +107,25 @@ public class RListBox extends RElement{
     
     public JComponent[][] getSwingComponentMatrix() {
         return vList.getSwingComponents();
+    }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        if (bindTo.equalsIgnoreCase(BINDINGPOINT)) {
+            InputPort iport = new InputPort(portName, BINDINGPOINT) {
+
+                @Override
+                public void setValue(Object obj) throws IllegalArgumentException, PortValueSetOperationException {
+                    if (obj instanceof Object[]) {
+                        vList.setListData((Object[])obj);
+                    } else {
+                        vList.setListData(new Object[]{obj});
+                    }
+                }
+            };
+            
+            inputPorts = new ArrayList<InputPort>();
+            inputPorts.add(iport);
+        }
     }
 }

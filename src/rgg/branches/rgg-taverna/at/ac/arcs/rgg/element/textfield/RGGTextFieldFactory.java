@@ -51,16 +51,16 @@ public class RGGTextFieldFactory extends RElementFactory {
         }
 
         vtextfield.setLabelText(rtextfield.getLabel());
-        
-        if(StringUtils.isNotBlank(colspan)){
-            if(StringUtils.isNumeric(colspan)){
+
+        if (StringUtils.isNotBlank(colspan)) {
+            if (StringUtils.isNumeric(colspan)) {
                 vtextfield.setColumnSpan(Integer.parseInt(colspan));
-            }else if(StringUtils.equals(colspan, RGG.getConfiguration().getString("FULL-SPAN")))
+            } else if (StringUtils.equals(colspan, RGG.getConfiguration().getString("FULL-SPAN"))) {
                 vtextfield.setColumnSpan(LayoutInfo.FULL_SPAN);
-            else
-                throw new NumberFormatException(RGG.getConfiguration().getString("COLUMN-SPAN")
-                        +" seems not to be a number: "+
-                        colspan +"nor a known keyword!");
+            } else {
+                throw new NumberFormatException(RGG.getConfiguration().getString("COLUMN-SPAN") + " seems not to be a number: " +
+                        colspan + "nor a known keyword!");
+            }
         }
 
         if (StringUtils.isNotBlank(defaultvalue)) {
@@ -93,7 +93,9 @@ public class RGGTextFieldFactory extends RElementFactory {
         }
 
         rtextfield.setTextfield(vtextfield);
-
+        if (element.hasChildNodes()) { //it can only be <iport>
+            setInputPorts(rtextfield, element);
+        }
         return rtextfield;
     }
 }

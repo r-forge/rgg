@@ -26,6 +26,7 @@ import com.jgoodies.forms.util.DefaultUnitConverter;
 import com.jgoodies.forms.util.UnitConverter;
 import java.awt.Dimension;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
@@ -107,18 +108,76 @@ public class MAImporterPanel extends javax.swing.JPanel implements PropertyChang
         return mamodel.getArrayInfos().get(0).getArraySource();
     }
 
-    public ArrayChannelInfo getArrayChannelInfo(){
+    public ArrayChannelInfo getArrayChannelInfo() {
         return mamodel.getArrayInfos().get(0).getChannelInfo();
     }
-    
-    public ArrayColorInfo getArrayColorInfo(){
+
+    public ArrayColorInfo getArrayColorInfo() {
         return mamodel.getArrayInfos().get(0).getColorInfo();
     }
-    
+
     public MAImporterModel getMAModel() {
         return mamodel;
     }
 
+    public void loadTargetFile(File targetFile) {
+        try {
+            String oldArraySource = "";
+            if (mamodel != null) {
+                oldArraySource = getArraySource();
+            }
+            mamodel = createModelFromTargetFile(targetFile);
+
+            if (!oldArraySource.equals(getArraySource())) {
+                firePropertyChange("arraysource", oldArraySource, getArraySource());
+            }
+
+            mamodel.addPropertyChangeListener(this);
+            setPanels();
+        } catch (ArrayDetectionException ex) {
+            Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
+                    ex.getMessage(), "Array Detection Error", JOptionPane.ERROR_MESSAGE);
+        } catch (TargetFileException ex) {
+            Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
+                    ex.getMessage(), "Target File Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ex) {
+            Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
+                    ex.getMessage(), "I/O Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void loadMicroArrayFiles(File[] microArrayFiles){
+        try {
+                String oldArraySource = "";
+                if (mamodel != null) {
+                    oldArraySource = getArraySource();
+                }
+                mamodel = createModelFromArrays(microArrayFiles);
+
+                if (!oldArraySource.equals(getArraySource())) {
+                    firePropertyChange("arraysource", oldArraySource, getArraySource());
+                }
+
+                mamodel.addPropertyChangeListener(this);
+                setPanels();
+            } catch (ArrayDetectionException ex) {
+                Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
+                        ex.getMessage(), "Array Detection Error", JOptionPane.ERROR_MESSAGE);
+            } catch (TargetFileException ex) {
+                Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
+                        ex.getMessage(), "Target File Error", JOptionPane.ERROR_MESSAGE);
+            } catch (IOException ex) {
+                Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
+                        ex.getMessage(), "I/O Error", JOptionPane.ERROR_MESSAGE);
+            }
+    }
+    
     private void initComponents() {
         loadTargetFileXHyperlink = new org.jdesktop.swingx.JXHyperlink();
         chooseMicroArraysXHyperlink = new org.jdesktop.swingx.JXHyperlink();
@@ -210,7 +269,7 @@ public class MAImporterPanel extends javax.swing.JPanel implements PropertyChang
 
             tabbedPane.setEnabledAt(1, false);
             tabbedPane.setEnabledAt(3, false);
-            
+
             tabbedPane.setSelectedIndex(2);
         } else {
             arrayheaderrowselectionpanel.setModel(mamodel.getArrayHeaderRowTableModel());
@@ -218,13 +277,13 @@ public class MAImporterPanel extends javax.swing.JPanel implements PropertyChang
             targetFilePanel.setModel(mamodel.getTargetFileModel());
             rgListPanel.setModel(mamodel.getRGListTableModel());
             tabbedPane.setComponentAt(3, rgListPanel);
-            
+
             if (mamodel.getArrayInfos().get(0).isGenericType()) {
                 tabbedPane.setEnabledAt(1, true);
             }
             tabbedPane.setEnabledAt(2, true);
             tabbedPane.setEnabledAt(3, true);
-            
+
             tabbedPane.setSelectedIndex(3);
         }
     }
@@ -232,93 +291,25 @@ public class MAImporterPanel extends javax.swing.JPanel implements PropertyChang
     private void loadTargetFileXHyperlinkActionPerformed(java.awt.event.ActionEvent evt) {
         int status = targetFileChooser.showOpenDialog(loadTargetFileXHyperlink);
         if (status == JFileChooser.APPROVE_OPTION) {
-            try {
-                String oldArraySource = "";
-                if (mamodel != null) {
-                    oldArraySource = getArraySource();
-                }
-                mamodel = createMAModel(1);
-
-//                if(mamodel.getArrayInfos().get(0).getChannelInfo() == ArrayChannelInfo.ONECHANNEL){
-//                    JOptionPane.showMessageDialog(this, "One-Color Non-Affymetrix Experiments are not yet supported!");
-//                    return;
-//                }
-                
-                if (!oldArraySource.equals(getArraySource())) {
-                    firePropertyChange("arraysource", oldArraySource, getArraySource());
-                }
-
-                mamodel.addPropertyChangeListener(this);
-                setPanels();
-            } catch (ArrayDetectionException ex) {
-                Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
-                        ex.getMessage(), "Array Detection Error", JOptionPane.ERROR_MESSAGE);
-            } catch (TargetFileException ex) {
-                Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
-                        ex.getMessage(), "Target File Error", JOptionPane.ERROR_MESSAGE);
-            } catch (IOException ex) {
-                Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
-                        ex.getMessage(), "I/O Error", JOptionPane.ERROR_MESSAGE);
-            }
+            loadTargetFile(targetFileChooser.getSelectedFile());
         }
     }
 
     private void chooseMicroArraysXHyperlinkActionPerformed(java.awt.event.ActionEvent evt) {
         int status = arraysFileChooser.showOpenDialog(chooseMicroArraysXHyperlink);
         if (status == JFileChooser.APPROVE_OPTION) {
-            try {
-                String oldArraySource = "";
-                if (mamodel != null) {
-                    oldArraySource = getArraySource();
-                }
-                mamodel = createMAModel(2);
-
-//                if(mamodel.getArrayInfos().get(0).getChannelInfo() == ArrayChannelInfo.ONECHANNEL){
-//                    JOptionPane.showMessageDialog(this, "One-Color Non-Affymetrix Experiments are not yet supported!");
-//                    return;
-//                }
-                
-                if (!oldArraySource.equals(getArraySource())) {
-                    firePropertyChange("arraysource", oldArraySource, getArraySource());
-                }
-
-                mamodel.addPropertyChangeListener(this);
-                setPanels();
-            } catch (ArrayDetectionException ex) {
-                Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
-                        ex.getMessage(), "Array Detection Error", JOptionPane.ERROR_MESSAGE);
-            } catch (TargetFileException ex) {
-                Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
-                        ex.getMessage(), "Target File Error", JOptionPane.ERROR_MESSAGE);
-            } catch (IOException ex) {
-                Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
-                        ex.getMessage(), "I/O Error", JOptionPane.ERROR_MESSAGE);
-            }
+            loadMicroArrayFiles(arraysFileChooser.getSelectedFiles());
         }
     }
 
-    private MAImporterModel createMAModel(final int mod)
+    private MAImporterModel createModelFromTargetFile(final java.io.File targetFile)
             throws TargetFileException, ArrayDetectionException, IOException {
-        final BusyDialog busy = new BusyDialog(null, true,
-                "Recognizing arrays...", BusyDialog.ACTION.CANCEL);
+
         SwingWorker<MAImporterModel, Object> worker = new SwingWorker<MAImporterModel, Object>() {
 
             @Override
             protected MAImporterModel doInBackground() throws Exception {
-                switch (mod) {
-                    case 1:
-                        return MAImporterModel.createModelFromTargetFile(targetFileChooser.getSelectedFile(), othercolumns);
-                    case 2:
-                        return MAImporterModel.createModelFromArrays(arraysFileChooser.getSelectedFiles(), othercolumns);
-                    default:
-                        return null;
-                }
+                return MAImporterModel.createModelFromTargetFile(targetFile, othercolumns);
             }
 
             @Override
@@ -335,6 +326,38 @@ public class MAImporterPanel extends javax.swing.JPanel implements PropertyChang
             }
         };
 
+        return executeMAModelCreatorWorker(worker);
+    }
+
+    private MAImporterModel createModelFromArrays(final java.io.File[] microarrayfiles)
+            throws TargetFileException, ArrayDetectionException, IOException {
+
+        SwingWorker<MAImporterModel, Object> worker = new SwingWorker<MAImporterModel, Object>() {
+
+            @Override
+            protected MAImporterModel doInBackground() throws Exception {
+                return MAImporterModel.createModelFromArrays(microarrayfiles, othercolumns);
+            }
+
+            @Override
+            protected void done() {
+                super.done();
+                busy.setVisible(false);
+                try {
+                    firePropertyChange(MAImporterModel.PROP_TargetFile, null, get().getTargetFile());
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ExecutionException ex) {
+                    Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        };
+
+        return executeMAModelCreatorWorker(worker);
+    }
+
+    private MAImporterModel executeMAModelCreatorWorker(SwingWorker<MAImporterModel, Object> worker)
+            throws TargetFileException, ArrayDetectionException, IOException {
         worker.execute();
         busy.setVisible(true);
         if (busy.getActionClicked() == BusyDialog.ACTION.CANCEL) {
@@ -393,6 +416,7 @@ public class MAImporterPanel extends javax.swing.JPanel implements PropertyChang
 
         targetFilePanel.setPrefferedHeight(height);
     }
+    private BusyDialog busy = new BusyDialog(null, true, "Recognizing arrays...", BusyDialog.ACTION.CANCEL);
     private ArrayHeaderRowSelectionPanel arrayheaderrowselectionpanel = new ArrayHeaderRowSelectionPanel();
     private TargetFilePanel targetFilePanel = new TargetFilePanel();
     private RGListSettingsPanel rgListPanel;

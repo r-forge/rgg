@@ -1,19 +1,28 @@
 <rgg> 
     <h3 text="Agilent Single Channel Expression Microarray QC Report" aligment="center" span="full"/>
-    <separator label="Install packages (only if not yet installed)" span="full"/>
-	<group>
-	<hbox>
-	if(<checkbox label="limma"/>){
-		install.packages("limma",repos="http://cran.at.r-project.org")
-	}
-	if(<checkbox label="pamr"/>){
-		install.packages("pamr",repos="http://cran.at.r-project.org")
-	}
-	</hbox>
-	</group>
-	
 	<separator label="Working Directory (Input-Output)" span="full"/>
     setwd(<filechooser fileselection-mode="directories-only"/>)
+		
+	isPamrInstalled = FALSE
+	isLimmaInstalled = FALSE
+
+	pkgs = installed.packages()
+	for(i in 1:nrow(pkgs)){
+		if(pkgs[i] == "pamr")
+			isPamrInstalled = TRUE
+		if(pkgs[i] == "limma")
+			isLimmaInstalled = TRUE
+	}
+
+	if(!isPamrInstalled){
+		source("http://bioconductor.org/biocLite.R")
+		biocLite("pamr")
+	}
+
+	if(!isLimmaInstalled){
+		source("http://bioconductor.org/biocLite.R")
+		biocLite("limma")
+	}	
 		
     require(limma)
     require(pamr)

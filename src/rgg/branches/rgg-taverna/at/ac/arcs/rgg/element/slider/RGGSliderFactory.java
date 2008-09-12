@@ -161,7 +161,9 @@ public class RGGSliderFactory extends RElementFactory{
         }
         
         rslider.setTextfield(vslider);
-        
+        if (element.hasChildNodes()) { //it can only be <iport>
+            setInputPorts(rslider, element);
+        }
         return rslider;
     }
 }

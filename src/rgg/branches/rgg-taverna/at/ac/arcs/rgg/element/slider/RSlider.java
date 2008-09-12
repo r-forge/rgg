@@ -58,5 +58,10 @@ public class RSlider extends RElement{
     public JComponent[][] getSwingComponentMatrix() {
         return vslider.getSwingComponents();
     }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }

@@ -7,6 +7,7 @@ import at.ac.arcs.rgg.layout.LayoutInfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  *
@@ -16,6 +17,7 @@ public class RGGMAImporterFactory extends RElementFactory {
 
     private static Log log = LogFactory.getLog(RGGMAImporterFactory.class);
 
+    @Override
     public RMAImporter createRGGElement(Element element, RGG rggInstance) {
         if (element.getNodeType() != Element.ELEMENT_NODE) {
             throw new IllegalArgumentException("elements node type must be ELEMENT_NODE");
@@ -53,8 +55,12 @@ public class RGGMAImporterFactory extends RElementFactory {
         if (StringUtils.isNotBlank(id)) {
             rggInstance.addObject(id, vMAImporter);
         }
-        
+
         rMAImporter.setVMAImporter(vMAImporter);
+        
+        if (element.hasChildNodes()) { //it can only be <iport>
+            setInputPorts(rMAImporter, element);
+        }
         return rMAImporter;
     }
 }

@@ -10,6 +10,7 @@ import at.ac.arcs.rgg.component.VisualComponent;
 public abstract class RElement {
 
     protected ArrayList<RElement> childElements;
+    protected ArrayList<InputPort> inputPorts;
     protected PropertyChangeSupport changeSupport;
 
     public RElement() {
@@ -26,6 +27,12 @@ public abstract class RElement {
     public abstract JComponent[][] getSwingComponentMatrix();
 
     public abstract boolean isChildAddable();
+    
+    public  ArrayList<InputPort> getInputPorts(){
+        return inputPorts;
+    }
+    
+    public abstract void addInputPort(String portName,String bindTo);
 
     public void addChild(RElement elem) {
         if (!isChildAddable()) {
@@ -63,6 +70,41 @@ public abstract class RElement {
         } else {
             changeSupport.removePropertyChangeListener(listener);
             return;
+        }
+    }
+    
+    public abstract class InputPort{
+        private String portName;
+        private String bindTo;
+
+        public InputPort(String portName,String bindTo){
+            this.portName=portName;
+            this.bindTo=bindTo;
+        }
+        
+        public String getBindTo() {
+            return bindTo;
+        }
+
+        public void setBindTo(String bindTo) {
+            this.bindTo = bindTo;
+        }
+
+        public String getPortName() {
+            return portName;
+        }
+
+        public void setPortName(String portName) {
+            this.portName = portName;
+        }
+        
+        public abstract void setValue(Object obj)
+                throws IllegalArgumentException, PortValueSetOperationException;
+    }
+    
+    public class PortValueSetOperationException extends Exception{
+        public PortValueSetOperationException(String msg){
+            super(msg);
         }
     }
 }

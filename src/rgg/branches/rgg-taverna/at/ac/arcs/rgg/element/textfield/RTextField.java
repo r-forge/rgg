@@ -12,6 +12,7 @@ import javax.swing.JComponent;
 import org.apache.commons.lang.StringUtils;
 import at.ac.arcs.rgg.element.RElement;
 import at.ac.arcs.rgg.component.VisualComponent;
+import java.util.ArrayList;
 
 /**
  *
@@ -19,6 +20,7 @@ import at.ac.arcs.rgg.component.VisualComponent;
  */
 public class RTextField extends RElement {
 
+    private static final String BINDINGPOINT = "text";
     private String label;
     private String var;
     private VTextField textfield;
@@ -88,5 +90,21 @@ public class RTextField extends RElement {
 
     public JComponent[][] getSwingComponentMatrix() {
         return textfield.getSwingComponents();
+    }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        if (bindTo.equalsIgnoreCase(BINDINGPOINT)) {
+            InputPort iport = new InputPort(portName, BINDINGPOINT) {
+
+                @Override
+                public void setValue(Object obj) throws IllegalArgumentException, PortValueSetOperationException {                    
+                        textfield.setDefaultvalue(obj.toString());
+                }
+            };
+            
+            inputPorts = new ArrayList<InputPort>();
+            inputPorts.add(iport);
+        }
     }
 }

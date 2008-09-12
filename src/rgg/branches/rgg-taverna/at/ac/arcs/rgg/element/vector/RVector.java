@@ -88,4 +88,9 @@ public class RVector extends RElement{
     public JComponent[][] getSwingComponentMatrix() {
         return vvector.getSwingComponents();
     }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

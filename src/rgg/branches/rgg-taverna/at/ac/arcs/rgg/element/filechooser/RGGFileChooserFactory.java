@@ -6,7 +6,6 @@
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
  */
-
 package at.ac.arcs.rgg.element.filechooser;
 
 import javax.swing.JFileChooser;
@@ -25,19 +24,20 @@ import org.w3c.dom.Element;
  *
  * @author ilhami
  */
-public class RGGFileChooserFactory  extends RElementFactory{
-    
+public class RGGFileChooserFactory extends RElementFactory {
+
     /** Creates a new instance of RGGFileChooserFactory */
     public RGGFileChooserFactory() {
     }
-    
-    public RElement createRGGElement(Element element,RGG rggInstance) {
-        if(element.getNodeType() != Element.ELEMENT_NODE)
+
+    public RElement createRGGElement(Element element, RGG rggInstance) {
+        if (element.getNodeType() != Element.ELEMENT_NODE) {
             throw new IllegalArgumentException("elements node type must be ELEMENT_NODE");
+        }
         RFileChooser rfilechooser = new RFileChooser();
         VFileChooser vfilechooser = new VFileChooser(rggInstance);
         rfilechooser.setVFileChooser(vfilechooser);
-        
+
         /****************** initialize and set attributes values **************************************/
         String var = element.getAttribute(RGG.getConfiguration().getString("VAR"));
         String label = element.getAttribute(RGG.getConfiguration().getString("LABEL"));
@@ -48,26 +48,25 @@ public class RGGFileChooserFactory  extends RElementFactory{
         String multiselectionenabled = element.getAttribute(RGG.getConfiguration().getString("MULTISELECTION-ENABLED"));
         String enabled = element.getAttribute(RGG.getConfiguration().getString("ENABLED"));
         /***********************************************************************************************/
-        
-        if(StringUtils.isNotBlank(var)){
+        if (StringUtils.isNotBlank(var)) {
             rfilechooser.setVariable(var);
         }
-        
-        if(StringUtils.isNotBlank(label)){
+
+        if (StringUtils.isNotBlank(label)) {
             vfilechooser.setLabel(label);
         }
-        
-        if(StringUtils.isNotBlank(acceptedextensions)){
-            if(!StringUtils.equals(acceptedextensions,"*")){
-                rfilechooser.setExtensions(StringUtils.split(acceptedextensions,','));
-                if(StringUtils.isNotBlank(description)){
+
+        if (StringUtils.isNotBlank(acceptedextensions)) {
+            if (!StringUtils.equals(acceptedextensions, "*")) {
+                rfilechooser.setExtensions(StringUtils.split(acceptedextensions, ','));
+                if (StringUtils.isNotBlank(description)) {
                     rfilechooser.setDescription(description);
                 }
-                vfilechooser.setExtensionFilter(rfilechooser.getDescription(),rfilechooser.getExtensions());
+                vfilechooser.setExtensionFilter(rfilechooser.getDescription(), rfilechooser.getExtensions());
             }
         }
-        
-        if(StringUtils.isNotBlank(colspan)&&StringUtils.isNumeric(colspan)){
+
+        if (StringUtils.isNotBlank(colspan) && StringUtils.isNumeric(colspan)) {
             if (StringUtils.isNumeric(colspan)) {
                 vfilechooser.setColumnSpan(Integer.parseInt(colspan));
             } else if (StringUtils.equals(colspan, RGG.getConfiguration().getString("FULL-SPAN"))) {
@@ -77,26 +76,25 @@ public class RGGFileChooserFactory  extends RElementFactory{
                         + " seems not to be a number: " + colspan + "nor a known keyword!");
             }
         }
-        
-        if(StringUtils.isNotBlank(fileselectionmode)){
-            if(StringUtils.equalsIgnoreCase(fileselectionmode,RGG.getConfiguration().getString("FILES-ONLY")))
+
+        if (StringUtils.isNotBlank(fileselectionmode)) {
+            if (StringUtils.equalsIgnoreCase(fileselectionmode, RGG.getConfiguration().getString("FILES-ONLY"))) {
                 vfilechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            else if(StringUtils.equalsIgnoreCase(fileselectionmode,RGG.getConfiguration().getString("DIRECTORIES-ONLY")))
+            } else if (StringUtils.equalsIgnoreCase(fileselectionmode, RGG.getConfiguration().getString("DIRECTORIES-ONLY"))) {
                 vfilechooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            else if(StringUtils.equalsIgnoreCase(fileselectionmode,RGG.getConfiguration().getString("FILES-AND-DIRECTORIES")))
+            } else if (StringUtils.equalsIgnoreCase(fileselectionmode, RGG.getConfiguration().getString("FILES-AND-DIRECTORIES"))) {
                 vfilechooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            }
         }
-        
-        if(StringUtils.isNotBlank(multiselectionenabled)){
-            if(StringUtils.equalsIgnoreCase(multiselectionenabled,"T")
-            ||StringUtils.equalsIgnoreCase(multiselectionenabled,"TRUE")){
+
+        if (StringUtils.isNotBlank(multiselectionenabled)) {
+            if (StringUtils.equalsIgnoreCase(multiselectionenabled, "T") || StringUtils.equalsIgnoreCase(multiselectionenabled, "TRUE")) {
                 vfilechooser.setMultiSelectionEnabled(true);
-            }else if(StringUtils.equalsIgnoreCase(multiselectionenabled,"F")
-            ||StringUtils.equalsIgnoreCase(multiselectionenabled,"FALSE")){
+            } else if (StringUtils.equalsIgnoreCase(multiselectionenabled, "F") || StringUtils.equalsIgnoreCase(multiselectionenabled, "FALSE")) {
                 vfilechooser.setMultiSelectionEnabled(false);
             }
         }
-        
+
         if (StringUtils.isNotBlank(enabled)) {
             if (util.match("/(\\w+)\\./", enabled)) {
                 String id = util.group(1);
@@ -111,8 +109,9 @@ public class RGGFileChooserFactory  extends RElementFactory{
                 binding.bind();
             }
         }
-        
+        if (element.hasChildNodes()) { //it can only be <iport>
+            setInputPorts(rfilechooser, element);
+        }
         return rfilechooser;
     }
-    
 }

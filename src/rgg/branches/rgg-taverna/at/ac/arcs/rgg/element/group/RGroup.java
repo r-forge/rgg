@@ -50,4 +50,9 @@ public class RGroup extends RElement{
     public JComponent[][] getSwingComponentMatrix() {
        return vgroup.getSwingComponents();
     }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

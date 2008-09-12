@@ -69,6 +69,10 @@ public class VFileChooser extends VisualComponent {
 
     }
 
+    public JFileChooser getFileChooser(){
+        return filechooser;
+    }
+    
     public boolean isVisualComponent() {
         return true;
     }
@@ -121,6 +125,10 @@ public class VFileChooser extends VisualComponent {
         filechooser.setFileSelectionMode(mode);
     }
 
+    public int getFileSelectionMode(){
+        return filechooser.getFileSelectionMode();
+    }
+    
     public void setMultiSelectionEnabled(boolean b) {
         filechooser.setMultiSelectionEnabled(b);
     }
