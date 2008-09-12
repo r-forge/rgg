@@ -12,6 +12,7 @@ import javax.swing.JComponent;
 import org.apache.commons.lang.StringUtils;
 import at.ac.arcs.rgg.component.VisualComponent;
 import at.ac.arcs.rgg.element.RElement;
+import java.util.ArrayList;
 
 /**
  *
@@ -19,6 +20,7 @@ import at.ac.arcs.rgg.element.RElement;
  */
 public class RCheckBox extends RElement {
 
+    private static final String bindingpoint = "selected";
     private String var;
     private String label;
     private String returnValueBySelected = "TRUE";
@@ -105,5 +107,25 @@ public class RCheckBox extends RElement {
 
     public void setReturnValueByNotSelected(String returnValuebyNotSelected) {
         this.returnValueByNotSelected = returnValuebyNotSelected;
+    }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        if (bindTo.equalsIgnoreCase(bindingpoint)) {
+            InputPort iport = new InputPort(portName, bindingpoint) {
+
+                @Override
+                public void setValue(Object obj) throws IllegalArgumentException, PortValueSetOperationException {
+                    if (obj instanceof Boolean) {
+                        vcheckbox.setSelected((Boolean) obj);
+                    } else {
+                        throw new IllegalArgumentException("Unexpected object type found: " + obj.getClass());
+                    }
+                }
+            };
+            
+            inputPorts = new ArrayList<InputPort>();
+            inputPorts.add(iport);
+        }
     }
 }

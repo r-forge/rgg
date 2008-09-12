@@ -4,12 +4,15 @@ import javax.swing.JComponent;
 import org.apache.commons.lang.StringUtils;
 import at.ac.arcs.rgg.component.VisualComponent;
 import at.ac.arcs.rgg.element.RElement;
+import java.util.ArrayList;
 
 /**
  *
  * @author ilhami
  */
 public class RComboBox extends RElement{
+    private static final String bindingpoint = "items";
+    
     private String var;
     private String label;
     private int selectedIndex;
@@ -126,5 +129,25 @@ public class RComboBox extends RElement{
 
     public JComponent[][] getSwingComponentMatrix() {
         return vComboBox.getSwingComponents();
+    }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        if(bindTo.equalsIgnoreCase("items")){
+            InputPort iport = new InputPort(portName, bindingpoint) {
+
+                @Override
+                public void setValue(Object obj) throws IllegalArgumentException, PortValueSetOperationException {
+                    if(obj instanceof  Object[]) {
+                        vComboBox.setItems((Object[])obj);
+                    } else {
+                        throw new IllegalArgumentException("Unexpected object type found: " + obj.getClass());
+                    }
+                }
+            };
+            
+            inputPorts = new ArrayList<InputPort>();
+            inputPorts.add(iport);
+        }
     }
 }

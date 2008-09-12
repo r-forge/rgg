@@ -11,7 +11,6 @@ package at.ac.arcs.rgg.element.verticalbox;
 
 import java.util.ArrayList;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import at.ac.arcs.rgg.component.EmptyPlaceHolder;
 import at.ac.arcs.rgg.component.VisualComponent;
 import at.ac.arcs.rgg.element.RElement;
@@ -161,5 +160,10 @@ public class RVerticalBox extends RElement{
 
     public JComponent[][] getSwingComponentMatrix() {
         return vvbox.getSwingComponents();
+    }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

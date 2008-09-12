@@ -47,4 +47,9 @@ public class RRCode extends RElement{
     {
         return new JComponent[0][];
     }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

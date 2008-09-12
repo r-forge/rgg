@@ -39,6 +39,9 @@ public class RGGTargetFileEditorFactory extends RElementFactory{
                         colspan +"nor a known keyword!");
         }
         rTargetFileEditor.setVTargetFileEditor(vTargetFileEditor);
+        if (element.hasChildNodes()) { //it can only be <iport>
+            setInputPorts(rTargetFileEditor, element);
+        }
         return rTargetFileEditor;
     }
 }

@@ -11,6 +11,7 @@ import at.ac.arcs.rgg.component.VisualComponent;
  */
 public class RMatrix extends RElement {
 
+    private static final String BINDINGPOINT = "matrix";
     private String var;
     private VMatrix vMatrix;
     private VisualComponent[][] visualcomponents;
@@ -21,7 +22,7 @@ public class RMatrix extends RElement {
     public String getRCode() {
         StringBuffer sbuf = new StringBuffer();
         if (StringUtils.isNotBlank(var)) {
-            sbuf.append(var+"=");
+            sbuf.append(var + "=");
         }
         if (vMatrix.getColumnCount() == 0) {
             return sbuf.toString();
@@ -29,7 +30,7 @@ public class RMatrix extends RElement {
 
         Object[] values;
         sbuf.append("matrix(c(");
-        for (int i = 0; i < vMatrix.getColumnCount(); i++) {            
+        for (int i = 0; i < vMatrix.getColumnCount(); i++) {
             values = vMatrix.getValuesAtColumn(i);
 
             if (isNumeric(values)) {
@@ -45,7 +46,7 @@ public class RMatrix extends RElement {
             }
         }
         sbuf.deleteCharAt(sbuf.length() - 1);
-        sbuf.append("), ncol="+vMatrix.getColumnCount()+")");
+        sbuf.append("), ncol=" + vMatrix.getColumnCount() + ")");
 
         return sbuf.toString();
     }
@@ -88,5 +89,10 @@ public class RMatrix extends RElement {
             }
         }
         return true;
+    }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -79,7 +79,11 @@ public class RGGLabelFactory extends RElementFactory{
             }
         }
         
-        return new RLabel(vlabel);
+        RLabel rLabel = new RLabel(vlabel);
+        if (element.hasChildNodes()) { //it can only be <iport>
+            setInputPorts(rLabel, element);
+        }
+        return rLabel;
     }
     
 }

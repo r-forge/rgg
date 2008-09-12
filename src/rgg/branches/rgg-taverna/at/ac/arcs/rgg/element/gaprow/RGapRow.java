@@ -43,5 +43,10 @@ public class RGapRow extends RElement{
 
     public JComponent[][] getSwingComponentMatrix() {
         return vgaprow.getSwingComponents();
-    }    
+    }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

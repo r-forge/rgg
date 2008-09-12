@@ -92,4 +92,9 @@ public class RTargetFileEditor extends RElement {
         }
         return true;
     }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

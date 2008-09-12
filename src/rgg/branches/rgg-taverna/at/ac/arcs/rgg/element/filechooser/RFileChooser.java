@@ -6,7 +6,6 @@
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
  */
-
 package at.ac.arcs.rgg.element.filechooser;
 
 import java.io.File;
@@ -14,21 +13,26 @@ import javax.swing.JComponent;
 import org.apache.commons.lang.StringUtils;
 import at.ac.arcs.rgg.component.VisualComponent;
 import at.ac.arcs.rgg.element.RElement;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import javax.swing.JFileChooser;
 
 /**
  *
  * @author ilhami
  */
-public class RFileChooser extends RElement{
+public class RFileChooser extends RElement {
+
+    private static final String bindingpoint = "file";
     private String var;
     private String label;
     private String description;
     private String[] extensions;
-    
     private VisualComponent[][] visualcomponents;
-    private VFileChooser filechooser;
+    private VFileChooser vFilechooser;
+
     /** Creates a new instance of RFileChooser */
-        /** Creates a new instance of RFileChooser */
+    /** Creates a new instance of RFileChooser */
     public RFileChooser() {
     }
 
@@ -37,10 +41,10 @@ public class RFileChooser extends RElement{
         if (StringUtils.isNotBlank(var)) {
             sbuf.append(var + "<-");
         }
-        if (filechooser.isFilesSelected()) {
-            if (filechooser.isMultiSelectionEnabled()) {
+        if (vFilechooser.isFilesSelected()) {
+            if (vFilechooser.isMultiSelectionEnabled()) {
                 sbuf.append("c(");
-                File[] files = filechooser.getSelectedFiles();
+                File[] files = vFilechooser.getSelectedFiles();
                 for (int i = 0; i < files.length; i++) {
                     sbuf.append("\"" + files[i].getPath() + "\"");
                     if (i != (files.length - 1)) {
@@ -49,7 +53,7 @@ public class RFileChooser extends RElement{
                 }
                 sbuf.append(")");
             } else {
-                sbuf.append("\"" + filechooser.getFilePath() + "\"");
+                sbuf.append("\"" + vFilechooser.getFilePath() + "\"");
             }
         }
         return StringUtils.replace(sbuf.toString(), "\\", "/");
@@ -61,7 +65,7 @@ public class RFileChooser extends RElement{
 
     public VisualComponent[][] getVisualComponents() {
         if (visualcomponents == null) {
-            visualcomponents = new VisualComponent[][]{{filechooser}};
+            visualcomponents = new VisualComponent[][]{{vFilechooser}};
         }
         return visualcomponents;
     }
@@ -71,11 +75,11 @@ public class RFileChooser extends RElement{
     }
 
     public VFileChooser getFileChooser() {
-        return filechooser;
+        return vFilechooser;
     }
 
     public void setFileChooser(VFileChooser filechooser) {
-        this.filechooser = filechooser;
+        this.vFilechooser = filechooser;
     }
 
     public String getLabel() {
@@ -103,11 +107,11 @@ public class RFileChooser extends RElement{
     }
 
     public VFileChooser getVFileChooser() {
-        return filechooser;
+        return vFilechooser;
     }
 
     public void setVFileChooser(VFileChooser filechooser) {
-        this.filechooser = filechooser;
+        this.vFilechooser = filechooser;
     }
 
     public String getVariable() {
@@ -119,6 +123,87 @@ public class RFileChooser extends RElement{
     }
 
     public JComponent[][] getSwingComponentMatrix() {
-        return filechooser.getSwingComponents();
+        return vFilechooser.getSwingComponents();
+    }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        if (bindTo.equalsIgnoreCase(bindingpoint)) {
+            InputPort iport = new InputPort(portName, bindingpoint) {
+
+                @Override
+                public void setValue(Object obj) throws IllegalArgumentException, PortValueSetOperationException {
+                    if (obj instanceof File) {
+                        setFile((File) obj);
+                    } else if (obj instanceof File[]) {
+                        setFiles((File[]) obj);
+                    } else if (obj instanceof String) {
+                        File file = new File(obj.toString());
+                        if (file.exists()) {
+                            setFile(file);
+                        } else {
+                            throw new IllegalArgumentException(obj.toString() + "is not found!");
+                        }
+                    } else if (obj instanceof String[]) {
+                        String[] paths = (String[]) obj;
+                        File[] files = new File[paths.length];
+                        for (int i = 0; i < paths.length; i++) {
+                            files[i] = new File(paths[i]);
+                            if (files[i].exists()) {
+                                throw new IllegalArgumentException(obj.toString() + "is not found!");
+                            }
+                        }
+                        setFiles(files);
+                    }
+                }
+
+                private void setFile(File file) {
+                    if (vFilechooser.getFileSelectionMode() == JFileChooser.FILES_ONLY) {
+                        if (file.isFile()) {
+                            vFilechooser.getFileChooser().setSelectedFile(file);
+                        } else {
+                            throw new IllegalArgumentException("Only a file accepted, not a directory");
+                        }
+                    } else if (vFilechooser.getFileSelectionMode() == JFileChooser.DIRECTORIES_ONLY) {
+                        if (file.isDirectory()) {
+                            vFilechooser.getFileChooser().setSelectedFile(file);
+                        } else {
+                            throw new IllegalArgumentException("Only a directory accepted, not a file");
+                        }
+                    } else {
+                        vFilechooser.getFileChooser().setSelectedFile(file);
+                    }
+                }
+
+                private void setFiles(File[] files) {
+                    if (vFilechooser.getFileSelectionMode() == JFileChooser.FILES_ONLY) {
+                        boolean flag = true;
+                        for (File f : files) {
+                            flag &= f.isFile();
+                        }
+                        if (flag) {
+                            vFilechooser.getFileChooser().setSelectedFiles(files);
+                        } else {
+                            throw new IllegalArgumentException("Only a file accepted, not a directory");
+                        }
+                    } else if (vFilechooser.getFileSelectionMode() == JFileChooser.DIRECTORIES_ONLY) {
+                        boolean flag = true;
+                        for (File f : files) {
+                            flag &= f.isDirectory();
+                        }
+                        if (flag) {
+                            vFilechooser.getFileChooser().setSelectedFiles(files);
+                        } else {
+                            throw new IllegalArgumentException("Only a directory accepted, not a file");
+                        }
+                    } else {
+                        vFilechooser.getFileChooser().setSelectedFiles(files);
+                    }
+                }
+            };
+
+            inputPorts = new ArrayList<InputPort>();
+            inputPorts.add(iport);
+        }
     }
 }

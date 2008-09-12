@@ -157,4 +157,9 @@ public class RRadioButton extends RElement {
     public void setVradioButton(VRadioButton vradioButton) {
         this.vradioButton = vradioButton;
     }
+
+    @Override
+    public void addInputPort(String portName, String bindTo) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

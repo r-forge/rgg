@@ -51,9 +51,11 @@ public class RGGMatrixFactory extends RElementFactory{
         if (StringUtils.isNotBlank(id)) {
             rggInstance.addObject(id, vMatrix);
         }
-
-        
         rMatrix.setVMatrix(vMatrix);
+        
+        if (element.hasChildNodes()) { //it can only be <iport>
+            setInputPorts(rMatrix, element);
+        }
         return rMatrix;
     }
 }
