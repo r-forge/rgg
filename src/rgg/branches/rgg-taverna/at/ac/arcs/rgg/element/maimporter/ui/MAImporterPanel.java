@@ -120,6 +120,13 @@ public class MAImporterPanel extends javax.swing.JPanel implements PropertyChang
         return mamodel;
     }
 
+    public boolean isMAImporterModelSet() {
+        if (mamodel == null) {
+            return false;
+        }
+        return mamodel.isMAImporterModelCreated();
+    }
+
     public void loadTargetFile(File targetFile) {
         try {
             String oldArraySource = "";
@@ -149,35 +156,35 @@ public class MAImporterPanel extends javax.swing.JPanel implements PropertyChang
         }
     }
 
-    public void loadMicroArrayFiles(File[] microArrayFiles){
+    public void loadMicroArrayFiles(File[] microArrayFiles) {
         try {
-                String oldArraySource = "";
-                if (mamodel != null) {
-                    oldArraySource = getArraySource();
-                }
-                mamodel = createModelFromArrays(microArrayFiles);
-
-                if (!oldArraySource.equals(getArraySource())) {
-                    firePropertyChange("arraysource", oldArraySource, getArraySource());
-                }
-
-                mamodel.addPropertyChangeListener(this);
-                setPanels();
-            } catch (ArrayDetectionException ex) {
-                Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
-                        ex.getMessage(), "Array Detection Error", JOptionPane.ERROR_MESSAGE);
-            } catch (TargetFileException ex) {
-                Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
-                        ex.getMessage(), "Target File Error", JOptionPane.ERROR_MESSAGE);
-            } catch (IOException ex) {
-                Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
-                        ex.getMessage(), "I/O Error", JOptionPane.ERROR_MESSAGE);
+            String oldArraySource = "";
+            if (mamodel != null) {
+                oldArraySource = getArraySource();
             }
+            mamodel = createModelFromArrays(microArrayFiles);
+
+            if (!oldArraySource.equals(getArraySource())) {
+                firePropertyChange("arraysource", oldArraySource, getArraySource());
+            }
+
+            mamodel.addPropertyChangeListener(this);
+            setPanels();
+        } catch (ArrayDetectionException ex) {
+            Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
+                    ex.getMessage(), "Array Detection Error", JOptionPane.ERROR_MESSAGE);
+        } catch (TargetFileException ex) {
+            Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
+                    ex.getMessage(), "Target File Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ex) {
+            Logger.getLogger(MAImporterPanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(loadTargetFileXHyperlink,
+                    ex.getMessage(), "I/O Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
-    
+
     private void initComponents() {
         loadTargetFileXHyperlink = new org.jdesktop.swingx.JXHyperlink();
         chooseMicroArraysXHyperlink = new org.jdesktop.swingx.JXHyperlink();
@@ -384,6 +391,11 @@ public class MAImporterPanel extends javax.swing.JPanel implements PropertyChang
     }
 
     private void addTabs() {
+        if (System.getProperty("os.name").contains("Mac OS")) {
+            addTabsForMac();
+            return;
+        }
+
         int height = 0;
         VTextIcon textIcon = new VTextIcon(tabbedPane, "Input Files", VTextIcon.ROTATE_LEFT);
         height += textIcon.getIconHeight();
@@ -415,6 +427,16 @@ public class MAImporterPanel extends javax.swing.JPanel implements PropertyChang
         tabbedPane.setEnabledAt(3, false);
 
         targetFilePanel.setPrefferedHeight(height);
+    }
+
+    private void addTabsForMac() {
+        tabbedPane.addTab("Input Files", inputPanel);
+        tabbedPane.addTab("Header Line", arrayheaderrowselectionpanel);
+        tabbedPane.addTab("Sample Annotation", targetFilePanel);
+        rgListPanel = new RGListSettingsPanel();
+        rgListPanel.addPropertyChangeListener(this);
+        tabbedPane.addTab("Parameters", rgListPanel);
+
     }
     private BusyDialog busy = new BusyDialog(null, true, "Recognizing arrays...", BusyDialog.ACTION.CANCEL);
     private ArrayHeaderRowSelectionPanel arrayheaderrowselectionpanel = new ArrayHeaderRowSelectionPanel();

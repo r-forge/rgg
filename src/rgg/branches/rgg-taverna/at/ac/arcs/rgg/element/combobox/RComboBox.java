@@ -134,7 +134,7 @@ public class RComboBox extends RElement{
     @Override
     public void addInputPort(String portName, String bindTo) {
         if(bindTo.equalsIgnoreCase("items")){
-            InputPort iport = new InputPort(portName, bindingpoint) {
+            InputPort iport = new InputPort(portName, bindingpoint,-1) {
 
                 @Override
                 public void setValue(Object obj) throws IllegalArgumentException, PortValueSetOperationException {
