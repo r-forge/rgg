@@ -1,8 +1,59 @@
 <rgg> 
+################################################################################
+##### 1. RGG CODE                                                ###############
+
+	##### 1.1. Tool name                                             ###############
+
     <h3 text="Agilent Single Channel Expression Microarray QC Report" aligment="center" span="full"/>
 	<separator label="Working Directory (Input-Output)" span="full"/>
-    setwd(<filechooser fileselection-mode="directories-only"/>)
-		
+    <filechooser var="workingdirectory" fileselection-mode="directories-only"/>
+    <gaprow height="7"/>	
+	
+    ##### 1.2. Data import                                           ###############
+	<separator label="Target File   (for specification see limma user's guide)" span="full"/>	
+    <targetfileeditor var="targetfile" span="full"/>        
+    <gaprow height="7"/>
+	
+	##### 1.3. Analysis                                              ###############
+    <separator label="Background Correction and Normalisation" span="full"/>
+    <group>
+        <hbox>
+            <label text="Offset:"/>
+            <checkbox var="offsetOpt1" id="c1" label="Max negative value" selected="TRUE"/>
+            <textfield var="offsetOpt2" label = "  or set here:" data-type="numeric" size="8" enabled="${not c1.selected}"/>
+        </hbox>
+    <gaprow height="2"/>        
+        <hbox>
+            <checkbox var="isLogTransformation" span="2" label="Log2 transformation" selected="T"/>
+            <combobox var="method" label="Normalisation method" span="full" 
+			items="none,scale,quantile,Aquantile,Gquantile,Rquantile,Tquantile,vsn"	selected-index="3"/>
+        </hbox>        
+    </group>
+    
+    <gaprow height="7"/>
+	
+	##### 1.4. Reporting                                     ###############
+    <separator label="Output" span="full"/>
+    <group>
+        <hbox>
+            <checkbox var="isBoxplot" label="Box plot" selected="T"/>
+            <checkbox var="isHeatMap" id="c2" label="Heat map"/>
+        </hbox>
+        <gaprow height="2"/>
+        <combobox var="filetype" label="File type" items="jpeg,pdf,ps"/>		   
+    </group>
+        
+    <gaprow height="2"/>
+    <label text="Number of randomly selected genes for clustering:" span="full"/>
+    <slider var="randomSelectedGenes" min="0" max="1000" default-value="500"
+            paint-ticks="false" paint-labels="false" paint-value="true"
+            span="full" />
+    
+	################################################################################
+	##### 2. R CODE                                                #################
+	setwd(workingdirectory)
+	
+	##### 2.1. Package dependencies                                  ###############
 	isPamrInstalled = FALSE
 	isLimmaInstalled = FALSE
 
@@ -26,69 +77,43 @@
 		
     require(limma)
     require(pamr)
-    
-    <gaprow height="7"/>
-    <separator label="Target File   (for specification see limma user's guide)" span="full"/>
-    targetfile = <targetfileeditor span="full"/>
+	
+	
+	##### 2.1. Data import                                           ###############
     G = read.maimages(targetfile[,1],columns = list(G = "gMeanSignal", Gb = "gBGUsed", R = "gProcessedSignal", Rb ="gIsPosAndSignif"),
     annotation= c("Row", "Col", "FeatureNum", "ProbeUID", "ControlType", "ProbeName", "GeneName", "SystematicName"))
     
-    <gaprow height="7"/>
-    <separator label="Background Correction and Normalisation" span="full"/>
-    offsetval = <group>
-        <hbox>
-            <label text="Offset:"/>
-            <checkbox id="c1" label="Max negative value" selected="TRUE"
-			return-value-by-selected = "max(G$Gb-G$G)+1" return-value-by-notselected=""/>
-            <textfield label = "  or set here:" data-type="numeric" size="8" enabled="${not c1.selected}"/>
-        </hbox>
-        <gaprow height="2"/>
-        Gbc = backgroundCorrect(G, offset=offsetval)
-        norm = normalizeBetweenArrays(
-        <hbox>
-            <checkbox span="2" label="Log2 transformation" return-value-by-selected = "log2(Gbc$G)"
-			return-value-by-notselected="Gbc$G" selected="T"/>,
-            method=<combobox label="Normalisation method" span="full" 
-			items="none,scale,quantile,Aquantile,Gquantile,Rquantile,Tquantile,vsn"	selected-index="3"/>
-        </hbox>
-        )
-    </group>
-    
-    <gaprow height="7"/>
-    <separator label="Output" span="full"/>
-    <group>
-        <hbox>
-            isBoxplot = <checkbox label="Box plot" selected="T"/>
-            isHeatMap = <checkbox id="c2" label="Heat map"/>
-        </hbox>
-        <gaprow height="2"/>
-        filetype = <combobox label="File type" items="jpeg,pdf,ps"/>
-		
-		createPlotFile = function(filename){
+	##### 2.2. Analysis                                              ###############
+	if(offsetOpt1){
+		offsetval = max(G$Gb-G$G)+1
+	}else{
+		offsetval = offsetOpt2
+	}
+	Gbc = backgroundCorrect(G, offset=offsetval)
+	if(isLogTransformation){
+		norm = normalizeBetweenArrays(log2(Gbc$G),method=method)
+	}else{
+		norm = normalizeBetweenArrays(Gbc$G,method=method)
+	}
+	
+	##### 2.3. Reporting                                     ###############
+	createPlotFile = function(filename){
 			if(filetype == "ps") postscript(filename)
 			else if(filetype == "jpeg") jpeg(filename)
 			else if(filetype == "pdf") pdf(filename)
-		}
+	}
 		
-        if(isBoxplot){
+    if(isBoxplot){
         createPlotFile(paste("boxplots",filetype,sep="."))
         par(mfrow=c(1,2))
         boxplot(log2(G$G)~col(G$G), names=paste(G$targets$chip, G$targets$array, sep='_'), las=2, main='before Normalisation')
         boxplot(norm~col(norm), names=paste(G$targets$chip, G$targets$array, sep='_'), las=2, main='after Normalisation')
         dev.off()
-        }    
-        </group>
-        if(isHeatMap){
-        createPlotFile(paste("hm",filetype,sep="."))
-        <gaprow height="2"/>
-        <label text="Number of randomly selected genes for clustering:" span="full"/>
-        heatmap(norm[sample(1:nrow(norm),
-     
-    <slider min="0" max="1000" default-value="500"
-            paint-ticks="false" paint-labels="false" paint-value="true"
-            span="full" />
-    ), ], cexCol=0.5, labCol=as.character(G$targets$covar))
-    
-    dev.off()
     }
+
+	if(isHeatMap){
+		createPlotFile(paste("hm",filetype,sep="."))
+		heatmap(norm[sample(1:nrow(norm),randomSelectedGenes), ], cexCol=0.5, labCol=as.character(G$targets$covar))		
+		dev.off()
+	}
 </rgg>

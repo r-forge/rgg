@@ -1,4 +1,68 @@
 <rgg>
+
+################################################################################
+##### 1. RGG CODE                                                ###############
+################################################################################
+
+
+##### 1.1. Tool name                                             ###############
+<h3 text="Micro Array quality assesment with arrayQuality Metrics v1.0" aligment="center" span="full"/>
+
+
+##### 1.2. Short description                                     ###############
+<separator label="Description" span="full"/>
+<label text="GUI for the R package arrayQualityMetrics. For further information go to www.bioconductor.org."/>
+
+<gaprow height="3"/>
+<separator label="Data import" span="full"/>
+
+
+##### 1.3. Data import                                           ###############
+<maimporter var="ma" id="ma" other-columns="Row,Column"/>
+
+
+##### 1.4. Analysis                                              ###############
+<separator label="Normalization" span="full"/>
+<group>
+	<hbox>
+		<checkbox var="isNorm" id="isNorm" label="Variance stabilization method"/>		
+		<slider var="x" label="    subsample(%)" paint-value="t" paint-labels="TRUE" major-tick-spacing="10" enabled="${isNorm.selected}"/>
+	</hbox>
+</group>
+
+
+##### 1.5. Reporting                                             ###############
+<separator label="Mapping of reporters" span="full"/>
+<group>
+	<checkbox var="flagMappingOfReporters" label="Mapping of reporters" id="mr" span="full" enabled="${!ma.affymetrix}"/>
+	<combobox var="spot" items="${ma.annotation}" label="select spot targets" enabled="${mr.selected and mr.enabled}"/>
+	<textfield var="filter" label="set filter" default-value="^NM" enabled="${mr.selected and mr.enabled}"/>
+</group>
+
+<group>
+	<hbox>
+		<checkbox var="flagCov" label="covariate (sample annotation to show as the sidebar in the heatmaps" id="cov"/>
+		<combobox var="targetfileheader" items="${ma.targetfileheader}" enabled="${cov.selected}"/>
+	</hbox>
+</group>
+
+<separator label="Report Production" span="full"/>
+<group>
+	<checkbox var="logtransform" label="Log transformation"/>
+	<checkbox var="splitplots" label="Split plots"/>
+	<filechooser var="outputdir" label="Output directory" fileselection-mode="directories-only"/>
+</group>
+
+
+
+
+################################################################################
+##### 2. R CODE                                                #################
+################################################################################
+
+
+##### 2.1. Package dependencies                                  ###############
+
 isArrayQualityMetricsInstalled = FALSE
 isLimmaInstalled = FALSE
 
@@ -22,41 +86,30 @@ if(!isLimmaInstalled){
 
 library("arrayQualityMetrics")
 
-<h3 text="Micro Array quality assesment with arrayQuality Metrics v1.0" aligment="center" span="full"/>
-<separator label="Description" span="full"/>
-<label text="GUI for the R package arrayQualityMetrics. For further information go to www.bioconductor.org."/>
 
-<gaprow height="3"/>
-<separator label="Data import" span="full"/>
+##### 2.1. Data import                                           ###############
 
-<maimporter id="ma" targetfile-var="targetfile" source-var="source" 
-other-columns="Row,Column,Signal" other-columns-var="other.columns" columns-var="columns"
-annotation-var="annotation" path-var="path"/>
-
-rowvar = (1:ncol(targetfile))[grep("filename",colnames(targetfile), ignore.case=TRUE)]
-row.names = targetfile[[rowvar]]
-pData = targetfile[-rowvar]
+rowvar = (1:ncol(ma$targetfile))[grep("filename",colnames(ma$targetfile), ignore.case=TRUE)]
+row.names = ma$targetfile[[rowvar]]
+pData = ma$targetfile[-rowvar]
 attr(pData, "row.names") = as.character(row.names)
 p = new("AnnotatedDataFrame", data = pData)
 
-if(source == "affymetrix"){
+if(ma$source == "affymetrix"){
 	library(affy)	
-	eSet = read.affybatch(filenames=paste(path,targetfile[,rowvar],sep="/"),phenoData=p)
+	eSet = read.affybatch(filenames=paste(ma$path,ma$targetfile[,rowvar],sep="/"),phenoData=p)
 }else{
 	library("limma")
-	CCl4_RGList=read.maimages(files=targetfile[,rowvar], source=source, path=path, columns = columns, annotation=annotation, other.columns=other.columns)
+	CCl4_RGList=read.maimages(files=ma$targetfile[,rowvar], source=ma$source, path=ma$path, columns = ma$columns, 
+	annotation=ma$annotation, other.columns=ma$other.columns)
 
 	featureData = new("AnnotatedDataFrame", data = CCl4_RGList$genes)
 	assayData = with(CCl4_RGList, assayDataNew(R=R, G=G, Rb=Rb, Gb=Gb))
 	eSet = new("NChannelSet",assayData = assayData,featureData = featureData,phenoData = p)
 }
-<separator label="Normalization" span="full"/>
-<group>
-	<hbox>
-		<checkbox var="isNorm" id="isNorm" label="Variance stabilization method"/>		
-		<slider var="x" label="    subsample(%)" paint-value="t" paint-labels="TRUE" major-tick-spacing="10" enabled="${isNorm.selected}"/>
-	</hbox>
-</group>
+
+
+##### 2.2. Analysis                                              ###############
 
 if(isNorm){
 	eSet = justvsn(eSet, subsample=ceiling(nrow(eSet) * (x /100)))
@@ -67,29 +120,18 @@ if (!is.null(eSet$other$Row) &amp; !is.null(eSet$other$Column)){
 	featureData(eSet)$Y = eSet$other$Column[,1]
 }
 
-<separator label="Mapping of reporters" span="full"/>
-<group>
-	if(<checkbox label="Mapping of reporters" id="mr" span="full" enabled="${!ma.affymetrix}"/>){
-		spot = <combobox items="${ma.annotation}" label="select spot targets" enabled="${mr.selected and mr.enabled}"/>
-		filter = <textfield label="set filter" default-value="^NM" enabled="${mr.selected and mr.enabled}"/>
-		featureData(eSet)$hasTarget = (regexpr(filter, featureData(eSet)[[spot]]) > 0)	
-	}
-</group>
 
-<group>
-	<hbox>
-		if(<checkbox label="covariate (sample annotation to show as the sidebar in the heatmaps" id="cov"/>){
-			phenoData(eSet)$Covariate = targetfile$<combobox items="${ma.targetfileheader}" enabled="${cov.selected}"/>
-		}
-	</hbox>
-</group>
+##### 2.3. Reporting                                              ###############
 
-<separator label="Report Production" span="full"/>
-<group>
-	<checkbox var="logtransform" label="Log transformation"/>
-	<checkbox var="splitplots" label="Split plots"/>
-	<filechooser var="outputdir" label="Output directory" fileselection-mode="directories-only"/>
-</group>
+if(flagMappingOfReporters){
+	featureData(eSet)$hasTarget = (regexpr(filter, featureData(eSet)[[spot]]) > 0)	
+}
+
+if(flagCov){
+	phenoData(eSet)$Covariate = ma$targetfile$targetfileheader
+}
 
 arrayQualityMetrics(expressionset = eSet,outdir = outputdir,force = TRUE,do.logtransform = logtransform,split.plots = splitplots)
+browseURL(paste(outputdir,"QMreport.html",sep="/"))
+
 </rgg>
