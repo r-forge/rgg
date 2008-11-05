@@ -40,11 +40,19 @@ public class RTextField extends RElement {
             rcode.append("<-");
         }
         if (textfield.isNumeric()) {
-            rcode.append(textfield.getTextFieldValue());
+            if (StringUtils.isBlank(textfield.getTextFieldValue())) {
+                rcode.append("NA");
+            } else {
+                rcode.append(textfield.getTextFieldValue());
+            }
         } else {
-            rcode.append("\"");
-            rcode.append(textfield.getTextFieldValue());
-            rcode.append("\"");
+            if (StringUtils.isBlank(textfield.getTextFieldValue())) {
+                rcode.append("NA");
+            } else {
+                rcode.append("\"");
+                rcode.append(textfield.getTextFieldValue());
+                rcode.append("\"");
+            }
         }
         return rcode.toString();
     }
@@ -95,14 +103,14 @@ public class RTextField extends RElement {
     @Override
     public void addInputPort(String portName, String bindTo) {
         if (bindTo.equalsIgnoreCase(BINDINGPOINT)) {
-            InputPort iport = new InputPort(portName, BINDINGPOINT) {
+            InputPort iport = new InputPort(portName, BINDINGPOINT, -1) {
 
                 @Override
-                public void setValue(Object obj) throws IllegalArgumentException, PortValueSetOperationException {                    
-                        textfield.setDefaultvalue(obj.toString());
+                public void setValue(Object obj) throws IllegalArgumentException, PortValueSetOperationException {
+                    textfield.setDefaultvalue(obj.toString());
                 }
             };
-            
+
             inputPorts = new ArrayList<InputPort>();
             inputPorts.add(iport);
         }

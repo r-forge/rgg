@@ -9,6 +9,8 @@ import at.ac.arcs.rgg.component.VisualComponent;
 
 public abstract class RElement {
 
+    private static int inputCounter = 0;
+    
     protected ArrayList<RElement> childElements;
     protected ArrayList<InputPort> inputPorts;
     protected PropertyChangeSupport changeSupport;
@@ -33,7 +35,16 @@ public abstract class RElement {
     }
     
     public abstract void addInputPort(String portName,String bindTo);
-
+    
+//    protected abstract void createInputPorts();
+    
+//    public abstract void setInputPortValues(int[] portnos,Object[] values);
+    
+    public static int getNextInputNo(){
+        inputCounter +=1;
+        return inputCounter;
+    }
+    
     public void addChild(RElement elem) {
         if (!isChildAddable()) {
             throw new UnsupportedOperationException("This element doesn't accept any child elements.");
@@ -76,10 +87,12 @@ public abstract class RElement {
     public abstract class InputPort{
         private String portName;
         private String bindTo;
+        private int portNo;
 
-        public InputPort(String portName,String bindTo){
+        public InputPort(String portName,String bindTo,int portNo){
             this.portName=portName;
             this.bindTo=bindTo;
+            this.portNo = portNo;
         }
         
         public String getBindTo() {
@@ -97,7 +110,15 @@ public abstract class RElement {
         public void setPortName(String portName) {
             this.portName = portName;
         }
-        
+
+        public int getPortNo() {
+            return portNo;
+        }
+
+        public void setPortNo(int portNo) {
+            this.portNo = portNo;
+        }
+                        
         public abstract void setValue(Object obj)
                 throws IllegalArgumentException, PortValueSetOperationException;
     }

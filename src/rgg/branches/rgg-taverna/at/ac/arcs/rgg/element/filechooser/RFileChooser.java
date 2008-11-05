@@ -13,7 +13,6 @@ import javax.swing.JComponent;
 import org.apache.commons.lang.StringUtils;
 import at.ac.arcs.rgg.component.VisualComponent;
 import at.ac.arcs.rgg.element.RElement;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 
@@ -37,26 +36,30 @@ public class RFileChooser extends RElement {
     }
 
     public String getRCode() {
-        StringBuffer sbuf = new StringBuffer();
+        StringBuilder rcodebuilder = new StringBuilder();
         if (StringUtils.isNotBlank(var)) {
-            sbuf.append(var + "<-");
+            rcodebuilder.append(var + "<-");
         }
+        
+        
         if (vFilechooser.isFilesSelected()) {
             if (vFilechooser.isMultiSelectionEnabled()) {
-                sbuf.append("c(");
+                rcodebuilder.append("c(");
                 File[] files = vFilechooser.getSelectedFiles();
                 for (int i = 0; i < files.length; i++) {
-                    sbuf.append("\"" + files[i].getPath() + "\"");
+                    rcodebuilder.append("\"" + files[i].getPath() + "\"");
                     if (i != (files.length - 1)) {
-                        sbuf.append(",");
+                        rcodebuilder.append(",");
                     }
                 }
-                sbuf.append(")");
+                rcodebuilder.append(")");
             } else {
-                sbuf.append("\"" + vFilechooser.getFilePath() + "\"");
+                rcodebuilder.append("\"" + vFilechooser.getFilePath() + "\"");
             }
+        }else{
+            rcodebuilder.append("NA");
         }
-        return StringUtils.replace(sbuf.toString(), "\\", "/");
+        return StringUtils.replace(rcodebuilder.toString(), "\\", "/");
     }
 
     public boolean hasVisualComponents() {
@@ -129,7 +132,7 @@ public class RFileChooser extends RElement {
     @Override
     public void addInputPort(String portName, String bindTo) {
         if (bindTo.equalsIgnoreCase(bindingpoint)) {
-            InputPort iport = new InputPort(portName, bindingpoint) {
+            InputPort iport = new InputPort(portName, bindingpoint,-1) {
 
                 @Override
                 public void setValue(Object obj) throws IllegalArgumentException, PortValueSetOperationException {

@@ -8,7 +8,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.oro.text.perl.Perl5Util;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 public abstract class RElementFactory {
 
@@ -22,11 +21,11 @@ public abstract class RElementFactory {
 
     public void setInputPorts(RElement rElement, Element element) {
         //TODO check attributes, values etc... and produce error if necessary        
-        NodeList iports = element.getElementsByTagName("iport");
-        for (int i = 0; i < iports.getLength(); i++) {
-            Element iport = (Element) iports.item(i);
-            rElement.addInputPort(iport.getAttribute("name"), iport.getAttribute("bind-to"));
-        }
+//        NodeList iports = element.getElementsByTagName("iport");
+//        for (int i = 0; i < iports.getLength(); i++) {
+//            Element iport = (Element) iports.item(i);
+//            rElement.addInputPort(iport.getAttribute("name"), iport.getAttribute("bind-to"));
+//        }
     }
 
     public static RElementFactory getElementFactoryForName(String classname)

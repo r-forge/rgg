@@ -32,6 +32,7 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
     private RGListTableModel rGListTableModel;
     private String[] othercolumns;
     public static final String PROP_TargetFile = "targetFile";
+    private boolean isMAImporterModelCreated = false;
 
     public static MAImporterModel createModelFromArrays(File[] arrays, String[] othercolumns)
             throws IOException, ArrayDetectionException {
@@ -50,7 +51,8 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
                     ArrayHeaderRowTableModel.createArrayHeaderRowTableModel(model.getArrayInfos().get(0)));
             Array array = model.getArrayInfos().get(0).getArrayCreator().makeArray(model.getArrayInfos().get(0));
             model.setRGListTableModel(new RGListTableModel(array, othercolumns));
-        }
+        }        
+        model.setMAImporterModelCreated(true);
         return model;
     }
 
@@ -71,6 +73,7 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
             Array array = model.getArrayInfos().get(0).getArrayCreator().makeArray(model.getArrayInfos().get(0));
             model.setRGListTableModel(new RGListTableModel(array, othercolumns));
         }
+        model.setMAImporterModelCreated(true);
         return model;
     }
 
@@ -120,6 +123,16 @@ public class MAImporterModel implements ArrayHeaderRowChangeListener {
         this.rGListTableModel = rGListTableModel;
     }
 
+    public boolean isMAImporterModelCreated() {
+        return isMAImporterModelCreated;
+    }
+
+    public void setMAImporterModelCreated(boolean isMAImporterModelCreated) {
+        this.isMAImporterModelCreated = isMAImporterModelCreated;
+    }
+
+    
+    
     public void stateChanged(ArrayHeaderChangedEvent evt) {
         for (ArrayInfo inf : arrayInfos) {
             inf.setHeaderLineNo(evt.getHeaderRow() + 1);

@@ -17,7 +17,9 @@ import java.util.ArrayList;
 public class RMAImporter extends RElement {
 
     //binding points
-    private static final String[] bindingpoints = {"micro-array-files", "sample-annotation-file"};
+    private static final String[] bindingpoints = {"micro-array-files", "sample-annotation-file",
+        "header-line-no", "target-file", "input-columns"
+    };
     private String var;
     private VMAImporter vMAImporter;
     private VisualComponent[][] visualcomponents;
@@ -29,12 +31,19 @@ public class RMAImporter extends RElement {
     public String getRCode() {
         //Target file creation
         MAImporterPanel mapanel = vMAImporter.getMAImporterPanel();
+
         StringBuilder rbuilder = new StringBuilder();
 
         if (StringUtils.isNotBlank(var)) {
             rbuilder.append(var);
             rbuilder.append(" = ");
         }
+
+        if (!mapanel.isMAImporterModelSet()) {
+            rbuilder.append("NA");
+            return rbuilder.toString();
+        }
+
         //start of list
         rbuilder.append(" list(");
 
@@ -46,11 +55,11 @@ public class RMAImporter extends RElement {
         rbuilder.append(mapanel.getArraySource());
         //path
         rbuilder.append("\", path=\"");
-        rbuilder.append(StringUtils.replace(mapanel.getMAModel().getTargetFile().getPath().getAbsolutePath(), "\\", "/")+"\"");
+        rbuilder.append(StringUtils.replace(mapanel.getMAModel().getTargetFile().getPath().getAbsolutePath(), "\\", "/") + "\"");
 
         if (!vMAImporter.isAffymetrix()) {
             //columns
-            rbuilder.append("\",\ncolumns=list(");
+            rbuilder.append(",\ncolumns=list(");
             if (mapanel.getArrayChannelInfo() == ArrayChannelInfo.TWOCHANNEL) {
                 rbuilder.append("G=\"" + mapanel.getGHeader() + "\"");
                 rbuilder.append(", Gb=\"" + mapanel.getGbHeader() + "\"");
@@ -146,6 +155,18 @@ public class RMAImporter extends RElement {
         return vMAImporter.getSwingComponents();
     }
 
+    protected void createInputPorts() {
+        inputPorts = new ArrayList<InputPort>();
+        int portNo = getNextInputNo();
+        inputPorts.add(createMicroArrayFilesInputPort(("i" + portNo), portNo));
+
+        portNo = getNextInputNo();
+        inputPorts.add(createSampleAnnotationFileInputPort(("i" + portNo), portNo));
+
+    }
+//    public void setInputPortValues(int[] portnos,Object[] values){
+//        
+//    }
     @Override
     public void addInputPort(String portName, String bindTo) {
         if (inputPorts == null) {
@@ -153,17 +174,17 @@ public class RMAImporter extends RElement {
         }
         InputPort iport = null;
         if (bindTo.equalsIgnoreCase(bindingpoints[0])) { //micro-array-files
-            iport = createMicroArrayFilesInputPort(portName);
+            iport = createMicroArrayFilesInputPort(portName, -1);
         } else if (bindTo.equalsIgnoreCase(bindingpoints[1])) { //sample-annotation-file
-            iport = createSampleAnnotationFileInputPort(portName);
+            iport = createSampleAnnotationFileInputPort(portName, -1);
         }
         if (iport != null) {
             inputPorts.add(iport);
         }
     }
 
-    private InputPort createMicroArrayFilesInputPort(String portName) {
-        return new InputPort(portName, bindingpoints[0]) {
+    private InputPort createMicroArrayFilesInputPort(String portName, int portNo) {
+        return new InputPort(portName, bindingpoints[0], portNo) {
 
             @Override
             public void setValue(Object obj) {
@@ -178,8 +199,8 @@ public class RMAImporter extends RElement {
         };
     }
 
-    private InputPort createSampleAnnotationFileInputPort(String portName) {
-        return new InputPort(portName, bindingpoints[1]) {
+    private InputPort createSampleAnnotationFileInputPort(String portName, int portNo) {
+        return new InputPort(portName, bindingpoints[1], portNo) {
 
             @Override
             public void setValue(Object obj) {

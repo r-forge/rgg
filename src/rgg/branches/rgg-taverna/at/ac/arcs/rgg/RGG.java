@@ -13,8 +13,6 @@ import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import at.ac.arcs.rgg.builder.RGGPanelBuilder;
 import at.ac.arcs.rgg.factories.RGGFactory;
 import org.w3c.dom.Document;
@@ -27,8 +25,10 @@ import org.xml.sax.SAXException;
  */
 public class RGG {
 
+//    private static int inputCounter = 0;
+    
     private static CompositeConfiguration config;
-    private static Log log = LogFactory.getLog(RGG.class);
+//    private static Log log = LogFactory.getLog(RGG.class);
     private HashMap<String, Object> idMap = new HashMap<String, Object>();
     private HashMap<String, Object> rggProperties = new HashMap<String, Object>();
     private RGGModel rggModel;

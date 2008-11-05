@@ -112,7 +112,7 @@ public class RListBox extends RElement{
     @Override
     public void addInputPort(String portName, String bindTo) {
         if (bindTo.equalsIgnoreCase(BINDINGPOINT)) {
-            InputPort iport = new InputPort(portName, BINDINGPOINT) {
+            InputPort iport = new InputPort(portName, BINDINGPOINT,-1) {
 
                 @Override
                 public void setValue(Object obj) throws IllegalArgumentException, PortValueSetOperationException {
