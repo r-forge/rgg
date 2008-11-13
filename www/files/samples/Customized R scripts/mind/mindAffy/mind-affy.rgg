@@ -1,0 +1,219 @@
+<rgg>
+
+#remembering objects currently in workspace
+objects.before = objects()
+################################################################################
+################################################################################
+##### 1. RGG CODE                                                ###############
+################################################################################
+################################################################################
+
+##### 1.1. Tool name                                             ###############
+#Microarray Import and Normalization Device
+<h3 text="Microarray Import and Normalization Device (MIND)" alignment="center" span="full"/>
+<h4 text="for AffyMetrix arrays" alignment="center" span="full"/>
+################################################################################
+
+##### 1.2. Short description                                     ###############
+<separator label="Description"/>
+<label text="The MIND is an easy-to-use but powerful GUI for microarray import."/>
+<separator/>
+<gaprow height="3"/>
+################################################################################
+
+##### 1.3. Data import                                           ###############
+##data-range: ; default-value: ; description: microarray importer
+<maimporter id="ma" var="ma" span="3"/>
+################################################################################
+
+##### 1.4. Analysis                                              ###############
+<group>
+	<hbox>
+		<group>
+			<separator label="Background correction" span="2"/>
+			##data-range: mas,rma; default-value: mas; description: Background correction method
+			<combobox var="bgcorrmethod" label="          Method: " items="mas, rma" selected-item="mas"/>
+			<separator label="Normalization" span="2"/>
+			##data-range: constant,contrasts,invariantset,loess,qspline,quantiles,quantiles.robust,vsn; default-value: quantiles; description: Normalization method
+			<combobox var="normmethod" label="          Method: " items="constant, contrasts, invariantset, loess, qspline, quantiles, quantiles.robust, vsn" selected-item="quantiles"/>
+			<separator label="PM correction" span="2"/>
+			##data-range: mas,pmonly,subtractmm; default-value: subtractmm; description: PM correction
+			<combobox var="pmcorrmethod" label="          Method: " items="mas, pmonly, subtractmm" selected-item="subtractmm"/>
+			<separator label="Summary" span="2"/>
+			##data-range: avgdiff,liwong,mas,medianpolish,playerout; default-value: medianpolish; description: Summary method
+			<combobox var="summarymethod" label="          Method: " items="avgdiff, liwong, mas, medianpolish, playerout" selected-item="medianpolish"/>
+			<separator label="Transformation" span="2"/>
+			##data-range: T,F; default-value: F; description: Should a log2-transformation be applied?
+			<checkbox var="log2transform" label="Log2-Transform the data?" selected="F" span="2"/>
+			<label text="Please make sure that the chosen summary method does not produce logged values." span="2"/>
+			<label text="mas and medianpolish return transformed values while the other methods don't." span="2"/>
+			<separator span="2"/>
+		</group>
+		<group>
+		<label id="spacer" text="          "/>
+		</group>
+		<group>
+			<separator label="Create Output" span="full"/>
+			##data-range: T,F; default-value: F; description: Write R Objects to working directory (as .RData objects)?
+			<checkbox var="returnRObjects" label="write R Objects into working directory" selected="F" span="4"/>
+			##data-range: T,F; default-value: F; description: Write R Objects to working directory (as tab-separated files)?
+			<checkbox var="returntabfiles" label="write R Objects into working directory as tab-separated files" selected="F" span="4"/>
+			<separator label="Report creation:" span="full"/>
+			<label text="Please select covariates for labelling plots by choosing the appropriate column names in the phenoData." span="full"/>
+			<hbox>
+				##data-range: T,F; default-value: F; description: Create a HTML report?
+				<checkbox id="createreport" var="createreport" label="Create report" selected="F"/>
+				##data-range: ; default-value: ; description: Specify folder for MIND-report
+				<filechooser var="reportfolder" label="Report folder:" fileselection-mode="directories-only" enabled="${createreport.selected}"/>
+			</hbox>
+			<hbox>
+				##data-range: T,F; default-value: F; description: Should custom boxplot labels be used?
+				<checkbox id="boxlabels" var="boxlabels" label="Custom boxplot labels: " selected="F" enabled="${createreport.selected}"/>
+				##data-range: ; default-value: ; description: Select custom boxplot labels
+				<combobox var="boxvar" label="     Covariate: " items="${ma.targetfileheader}" enabled="${boxlabels.selected and boxlabels.enabled}"/>
+			</hbox>
+			##data-range: T,F; default-value: T; description: Should MA plots be generated for each array?
+			<checkbox var="createmaplots" label="Create MAplots" selected="F" enabled="${createreport.selected}"/>
+			<hbox>
+				##data-range: T,F; default-value: F; description: Custom heatmap labels?
+				<checkbox id="withheatcov" var="withheatcov" label="Heatmap: " selected="F" enabled="${createreport.selected}"/>
+				##data-range: T,F; default-value: F; description: Select custom heatmap labels
+				<combobox var="heatcov" label="     Covariate: " items="${ma.targetfileheader}" enabled="${withheatcov.selected and withheatcov.enabled}"/>
+			</hbox>
+			<hbox>
+				##data-range: T,F; default-value: T; description: Use labels for coloring the principal components plot?
+				<checkbox id="withPCcolor" var="withPCcolor" label="Color PC plot: " selected="F" enabled="${createreport.selected}"/>
+				##data-range: ; default-value: ; description: select label used for coloring
+				<combobox var="pccolor" label="     Covariate: " items="${ma.targetfileheader}" enabled="${withPCcolor.selected and withPCcolor.enabled}"/>
+				##data-range: 2,3,4,5,6,7; default-value: 2; description: How many components should be plotted in the PC plot?
+				<combobox var="pcncomp" label="Number of components: " items="2,3,4,5,6,7" enabled="${withPCcolor.selected and withPCcolor.enabled}"/>
+			</hbox>
+			<separator span="full"/>
+		</group>
+	</hbox>
+</group>
+################################################################################
+
+################################################################################
+################################################################################
+##### 2. R SCRIPT                                                ###############
+################################################################################
+################################################################################
+
+##### 2.1. Tool name                                             ###############
+################################################################################
+
+##### 2.2. Short description                                     ###############
+################################################################################
+
+##### 2.3. Package dependencies                                  ###############
+#list of installed packages
+installed.pkgs = installed.packages()
+
+#list of required packages
+required.BioCon.pkgs = c("Biobase","limma","genefilter","geneplotter","latticeExtra","affy","vsn","arrayQualityMetrics")
+required.pkgs = c("R2HTML","impute")
+
+#finding missing packages
+BioCon.toBeInstalled = required.BioCon.pkgs[!(required.BioCon.pkgs %in% installed.pkgs[,1])]
+toBeInstalled = required.pkgs[!(required.pkgs %in% installed.pkgs[,1])]
+
+#installing missing packages (if possible)
+if (length(BioCon.toBeInstalled) != 0){
+	source("http://bioconductor.org/biocLite.R")
+	biocLite(BioCon.toBeInstalled)
+}
+if (length(toBeInstalled) != 0){
+	install.packages(toBeInstalled,repos="http://cran.r-project.org")
+}
+
+#including packages
+library("Biobase")
+library("affy")
+library("vsn")
+source(paste(rgghome,"script","createReportAffy.r",sep="/"))
+################################################################################
+
+##### 2.4. Data import                                           ###############
+arraydata = read.affybatch(filenames=paste(ma$path,"/",ma$targetfile[["FileName"]],sep=""),verbose=T,phenoData=new("AnnotatedDataFrame",ma$targetfile))
+################################################################################
+
+##### 2.5. Analysis                                              ###############
+cat(paste("Background correcting (",switch(normmethod,vsn="none",bgcorrmethod),")... \n",sep=""))
+#if normmethod is vsn then vsn will perform the background correction!
+arraydata = switch(normmethod,vsn=bg.correct(arraydata,method="none"),bg.correct(arraydata, method=bgcorrmethod))
+cat("done.\n")
+
+if(createreport || returnRobjects || returntabfiles){
+	cat("Computing unnormalized ExpressionSet (",summarymethod,",",pmcorrmethod,")... \n")
+	data.eSet = computeExprSet(arraydata,summary.method=summarymethod,pmcorrect.method=pmcorrmethod)
+	cat("done.\n")
+}
+
+cat(paste("Normalizing (",normmethod,")... \n",sep=""))
+arraydata = normalize(arraydata,method=normmethod)
+cat("done.\n")
+
+cat("Computing ExpressionSet (",summarymethod,",",pmcorrmethod,")... \n")
+data.normalized.eSet = computeExprSet(arraydata,summary.method=summarymethod,pmcorrect.method=pmcorrmethod)
+cat("done.\n")
+
+if(log2transform){
+	if(createreport)
+		exprs(data.eSet) = log2(exprs(data.eSet))
+		exprs(data.eSet)[exprs(data.eSet)==-Inf]=NA
+	exprs(data.normalized.eSet) = log2(exprs(data.normalized.eSet))
+	exprs(data.normalized.eSet)[exprs(data.normalized.eSet)==-Inf]=NA
+}
+
+#_____Output___________________________________________________________________#
+if(returnRObjects){
+	save("data.eSet",file="data-eSet.RData")
+	save("data.normalized.eSet",file="data-normalized-eSet.RData")
+}
+
+if(returntabfiles){
+	write.table(exprs(data.eSet),file="data-expressions.txt",row.names=T,col.names=NA,sep="\t",na="NA")
+	write.table(exprs(data.normalized.eSet),file="data-normalized-expressions.txt",row.names=T,col.names=NA,sep="\t", na="NA")
+	write.table(phenoData(data.eSet)@data,file="data-targetfile.txt",row.names=T,col.names=NA,sep="\t",na="NA")
+}
+#______________________________________________________________________________#
+################################################################################
+
+################################################################################
+################################################################################
+##### 3. REPORT                                                  ###############
+################################################################################
+################################################################################
+
+##### 3.1. Report creation                                       ###############
+#report created by external function createreport
+if(createreport){
+
+if(boxlabels)
+	boxlabels = boxvar
+else 
+	boxlabels="colnames"
+
+if(!withheatcov)
+	heatcov = "none"
+	
+if(withPCcolor)
+	pcgroup = pccolor
+else
+	pcgroup = "none"
+	
+createReportAffy(data.eSet,data.normalized.eSet,rgghome=rgghome,reportfolder=reportfolder,target=ma$path,channel="green",bgcorrmethod,normmethod,pmcorrmethod,summarymethod,
+heatcov=heatcov,boxlabels=boxlabels,pcncomp=as.integer(pcncomp),pcgroup=pcgroup,maplots=createmaplots)
+}
+################################################################################
+
+#Specify objects which should stay during script
+objects.stay = c("MA","normMA","data.eSet","data.normalized.eSet")
+
+objects.after = c("data.eSet","data.normalized.eSet")
+
+#removing 'temporary' objects
+remove(list=objects()[!(objects() %in% objects.after)])
+
+</rgg>
