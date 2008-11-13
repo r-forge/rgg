@@ -147,7 +147,7 @@ objects.before = objects()
 installed.pkgs = installed.packages()
 
 #list of required packages
-required.BioCon.pkgs = c("Biobase","limma","genefilter","geneplotter","latticeExtra")
+required.BioCon.pkgs = c("Biobase","limma","genefilter","geneplotter","latticeExtra","vsn","arrayQualityMetrics")
 required.pkgs = c("R2HTML","impute")
 
 #finding missing packages
@@ -160,7 +160,7 @@ if (length(BioCon.toBeInstalled) != 0){
 	biocLite(BioCon.toBeInstalled)
 }
 if (length(toBeInstalled) != 0){
-	install.packages(toBeInstalled)
+	install.packages(toBeInstalled,repos="http://cran.r-project.org")
 }
 
 #including packages
