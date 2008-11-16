@@ -1,0 +1,12 @@
+Bundle: rggMAToolkit
+Contains: rggMIND rggPAMR rggSAMR
+Title: (M)icroarray (I)mporter and (N)ormalization (D)evice to be used with RGG.
+Version: 1.0
+Date: 2008-11-13
+Author: Ilhami Visne / Michi
+Maintainer: Ilhami Visne <ilhami.visne@arcs.ac.at>
+Depends: R (>= 2.5.0), arrayQualityMetrics, limma, R2HTML, impute, pamr, samr
+Description: This package ...
+License: GPL-3
+LazyLoad: yes
+ZipData:	yes
