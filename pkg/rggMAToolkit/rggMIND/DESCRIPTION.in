@@ -1,0 +1,6 @@
+Package: rggMIND
+Type: Package
+Title: (M)icroarray (I)mporter and (N)ormalization (D)evice to be used with RGG.
+Version: 1.0
+Date: 2008-11-13
+Description: This package ...
