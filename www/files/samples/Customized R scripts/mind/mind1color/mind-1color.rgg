@@ -2,16 +2,12 @@
 #remembering objects currently in workspace
 objects.before = objects()
 
-################################################################################
-################################################################################
 ##### 1. RGG CODE                                                ###############
-################################################################################
 ################################################################################
 
 ##### 1.1. Tool name                                             ###############
 <h3 text="Microarray Import and Normalization Device (MIND)" alignment="center" span="full"/>
 <h4 text="for single-color arrays" alignment="center" span="full"/>
-################################################################################
 
 ##### 1.2. Short description                                     ###############
 
@@ -19,12 +15,10 @@ objects.before = objects()
 <label text="The MIND is an easy-to-use but powerful GUI for microarray import."/>
 <separator/>
 <gaprow height="3"/>
-################################################################################
 
 ##### 1.3. Data import                                           ###############
 ##data-range: ; default-value: ; description: microarray importer
 <maimporter id="ma" var="ma"/>
-################################################################################
 
 ##### 1.4. Analysis                                              ###############
 #_____VSN normalization________________________________________________________#
@@ -124,23 +118,17 @@ objects.before = objects()
 </group>
 <separator/>
 #______________________________________________________________________________#
-################################################################################
 
-################################################################################
-################################################################################
 ##### 2. R SCRIPT                                                ###############
-################################################################################
 ################################################################################
 
 ##### 2.1. Tool name                                             ###############
 #Microarray Import and Normalization Device
-################################################################################
 
 ##### 2.2. Short description                                     ###############
 #The Microarray Import and Normalization Device (MIND) is a GUI for R 
 #which prepares microarray data for subsequent analysis by creating an
 #expressionSet object of the normalized data.
-################################################################################
 
 ##### 2.3. Package installation                                  ###############
 #list of installed packages
@@ -163,11 +151,15 @@ if (length(toBeInstalled) != 0){
 	install.packages(toBeInstalled,repos="http://cran.r-project.org")
 }
 
+if(! "rggMIND" %in% installed.pkgs[,1]){
+	install.packages("rggMAToolkit",repos="http://R-Forge.R-project.org")
+}
+
 #including packages
 library("Biobase")
 library("limma")
 library("vsn")
-################################################################################
+library("rggMIND")
 
 ##### 2.4. Data import                                           ###############
 #searches for the column with filename in it
@@ -179,17 +171,8 @@ G=read.maimages(files=ma$targetfile[,rowvar], source=ma$source, path=ma$path, co
 #since it is a single color aray, we won't need these...
 G$R = NA
 G$Rb = NA
-################################################################################
-
-
 
 ##### 2.5. Analysis                                              ###############
-#_____Auxiliary functions______________________________________________________#
-#including auxiliary functions
-source(paste(rgghome,"script","createReport1color.r",sep="/"))
-source(paste(rgghome,"script","backgroundCorrectSingle.r",sep="/"))
-#______________________________________________________________________________#
-
 #_____Background correction____________________________________________________#
 #background correction
 if(!doVSN){
@@ -273,12 +256,8 @@ if(returntabfiles){
 	write.table(phenoData(data.eSet)@data,file="data-targetfile.txt",row.names=T,col.names=NA,sep="\t",na="NA")
 }
 #______________________________________________________________________________#
-################################################################################
 
-################################################################################
-################################################################################
 ##### 3. REPORT                                                  ###############
-################################################################################
 ################################################################################
 
 ##### 3.1. Report Creation                                       ###############
@@ -302,6 +281,4 @@ objects.after = c(objects.before,objects.stay)
 
 #removing 'temporary' objects
 remove(list=objects()[!(objects() %in% objects.after)])
-################################################################################
-
 </rgg>
