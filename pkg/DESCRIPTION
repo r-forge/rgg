@@ -1,8 +1,0 @@
-Package:	RGG
-Version:	0.1
-Title:	R Gui Generator (RGG)
-Author:	Ilhami Visne
-Maintainer:	Ilhami Visne <ilhami.visne@arcs.ac.at>
-Description:	Generates GUIs for R scripts
-License:	LGPL
-ZipData:	yes
