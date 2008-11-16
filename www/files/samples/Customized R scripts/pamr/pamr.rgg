@@ -1,0 +1,288 @@
+<rgg>
+#remembering objects currently in workspace
+objects.before = objects()
+
+##### 1. RGG CODE                                                ###############
+################################################################################
+
+##### 1.1. Tool name                                             ###############
+
+<h3 text="Pamr" alignment="center"/>
+
+##### 1.2. Short description                                     ###############
+
+#Prediction analysis for microarray data with 'pamr'
+#ATTENTION: This GUI does not support survival time data. To do prediction anal
+#			ysis for survival time data look for Pamr - Survival Time
+<separator label="Description"/>
+<h3 text="Prediction analysis for microarray data with 'pamr'" alignment="center"/>
+<gaprow height="3"/>
+
+##### 1.3. Package dependencies                                  ###############
+
+#CRAN: R2HTML
+#		R2HTML: R2HTML is used for semi-automated HTML file generation
+#Bioconductor: pamr
+#		pamr: pamr is the package containing the functions for prediction analy
+#			sis.
+
+##### 1.4. Data import                                           ###############
+
+<separator label="Data import" span="full"/>
+<group>
+	<label text="Select an R-Object containing the ExpressionSet" span="3"/>
+	<filechooser var="robject" label="File:" accepted-extension=".RData" fileselection-mode="files-only" description="saved RObjects"/>
+</group>
+<separator span="full"/>
+
+<gaprow height="5"/>
+
+##### 1.5. Analysis                                              ###############
+#_____Class Selection__________________________________________________________#
+<separator label="Class vector" span="full"/>
+<group>
+	<textfield var="classlabel" label="Label containing vector of classes:" data-type="text"/>
+</group>
+#______________________________________________________________________________#
+
+#_____Threshold settings_______________________________________________________#
+<separator label="Threshold settings" span="full"/>
+<group>
+	##data-range: ; default-value: 30; description: specifies how many sample threshold values the computer calculates. 
+	<textfield var="nthresh" label="number of threshold values: " data-type="numeric" default-value="30"/>
+</group>
+
+<gaprow height="5"/>
+#______________________________________________________________________________#
+
+#_____General considerations___________________________________________________#
+<separator label="General considerations" span="full"/>
+<group>
+	<hbox>
+		##data-range: T,F; default-value: F; description: should the false discovery rates be estimated for actual threshold scales?
+		<checkbox id="doEstimateFDR" var="doEstimateFDR" label="Estimate false discovery rates" selected="F"/>
+		##data-range: T,F; default-value: T; description: should the false discoery rates found above be plotted?
+		<checkbox var="doPlotFDR" label="add FDR plot to report" enabled="${doEstimateFDR.selected}" selected="T"/>		
+	</hbox>
+	##data-range: T,F; default-value: T; description: should the cross-validation error curves be plotted?
+	<checkbox var="doPlotCVErrCurves" label="add plot of cross-validation error curves to report" selected="T"/>
+</group>
+
+<gaprow height="5"/>
+#______________________________________________________________________________#
+
+#_____Detailed analysis________________________________________________________#
+<separator label="Detailed analysis" span="full"/>
+<group>
+	<label text="Select threshold for further calculations: " span="full"/>
+	<group>
+		<hbox>
+			<radiobutton var="threshSearch" label="Choose" button-group="threshSearch" selected="T"/>
+			<label text="threshold value "/>
+			##data-range: "smallest","largest"; default-value: "smallest"; description: Should the threshold be set to the smallest or the largest 'sensible' value?
+			<combobox var="threshSize" label="with" items="smallest,largest"/>
+			<label text="number of genes surviving the thresholding"/>
+		</hbox>
+		<label text="         (while minimizing misclassification error)." span="full"/>
+		<hbox>
+			<radiobutton id="threshSearch" label="Set" button-group="threshSearch" selected="F"/>
+			<label text="threshold value" enabled="${threshSearch.selected}"/>
+			##data-range: ; default-value: ; description: Enter threshold manually if desired
+			<textfield var="thresh" label="to: " data-type="numeric" default-value="0" enabled="${threshSearch.selected}"/>
+		</hbox>
+	</group>
+	<gaprow height="3"/>
+	<group>
+		##data-range: T,F; deefault-value: T; description: Compute confusion matrix?
+		<checkbox var="doCompConfMatrix" label="Compute confusion matrix (for cross-validated data)" selected="T"/>
+	</group>	
+	##data-range: T,F; default-value: F; description: plot CV probabilities?
+	<checkbox var="doPlotCVprob" label="add plot of cross-validated sample probabilities to report" selected="F" span="full"/>	
+</group>
+
+<gaprow height="5"/>
+
+<group>
+	#data-range: T,F; default-value: F; description: List selected genes?
+	<checkbox var="doListSelGenes" label="List genes surviving thresholding" selected="F"/>
+</group>
+
+<gaprow height="5"/>
+#______________________________________________________________________________#
+
+#_____Report creation__________________________________________________________#
+<separator label="Report creation" span="full"/>
+<group>
+	<hbox>
+		##data-range: T,F; default-value: F; description: Do you want a report?
+		<checkbox id="doCreateReport" var="doCreateReport" label="Create report: " selected="F"/>
+		##data-range: ; default-value: ; description: Choose folder where report should be saved
+		<filechooser var="reportFolder" label="Output Folder: " fileselection-mode="directories-only" enabled="${doCreateReport.selected}" size ="15"/>
+	</hbox>
+</group>
+#______________________________________________________________________________#
+
+
+##### 2. R SCRIPT                                                ###############
+################################################################################
+
+##### 2.1. Package installation                                  ###############
+
+#list of installed packages
+installed.pkgs = installed.packages()
+
+#list of required packages
+required.BioCon.pkgs = c("pamr","Biobase","limma")
+required.pkgs = c("R2HTML")
+
+#finding missing packages
+
+BioCon.toBeInstalled = required.BioCon.pkgs[!(required.BioCon.pkgs %in% installed.pkgs[,1])]
+
+toBeInstalled = required.pkgs[!(required.pkgs %in% installed.pkgs[,1])]
+
+#installing missing packages (if possible)
+if (length(BioCon.toBeInstalled) != 0){
+	source("http://bioconductor.org/biocLite.R")
+	biocLite(BioCon.toBeInstalled)
+}
+if (length(toBeInstalled) != 0){
+	install.packages(toBeInstalled,repos="http://cran.r-project.org")
+}
+
+if(! "rggPAMR" %in% installed.pkgs[,1]){
+	install.packages("rggMAToolkit",repos="http://R-Forge.R-project.org")
+}
+
+#including packages
+library("Biobase")
+library("limma")
+library("pamr")
+library("R2HTML")
+library("rggPAMR")
+
+##### 2.2. Data import                                           ###############
+
+loadedobject = load(robject)
+data.eset = get(loadedobject[1])
+
+#unfortunately, pamr is not able to list the genes until i order the classes.
+classes = as.character(classlabel)
+data.eset = data.eset[,order(data.eset[[classes]])]
+x = exprs(data.eset)
+
+genenames = featureNames(data.eset)
+
+################################################################################
+
+##### 2.3. Analysis                                              ###############
+#_____Class selection__________________________________________________________#
+
+if (!(classes %in% varLabels(data.eset)))
+	cat("\n\n!!!!!WARNING: SPECIFIED CLASS LABELS NOT FOUND! PLEASE CHECK PHENODATA AND/OR INPUT!!!!!\n\n")
+
+y = phenoData(data.eset)[[classes]]
+dat = list(x=x,y=y,genenames=genenames,geneid=paste("G",1:length(genenames),sep=""))
+#______________________________________________________________________________#
+
+#_____Training / Cross-validation______________________________________________#
+
+#training
+
+trained = pamr.train(dat,n.threshold=as.integer(nthresh))
+
+
+#cross-validation
+	cv = pamr.cv(trained,dat)
+#______________________________________________________________________________#
+
+#_____General considerations___________________________________________________#
+#estimating false discovery rate and plotting if specified
+fdr = NULL
+if(doEstimateFDR){
+	fdr = pamr.fdr(trained,dat)
+}
+
+
+#______________________________________________________________________________#
+
+#_____Detailed analysis________________________________________________________#
+#Specifying threshold if not already read from the textfield
+if(threshSearch){
+	if(threshSize == "smallest"){
+		thresh = min(cv$threshold[cv$error == min(cv$error)])
+	}
+	if(threshSize == "largest"){
+		thresh = max(cv$threshold[cv$error == min(cv$error)])
+	}
+}
+thresh = as.numeric(thresh)
+
+#computing confusion matrix if specified
+confusion=NULL
+if(doCompConfMatrix){
+	confusion = pamr.confusion(cv,thresh,extra=FALSE)
+}
+
+
+#listing selected genes if specified
+genes=NULL
+if(doListSelGenes){
+	genes = pamr.listgenes(trained,dat,thresh)
+}
+#______________________________________________________________________________#
+
+##### 3. REPORT                                                  ###############
+################################################################################
+
+##### 3.1. Tool name                                             ###############
+################################################################################
+
+##### 3.2. Short description                                     ###############
+################################################################################
+
+##### 3.3. Package dependencies                                  ###############
+################################################################################
+
+##### 3.4. Data import                                           ###############
+################################################################################
+
+##### 3.5. Analysis                                              ###############
+#_____Training / Cross-validation______________________________________________#
+#______________________________________________________________________________#
+
+#_____General considerations___________________________________________________#
+#______________________________________________________________________________#
+
+#_____Detailed analysis________________________________________________________#
+#______________________________________________________________________________#
+
+#_____Report creation__________________________________________________________#
+if(doCreateReport){
+	createReportPamr(rgghome,folder=switch(reportFolder,"default"=paste(rgghome,"report",sep="/"),reportFolder),
+		classes=classes,
+		nthresh=nthresh,
+		doPlotFDR=doPlotFDR,
+		doPlotCVErrCurves=doPlotCVErrCurves,
+		doCompConfMatrix=doCompConfMatrix,
+		doPlotCVprob=doPlotCVprob,
+		doListSelGenes=doListSelGenes,
+		fdr=fdr,
+		cv=cv,
+		confusion=confusion,
+		genes=genes,
+		thresh=thresh)
+}
+
+#Specify objects which should stay during script
+objects.stay = c("fdr","cv","confusion","genes","thresh")
+
+objects.after = c(objects.before,objects.stay)
+
+#removing 'temporary' objects
+remove(list=objects()[!(objects() %in% objects.after)])
+#______________________________________________________________________________#
+################################################################################
+</rgg>
+
+

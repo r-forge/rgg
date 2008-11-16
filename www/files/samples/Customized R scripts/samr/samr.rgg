@@ -1,0 +1,263 @@
+<rgg>
+#remembering objects currently in workspace
+objects.before = objects()
+
+##### 1. RGG CODE                                                ###############
+################################################################################
+
+##### 1.1. Tool name                                             ###############
+<h3 text="Significance Analysis for Microarrays with SAMR" alignment="center" span="full"/>
+<h4 text="for paired/unpaired 2-class and multiclass problems" alignment="center" span="full"/>
+
+##### 1.2. Short description                                     ###############
+#Perform significane analysis with the samr package.
+
+##### 1.3. Data import                                           ###############
+<separator label="Data import" span="full"/>
+<group>
+	<label text="Select an R-Object containing the ExpressionSet" span="3"/>
+	##data-range: ; default-value: ; description: Select .RData file containing the expressionSet
+	<filechooser var="robject" label="File:" accepted-extension=".RData" fileselection-mode="files-only" description="saved RObjects"/>
+</group>
+<separator span="full"/>
+
+##### 1.4. Analysis                                              ###############
+#_____Data characterization____________________________________________________#
+<separator label="Data characterization" span="full"/>
+<group>
+	##data-range: Two class paired,Two class unpaired,Multiclass; default-value: Two class unpaired; description: Specify the problem type
+	<combobox var="resptype" label="Problem type:" items="Two class paired,Two class unpaired,Multiclass" selected-item="Two class unpaired"/>
+	##data-range: ; default-value: ; description: Specify the class vector (must be a column in the phenoData of the expressionSet)
+	<textfield var="classlabel" label="Name of column containing class vector:" data-type="text"/>
+</group>
+#______________________________________________________________________________#
+
+#_____SAM analysis_____________________________________________________________#
+<separator label="Settings" span="full"/>
+<group>
+	<hbox>
+		<label text="Are data in logged scale?"/>
+		##data-range: T,F; default-value: ; description: Are the data in logged scale?
+		<radiobutton var="logged2" label="Logged (base2)" button-group="logged2" selected="F"/>
+		<radiobutton label="Unlogged" button-group="logged2" selected="F"/>
+	</hbox>
+</group>
+<group>	
+	<hbox>
+		<label text="Test statistic: "/>
+		##data-range: T,F; default-value: T; description: Should the T-statistic be used? (else: wilcoxon)
+		<radiobutton var="testStatistic" label="T-statistic" button-group="testStatistic" selected="T"/>
+		<radiobutton label="Wilcoxon" button-group="testStatistic" selected="F"/>
+	</hbox>
+</group>
+<group>
+	<hbox>
+		<label text="Median center the arrays?"/>
+		<radiobutton label="Yes" button-group="center.arrays"/>
+		##data-range: T,F; default-value: T; description: Should the arrays NOT be centered?
+		<radiobutton var="center.arrays" label="No" button-group="center.arrays" selected="T"/>
+	</hbox>
+</group>
+<group>
+	##data-range: ; default-value: 100; description: How many permutations should be done?
+	<textfield var="nperms" label="Number of permutations: " data-type="number" default-value="100"/>
+</group>
+<group>
+	<hbox>
+		<label text="Estimate of s0 factor for denominator: "/>
+			<radiobutton label="Automatic" button-group="s0.perc" selected="T"/>
+			##data-range: T,F; default-value: F; description: Should the .5-percentile be used?
+			<radiobutton var="s0.perc" label="Use fixed percentile (e.g. 50)" button-group="s0.perc" selected="F"/>
+	</hbox>
+</group>
+<group>
+	##data-range: ; default-value: 10 ; description: Number of neighbors for K-nearest neighbors imputation
+	<textfield var="knn.neighbors" label="Number of neighbors for K-nearest neighbors imputer: " data-type="number" default-value="10"/>
+</group>
+<group>
+	##data-range: ; default-value: 1234 ; description: Random number seed
+	<textfield var="rnseed" label="Random number seed: " data-type="number" default-value="1234"/> 
+</group>
+	
+<separator/>
+<group>
+	<hbox>
+		<label text="Select delta and do further calculations?"/>
+		<radiobutton label="No" button-group="furthercalc" selected="T"/>
+		##data-range: T,F; default-value: F; description: Should further calculation be done?
+		<radiobutton id="furthercalc" var="furthercalc" label="Yes:" button-group="furthercalc"/>
+		##data-range: ; default-value: 0; description: Delta value input for gene thresholding
+		<textfield var="delta" label="Delta value: " type="number"  default-value="0" enabled = "${furthercalc.selected}"/>
+	</hbox>
+</group>
+<group>
+	##data-range: ; default-value: 0; description: Specify a minimum fold change if desired
+	<textfield var="foldchange" label="Minimum fold change: " data-type="number" default-value="0"/>
+</group>
+<separator label="Calculation and output type"/>
+<group>
+	##data-range: T,F; default-value: T; description: Should the tail strength be estimated?
+	<checkbox var="estTailStrength" label="Estimate tail strength" selected="T"/>
+	##data-range: T,F; default-value: T; description: Estimate the p-values?
+	<checkbox var="estPval" label="Estimate p-values for each gene" selected="T"/>
+	##data-range: T,F; default-value: T; description: Calculate delta table?
+	<checkbox id="doCalcDeltaTable" var="doCalcDeltaTable" label="Calculate delta table" selected="T"/>
+</group>
+<gaprow height="10"/>
+<group>
+	<label text="For selected delta..."/>
+	##data-range: T,F; default-value: T; description: Estimate miss-rate table?
+	<checkbox var="estMissRate" label="Estimate the miss-rate table" selected="T" enabled="${furthercalc.selected}"/>
+	##data-range: T,F; default-value: T; description: List significant genes?
+	<checkbox var="doListSignGenes" label="List significant genes (for this, delta table must be calculated!)" selected="T" enabled="${furthercalc.selected}"/>
+	##data-range: T,F; default-value: T; description: Do a QQ plot for specified delta?
+	<checkbox var="doQQPlot" label="QQ-plot" selected="T" enabled="${furthercalc.selected}"/>
+</group>
+<separator/>
+<group>
+	<hbox>
+		##data-range: T,F; default-value: F; description: create a report?
+		<checkbox var="createReport" id="createReport" label="Create report?" selected="T"/>
+		##data-range: ; default-value: ; description: Specify output folder for samr-report
+		<filechooser var="reportfolder" label="File:" fileselection-mode="directories-only" enabled="${createReport.selected}"/>
+		"default"
+	</hbox>
+</group>
+#______________________________________________________________________________#
+
+##### 2. R SCRIPT                                                ###############
+################################################################################
+
+##### 2.1. Tool name                                             ###############
+################################################################################
+
+##### 2.2. Short description                                     ###############
+################################################################################
+
+##### 2.3. Package dependencies                                  ###############
+#list of installed packages
+installed.pkgs = installed.packages()
+
+#list of required packages
+required.BioCon.pkgs = c("Biobase")
+required.pkgs = c("samr")
+
+#finding missing packages
+BioCon.toBeInstalled = required.BioCon.pkgs[!(required.BioCon.pkgs %in% installed.pkgs[,1])]
+toBeInstalled = required.pkgs[!(required.pkgs %in% installed.pkgs[,1])]
+
+#installing missing packages (if possible)
+if (length(BioCon.toBeInstalled) != 0){
+	source("http://bioconductor.org/biocLite.R")
+	biocLite(BioCon.toBeInstalled)
+}
+if (length(toBeInstalled) != 0){
+	install.packages(toBeInstalled,repos="http://cran.r-project.org")
+}
+
+if(! "rggSAMR" %in% installed.pkgs[,1]){
+	install.packages("rggMAToolkit",repos="http://R-Forge.R-project.org")
+}
+
+#including packages
+library(Biobase)
+library(samr)
+library(rggSAMR)
+
+##### 2.4. Data import                                           ###############
+loadedobject = load(robject)
+data.eset = get(loadedobject[1])
+
+##### 2.5. Analysis                                              ###############
+#_____Class selection__________________________________________________________#
+classes = classlabel
+if (!(classes %in% varLabels(data.eset)))
+	cat("\n\n!!!!!WARNING: SPECIFIED CLASS LABELS NOT FOUND! PLEASE CHECK PHENODATA AND/OR INPUT!!!!!\n\n")
+#______________________________________________________________________________#
+
+#_____Data preparation_________________________________________________________#
+#ordering class labels
+data.eset = data.eset[,order(data.eset[[classes]])]
+forsam = list(x=exprs(data.eset),y=data.eset[[classes]],geneid = paste("GENE",1:nrow(data.eset)[[1]],sep=""),genenames=featureNames(data.eset)[[1]],logged2=logged2)
+#______________________________________________________________________________#
+
+#_____SAM analysis_____________________________________________________________#
+samobj = samr(data=forsam,resp.type=resptype,center.arrays=!center.arrays, s0.perc=switch(s0.perc,F=NULL,T=50), nperms=as.integer(nperms),testStatistic=ifelse(testStatistic,"standard","wilcoxon"),knn.neighbors=knn.neighbors,random.seed=as.integer(rnseed))
+#______________________________________________________________________________#
+
+#_____SAM result computation and visualization_________________________________#
+if(estTailStrength)
+	tailstr = samr.tail.strength(samobj)
+
+if(estPval)
+	pval = samr.pvalues.from.perms(samobj$tt, samobj$ttstar)
+
+if(doCalcDeltaTable){
+	deltatable = samr.compute.delta.table(samobj, min.foldchange=as.numeric(foldchange), dels=NULL, nvals=50)
+	if(doListSignGenes)
+		siggenestable = samr.compute.siggenes.table(samr.obj=samobj, del=as.numeric(delta), data=forsam,delta.table=deltatable, min.foldchange=as.numeric(foldchange))
+}
+
+if(furthercalc){
+	if(estMissRate)
+		estdmissrate = samr.missrate(samobj, del=as.numeric(delta), deltatable, quant=NULL)
+		
+	if(!dev.interactive()){		
+		postscript(file="temp.eps")
+		dev.control(displaylist='enable')	
+	}
+	if(doQQPlot)
+		samr.plot(samobj,del=as.numeric(delta))
+}
+
+cat("The following objects have been created in your workspace:\n")
+cat("samobj\n")
+objectnames=c(character(0))
+if(estTailStrength){
+	cat("tailstr\n")
+	objectnames = append(objectnames,"tailstr")
+	}
+if(estPval){
+	cat("pval\n")
+	objectnames = append(objectnames,"pval")
+	}
+if(doCalcDeltaTable){
+	cat("deltatable\n")
+	objectnames = append(objectnames,"deltatable")
+	}
+if(furthercalc){
+	if(estMissRate){
+		cat("estdmissrate\n")
+		objectnames = append(objectnames,"estdmissrate")
+		}
+	if(doListSignGenes){
+		cat("siggenestable\n")
+		objectnames = append(objectnames,"siggenestable")
+		}
+}
+cat("\n")
+#______________________________________________________________________________#
+
+##### 3. REPORT                                                  ###############
+################################################################################
+
+##### 3.1. Report creation                                       ###############
+if(createReport){
+	createReportSamr(object.names=objectnames,rgghome=rgghome,qqplot=doQQPlot,reportfolder=reportfolder,foldchange=foldchange,delta=ifelse(furthercalc,delta,"not specified"))
+}
+################################################################################
+
+#Specify objects which should stay during script
+objects.stay = objectnames
+
+objects.after = c(objects.before,objects.stay)
+
+#removing 'temporary' objects
+remove(list=objects()[!(objects() %in% objects.after)])
+if(!dev.interactive()){
+	dev.off()
+	file.remove("temp.eps")
+}else{
+	dev.off()
+}
+</rgg>

@@ -1,30 +1,24 @@
 <rgg>
-
 #remembering objects currently in workspace
 objects.before = objects()
-################################################################################
-################################################################################
+
 ##### 1. RGG CODE                                                ###############
-################################################################################
 ################################################################################
 
 ##### 1.1. Tool name                                             ###############
 #Microarray Import and Normalization Device
 <h3 text="Microarray Import and Normalization Device (MIND)" alignment="center" span="full"/>
 <h4 text="for AffyMetrix arrays" alignment="center" span="full"/>
-################################################################################
 
 ##### 1.2. Short description                                     ###############
 <separator label="Description"/>
 <label text="The MIND is an easy-to-use but powerful GUI for microarray import."/>
 <separator/>
 <gaprow height="3"/>
-################################################################################
 
 ##### 1.3. Data import                                           ###############
 ##data-range: ; default-value: ; description: microarray importer
 <maimporter id="ma" var="ma" span="3"/>
-################################################################################
 
 ##### 1.4. Analysis                                              ###############
 <group>
@@ -92,19 +86,13 @@ objects.before = objects()
 		</group>
 	</hbox>
 </group>
-################################################################################
 
-################################################################################
-################################################################################
 ##### 2. R SCRIPT                                                ###############
-################################################################################
 ################################################################################
 
 ##### 2.1. Tool name                                             ###############
-################################################################################
 
 ##### 2.2. Short description                                     ###############
-################################################################################
 
 ##### 2.3. Package dependencies                                  ###############
 #list of installed packages
@@ -127,16 +115,19 @@ if (length(toBeInstalled) != 0){
 	install.packages(toBeInstalled,repos="http://cran.r-project.org")
 }
 
+if(! "rggMIND" %in% installed.pkgs[,1]){
+	install.packages("rggMAToolkit",repos="http://R-Forge.R-project.org")
+}
+
 #including packages
 library("Biobase")
 library("affy")
 library("vsn")
-source(paste(rgghome,"script","createReportAffy.r",sep="/"))
+library("rggMIND")
 ################################################################################
 
 ##### 2.4. Data import                                           ###############
 arraydata = read.affybatch(filenames=paste(ma$path,"/",ma$targetfile[["FileName"]],sep=""),verbose=T,phenoData=new("AnnotatedDataFrame",ma$targetfile))
-################################################################################
 
 ##### 2.5. Analysis                                              ###############
 cat(paste("Background correcting (",switch(normmethod,vsn="none",bgcorrmethod),")... \n",sep=""))
@@ -178,12 +169,8 @@ if(returntabfiles){
 	write.table(phenoData(data.eSet)@data,file="data-targetfile.txt",row.names=T,col.names=NA,sep="\t",na="NA")
 }
 #______________________________________________________________________________#
-################################################################################
 
-################################################################################
-################################################################################
 ##### 3. REPORT                                                  ###############
-################################################################################
 ################################################################################
 
 ##### 3.1. Report creation                                       ###############
