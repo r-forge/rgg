@@ -1,12 +1,10 @@
 Bundle: rggMAToolkit
 Contains: rggMIND rggPAMR rggSAMR
-Title: (M)icroarray (I)mporter and (N)ormalization (D)evice to be used with RGG.
-Version: 1.0
+Version: 0.1
 Date: 2008-11-13
+Title: RGG Microarray Analyze
 Author: Ilhami Visne / Michi
 Maintainer: Ilhami Visne <ilhami.visne@arcs.ac.at>
 Depends: R (>= 2.5.0), arrayQualityMetrics, limma, R2HTML, impute, pamr, samr
-Description: This package ...
+BundleDescription: This bundle contains 3 packages that have functions, which are used by RGG MA Toolkit (see web site)
 License: GPL-3
-LazyLoad: yes
-ZipData:	yes
