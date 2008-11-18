@@ -95,7 +95,7 @@ public class RGGFileChooserFactory extends RElementFactory {
             }
         }
 
-        if (StringUtils.isNotBlank(enabled)) {
+        if (StringUtils.isNotBlank(enabled)) {            
             if (util.match("/(\\w+)\\./", enabled)) {
                 String id = util.group(1);
                 enabled = util.substitute("s/" + id + "\\.//g", enabled);
@@ -107,6 +107,10 @@ public class RGGFileChooserFactory extends RElementFactory {
                         BeanProperty.create("enabled") // property to set
                         );
                 binding.bind();
+            }else if (StringUtils.equalsIgnoreCase(enabled, "F") || StringUtils.equalsIgnoreCase(enabled, "FALSE")) {
+                vfilechooser.setEnabled(false);
+            }else if (StringUtils.equalsIgnoreCase(enabled, "T") || StringUtils.equalsIgnoreCase(enabled, "TRUE")) {
+                //Do nothing
             }
         }
         if (element.hasChildNodes()) { //it can only be <iport>

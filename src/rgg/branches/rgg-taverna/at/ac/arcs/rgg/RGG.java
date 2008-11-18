@@ -15,6 +15,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import at.ac.arcs.rgg.builder.RGGPanelBuilder;
 import at.ac.arcs.rgg.factories.RGGFactory;
+import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -24,6 +25,8 @@ import org.xml.sax.SAXException;
  * @author ilhami
  */
 public class RGG {
+    
+    public static final String RGGHOMEVAR = "rgghome";
 
 //    private static int inputCounter = 0;
     
@@ -93,7 +96,11 @@ public class RGG {
     }
 
     public String generateRScript() {
-        return rggModel.generateRScript();
+        String rcode = rggModel.generateRScript();
+        rcode = RGGHOMEVAR + "=\""+
+                StringUtils.replace(rGGFileDir.getPath(), "\\", "/")+"\"\n"
+                + rcode;
+        return rcode;
     }
 
     public JPanel buildPanel(boolean useDefaultDialogBorder, boolean debug) {

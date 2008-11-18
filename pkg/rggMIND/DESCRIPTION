@@ -1,0 +1,11 @@
+Package: rggMIND
+Title: (M)icroarray (I)mporter and (N)ormalization (D)evice to be used with RGG.
+Description: This package ...
+Version: 0.1
+Date: 2008-11-13
+Author: Ilhami Visne / Michi
+Maintainer: Ilhami Visne <ilhami.visne@arcs.ac.at>
+Depends: R (>= 2.5.0)
+License: GPL-3
+LazyLoad: yes
+ZipData:	yes

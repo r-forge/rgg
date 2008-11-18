@@ -116,14 +116,16 @@ if (length(toBeInstalled) != 0){
 }
 
 if(! "rggMIND" %in% installed.pkgs[,1]){
-	install.packages("rggMAToolkit",repos="http://R-Forge.R-project.org")
+	install.packages("rggMIND",repos="http://R-Forge.R-project.org")
 }
 
 #including packages
-library("Biobase")
-library("affy")
-library("vsn")
-library("rggMIND")
+library(arrayQualityMetrics)
+library(limma)
+library(R2HTML)
+library(impute)
+library(rggMIND)
+library(affy)
 ################################################################################
 
 ##### 2.4. Data import                                           ###############
@@ -196,7 +198,7 @@ heatcov=heatcov,boxlabels=boxlabels,pcncomp=as.integer(pcncomp),pcgroup=pcgroup,
 ################################################################################
 
 #Specify objects which should stay during script
-objects.stay = c("MA","normMA","data.eSet","data.normalized.eSet")
+objects.stay = c("MA","normMA","data.eSet","data.normalized.eSet","stylesheet")
 
 objects.after = c("data.eSet","data.normalized.eSet")
 
