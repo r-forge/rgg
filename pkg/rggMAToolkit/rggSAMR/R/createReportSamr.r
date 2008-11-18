@@ -1,7 +1,7 @@
 createReportSamr = function(object.names,rgghome,qqplot=F,reportfolder=paste(rgghome,"report",sep="/"),delta="not specified",foldchange="not specified"){
 
 dir.create(reportfolder)
-file.copy(stylesheet,paste(reportfolder,"style.css",sep="/"), overwrite = T)
+file.copy(get("stylesheet",.GlobalEnv),paste(reportfolder,"style.css",sep="/"), overwrite = T)
 
 if(!dev.interactive()){		
 		postscript(file="temp.eps")
