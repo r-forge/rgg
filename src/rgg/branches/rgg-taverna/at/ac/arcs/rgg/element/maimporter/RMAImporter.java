@@ -69,7 +69,7 @@ public class RMAImporter extends RElement {
                 //channelinfo & colorinfo
                 rbuilder.append(",channel=2,color=\"RG\"");
 
-            } else { //ONECHANNEL
+            } else if(mapanel.getArrayChannelInfo() == ArrayChannelInfo.ONECHANNEL){ //ONECHANNEL
                 if (mapanel.getArrayColorInfo() == ArrayColorInfo.G) {
                     rbuilder.append("G=\"" + mapanel.getGHeader() + "\"");
                     rbuilder.append(", Gb=\"" + mapanel.getGbHeader() + "\"");
@@ -86,6 +86,14 @@ public class RMAImporter extends RElement {
                     //channelinfo & colorinfo
                     rbuilder.append(",channel=1,color=\"R\"");
                 }
+            }else{ //GENERIC TYPE ==> UNKNOWN
+                rbuilder.append("G=\"" + mapanel.getGHeader() + "\"");
+                rbuilder.append(", Gb=\"" + mapanel.getGbHeader() + "\"");
+                rbuilder.append(", R=\"" + mapanel.getRHeader() + "\"");
+                rbuilder.append(", Rb=\"" + mapanel.getRbHeader() + "\")");
+
+                //channelinfo & colorinfo
+                rbuilder.append(",channel=NA,color=NA");
             }
 
             //annotation

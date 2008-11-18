@@ -186,13 +186,15 @@ if (length(toBeInstalled) != 0){
 }
 
 if(! "rggMIND" %in% installed.pkgs[,1]){
-	install.packages("rggMAToolkit",repos="http://R-Forge.R-project.org")
+	install.packages("rggMIND",repos="http://R-Forge.R-project.org")
 }
 
 #including packages
-library("limma")
-library("arrayQualityMetrics")
-library("rggMIND")
+library(arrayQualityMetrics)
+library(limma)
+library(R2HTML)
+library(impute)
+library(rggMIND)
 
 ##### 2.4. Data import                                           ###############
 #Find the column with the filenames in it
@@ -248,7 +250,7 @@ normMA = normalizeBetweenArrays(MA, method=normBetweenMethod)
 
 #_____NChannelSet and ExpressionSets(of M-values) creation_____________________#
 row.names = ma$targetfile[[rowvar]]
-pData = ma$targetfile[-rowvar]
+pData = ma$targetfile
 attr(pData, "row.names") = as.character(row.names)
 
 rownames(pData)=row.names
@@ -319,7 +321,7 @@ if(createReport)
 ################################################################################
 
 #Specify objects which should stay during script
-objects.stay = c("MA","normMA","data.eSet","data.normalized.eSet")
+objects.stay = c("MA","normMA","data.eSet","data.normalized.eSet","stylesheet")
 
 objects.after = c(objects.before,objects.stay)
 

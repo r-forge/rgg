@@ -1,7 +1,7 @@
 <rgg>
 #remembering objects currently in workspace
 objects.before = objects()
-
+objects.before
 ##### 1. RGG CODE                                                ###############
 ################################################################################
 
@@ -152,14 +152,15 @@ if (length(toBeInstalled) != 0){
 }
 
 if(! "rggMIND" %in% installed.pkgs[,1]){
-	install.packages("rggMAToolkit",repos="http://R-Forge.R-project.org")
+	install.packages("rggMIND",repos="http://R-Forge.R-project.org")
 }
 
 #including packages
-library("Biobase")
-library("limma")
-library("vsn")
-library("rggMIND")
+library(arrayQualityMetrics)
+library(limma)
+library(R2HTML)
+library(impute)
+library(rggMIND)
 
 ##### 2.4. Data import                                           ###############
 #searches for the column with filename in it
@@ -209,7 +210,7 @@ if(doVSN){
 #taking the filenames in the target file as rownames for the phenoData (samples)
 row.names = ma$targetfile[[rowvar]]
 #and all other columns as the data
-pData = ma$targetfile[-rowvar]
+pData = ma$targetfile
 attr(pData, "row.names") = as.character(row.names)
 
 #setting the normalized values as expressions for the expressionset...
@@ -275,7 +276,7 @@ if(createReport)
 	createReport1color(data.eSet,data.normalized.eSet,rgghome=rgghome,reportfolder=reportfolder,target=ma$path,channel="green",bgCorrMethod,bgCorrOffset,normMethod,heatcov,boxlabels=boxlabels,pcgroup=pcgroup,pcncomp=as.integer(pcncomp),trans=trafo,maplots=TRUE)
 	
 #Specify objects that should stay during script
-objects.stay = c("data.eSet","data.normalized.eSet")
+objects.stay = c("data.eSet","data.normalized.eSet","stylesheet")
 
 objects.after = c(objects.before,objects.stay)
 

@@ -1,0 +1,10 @@
+Package: rggSAMR
+Title: RGG SAMR
+Description: Auxiliary package for samr.rgg
+Version: 0.1
+Date: 2008-11-13
+Author: Ilhami Visne / Michi
+Maintainer: Ilhami Visne <ilhami.visne@arcs.ac.at>
+Depends: R (>= 2.5.0)
+License: GPL-3
+LazyLoad: yes

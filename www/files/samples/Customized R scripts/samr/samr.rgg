@@ -156,7 +156,7 @@ if (length(toBeInstalled) != 0){
 }
 
 if(! "rggSAMR" %in% installed.pkgs[,1]){
-	install.packages("rggMAToolkit",repos="http://R-Forge.R-project.org")
+	install.packages("rggSAMR",repos="http://R-Forge.R-project.org")
 }
 
 #including packages
@@ -248,6 +248,7 @@ if(createReport){
 ################################################################################
 
 #Specify objects which should stay during script
+objectnames = append(objectnames,"stylesheet")
 objects.stay = objectnames
 
 objects.after = c(objects.before,objects.stay)
