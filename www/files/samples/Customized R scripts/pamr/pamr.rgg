@@ -259,7 +259,7 @@ if(doListSelGenes){
 
 #_____Report creation__________________________________________________________#
 if(doCreateReport){
-	createReportPamr(rgghome,folder=switch(reportFolder,"default"=paste(rgghome,"report",sep="/"),reportFolder),
+	createReportPamr(rgghome,reportfolder=switch(reportFolder,"default"=paste(rgghome,"report",sep="/"),reportFolder),
 		classes=classes,
 		nthresh=nthresh,
 		doPlotFDR=doPlotFDR,
