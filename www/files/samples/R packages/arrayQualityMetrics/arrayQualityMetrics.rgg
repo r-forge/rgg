@@ -11,7 +11,7 @@
 
 ##### 1.2. Short description                                     ###############
 <separator label="Description" span="full"/>
-<label text="GUI for the R package arrayQualityMetrics. For further information go to www.bioconductor.org."/>
+<label text="GUI for the R package arrayQualityMetrics. For further information go to bioconductor.org/packages/2.3/bioc/html/arrayQualityMetrics.html. Minimum two micro arrays are required."/>
 
 <gaprow height="3"/>
 <separator label="Data import" span="full"/>
@@ -60,7 +60,6 @@
 ##### 2. R CODE                                                #################
 ################################################################################
 
-
 ##### 2.1. Package dependencies                                  ###############
 
 isArrayQualityMetricsInstalled = FALSE
@@ -85,7 +84,7 @@ if(!isLimmaInstalled){
 }
 
 library("arrayQualityMetrics")
-
+library(tcltk)
 
 ##### 2.1. Data import                                           ###############
 
@@ -111,6 +110,14 @@ if(ma$source == "affymetrix"){
 
 ##### 2.2. Analysis                                              ###############
 
+if(is.na(outputdir)){  
+  retval=tkmessageBox(title = "Warning",
+  message = paste("An output directory is not provided.\nReport will be saved in the working directory:",getwd()),icon = "info", type = "ok")
+  outputdir=getwd()
+}
+
+if(length(ma$targetfile)>1){
+
 if(isNorm){
 	eSet = justvsn(eSet, subsample=ceiling(nrow(eSet) * (x /100)))
 }
@@ -133,5 +140,8 @@ if(flagCov){
 
 arrayQualityMetrics(expressionset = eSet,outdir = outputdir,force = TRUE,do.logtransform = logtransform,split.plots = splitplots)
 browseURL(paste(outputdir,"QMreport.html",sep="/"))
-
+}else{
+  retval=tkmessageBox(title = "Error",
+  message = "Minimum two micro arrays are required!",icon = "error", type = "ok")
+}
 </rgg>
