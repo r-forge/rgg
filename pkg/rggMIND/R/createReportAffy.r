@@ -1,5 +1,6 @@
 createReportAffy = function(data.eSet,data.normalized.eSet,rgghome,reportfolder=paste(rgghome,"reportoutput","/"),target,channel,bgCorrMethod,normMethod,pmcorrmethod,summarymethod,heatcov,boxlabels="colnames",pcncomp=3,pcgroup="none",maplots=TRUE){
-	dir.create(reportfolder)
+	if(!file.exists(reportfolder))
+		dir.create(reportfolder)
 	file.copy(get("stylesheet",.GlobalEnv),paste(reportfolder,"style.css",sep="/"), overwrite = T)
 	
 	#if running in non-interactive mode (e.g. in RGGRunner)

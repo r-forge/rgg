@@ -1,6 +1,6 @@
 createReportSamr = function(object.names,rgghome,qqplot=F,reportfolder=paste(rgghome,"report",sep="/"),delta="not specified",foldchange="not specified"){
-
-dir.create(reportfolder)
+if(!file.exists(reportfolder))
+	dir.create(reportfolder)
 file.copy(get("stylesheet",.GlobalEnv),paste(reportfolder,"style.css",sep="/"), overwrite = T)
 
 if(!dev.interactive()){		

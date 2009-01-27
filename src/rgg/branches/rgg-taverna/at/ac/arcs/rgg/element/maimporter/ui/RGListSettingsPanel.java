@@ -52,19 +52,35 @@ public class RGListSettingsPanel extends javax.swing.JPanel implements PropertyC
     }
 
     public String getRHeader() {
-        return inputSelectorTable.getColumnName(model.getArray().getR().getFirstColumn());
+        if (model.getArray().getR().getFirstColumn() > 0 &&
+                model.getArray().getR().getFirstColumn() < inputSelectorTable.getColumnCount()) {
+            return inputSelectorTable.getColumnName(model.getArray().getR().getFirstColumn());
+        }
+        return "";
     }
 
     public String getRbHeader() {
-        return inputSelectorTable.getColumnName(model.getArray().getRb().getFirstColumn());
+        if (model.getArray().getRb().getFirstColumn() > 0 &&
+                model.getArray().getRb().getFirstColumn() < inputSelectorTable.getColumnCount()) {
+            return inputSelectorTable.getColumnName(model.getArray().getRb().getFirstColumn());
+        }
+        return "";
     }
 
     public String getGHeader() {
-        return inputSelectorTable.getColumnName(model.getArray().getG().getFirstColumn());
+        if (model.getArray().getG().getFirstColumn() > 0 &&
+                model.getArray().getG().getFirstColumn() < inputSelectorTable.getColumnCount()) {
+            return inputSelectorTable.getColumnName(model.getArray().getG().getFirstColumn());
+        }
+        return "";
     }
 
     public String getGbHeader() {
-        return inputSelectorTable.getColumnName(model.getArray().getGb().getFirstColumn());
+        if (model.getArray().getGb().getFirstColumn() > 0 &&
+                model.getArray().getGb().getFirstColumn() < inputSelectorTable.getColumnCount()) {
+            return inputSelectorTable.getColumnName(model.getArray().getGb().getFirstColumn());
+        }
+        return "";
     }
 
     public List<String> getAnnotationHeaders() {

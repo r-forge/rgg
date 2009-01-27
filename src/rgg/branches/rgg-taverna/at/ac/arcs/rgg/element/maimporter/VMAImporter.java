@@ -86,6 +86,12 @@ public class VMAImporter extends VisualComponent implements PropertyChangeListen
         }else if(evt.getPropertyName().equalsIgnoreCase("arraysource")){
             arraysource = (String)evt.getNewValue();
             changeSupport.firePropertyChange("affymetrix",affymetrix,isAffymetrix());
+            //TODO move this quick fix to the one of the models.
+            if(isAffymetrix()){
+                String[] oldvalue = annotation;
+                annotation = null;
+                changeSupport.firePropertyChange("annotation", oldvalue, annotation);
+            }
         }
     }
 

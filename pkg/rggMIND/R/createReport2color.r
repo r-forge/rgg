@@ -1,5 +1,6 @@
 createReport2color = function(MA,normMA,data.eSet,data.normalized.eSet,rgghome,reportfolder=paste(rgghome,"reportoutput",sep="/"),target,bgCorrMethod,bgCorrOffset,normWithinMethod,normBetweenMethod,heatcov,boxlabels="colnames",pcncomp=3,pcgroup="none",trans="log2",maplots=TRUE){
-	dir.create(reportfolder)
+	if(!file.exists(reportfolder))
+		dir.create(reportfolder)
 	file.copy(get("stylesheet",.GlobalEnv),paste(reportfolder,"style.css",sep="/"), overwrite = T)
 	
 	#if running in non-interactive mode (e.g. in RGGRunner)

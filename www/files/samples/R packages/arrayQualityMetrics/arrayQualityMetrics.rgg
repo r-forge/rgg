@@ -11,7 +11,9 @@
 
 ##### 1.2. Short description                                     ###############
 <separator label="Description" span="full"/>
-<label text="GUI for the R package arrayQualityMetrics. For further information go to bioconductor.org/packages/2.3/bioc/html/arrayQualityMetrics.html. Minimum two micro arrays are required."/>
+<label text="GUI for the R package arrayQualityMetrics.
+Please note that arrayQualityMetrics requires a minimum of two microarray files. 
+For further information go to bioconductor.org/packages/2.3/bioc/html/arrayQualityMetrics.html."/>
 
 <gaprow height="3"/>
 <separator label="Data import" span="full"/>
@@ -111,10 +113,15 @@ if(ma$source == "affymetrix"){
 ##### 2.2. Analysis                                              ###############
 
 if(is.na(outputdir)){  
-  outputdir=paste(getwd(),"output",sep="/")
+  outputdir=paste(getwd(),"report",sep="/")
+  if(!file.exists(outputdir))
+	dir.create(outputdir)
   retval=tkmessageBox(title = "Warning",
   message = paste("An output directory is not provided.\nReport will be saved in:",outputdir),icon = "info", type = "ok")
-  
+}else{
+	outputdir=paste(outputdir,"report",sep="/")
+	if(!file.exists(outputdir))
+		dir.create(outputdir)
 }
 
 if(length(ma$targetfile$FileName)>1){
