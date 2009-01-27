@@ -12,7 +12,8 @@ objects.before
 ##### 1.2. Short description                                     ###############
 
 <separator label="Description"/>
-<label text="The MIND is an easy-to-use but powerful GUI for microarray import."/>
+<label text="MIND is an RGG GUI for microarray import,normalization and quality control. 
+It generates a quality report and an expressionSet object, which can be used as input for the pamr and samr GUI."/>
 <separator/>
 <gaprow height="3"/>
 
@@ -34,9 +35,7 @@ objects.before
 <group>
 	##data-range: "none","subtract","half","minimum","movingmin","edwards","normexp"; default-value: "subtract"; description: specifies the background correction method
 	<combobox id="bgCorrMethod" var="bgCorrMethod" label="Method: " items="none,subtract,half,minimum,movingmin,edwards,normexp" selected-item="subtract" enabled="${!vsn.selected}"/>
-</group>
-<label text="Please note that the options 'Edwards' and 'Normexp' may produce long calculation times depending on the scale of your experiment."/>
-<group>
+    <label text="Please note that the options 'Edwards' and 'Normexp' may produce long calculation times depending on the scale of your experiment." span="full"/>
 	<label text="Offset: "/>
 	##data-range: T,F; default-value: T; description: is the specified offset value selected or not?
 	<radiobutton var="doSelectMinOffset" label="add minimum of all negative corrected values +1" button-group="offset" span="full" selected="T" enabled="${!vsn.selected}"/>
@@ -48,13 +47,11 @@ objects.before
 			<textfield var="bgCorrOffset" label=" " data-type="numeric" default-value="0" enabled="${offset.selected and offset.enabled}"/>
 		</hbox>
 	</group>
-</group>
-#______________________________________________________________________________#
-
+	
 #_____Logarithm________________________________________________________________#
-<group>
-	<label text="If VSN is not selected, a log2 transformation will be applied."/>
-	<label text="log2 produces NaNs for negative corrected values. To avoid this you can specify an offset."/>
+
+	<label text="If VSN is not selected, a log2 transformation will be applied." span="full"/>
+	<label text="log2 produces NaNs for negative corrected values. To avoid this you can specify an offset." span="full"/>
 </group>
 
 #_____Normalization____________________________________________________________#
@@ -63,28 +60,21 @@ objects.before
 	##data-range: "quantile","scale","none"; default-value: "quantile"; description: specifies normalization method
 	<combobox var="normMethod" label="Normalization method:" items="quantile, scale, none" default-value="quantile"/>
 </group>
-<gaprow height="10"/>
-#______________________________________________________________________________#
+<gaprow height="5"/>
 
 #_____Output___________________________________________________________________#
 <separator label="Create Output" span="full"/>
 ##data-range: T,F; default-value: F; description: Should R Objects be written to working directory?
-<checkbox var="returnRObjects" label="write R Objects into working directory" selected="F"/>
+<checkbox var="returnRObjects" label="create R Objects" selected="F"/>
 ##data-range: T,F; default-value: F; description: Shoudl R Objects be written to working directory as tab-sep. files?
-<checkbox var="returntabfiles" label="write R Objects into working directory as tab-separated files" selected="F"/>
-<separator span="full"/>
-#______________________________________________________________________________#
+<checkbox var="returntabfiles" label="create R Objects as tab-separated files" selected="F"/>
 
 #_____Report creation__________________________________________________________#
 <separator label="Report creation"/>
 <label text="Please select covariates for labelling plots by choosing the appropriate column names in the phenoData." span="full"/>
 <group>
-	<hbox>
-		##data-range: T,F; default-value: F; description: Create a report?
-		<checkbox id="doReport" var="createReport" label="create report: " selected="F" span="full"/>
-		##data-range: ; default-value: ; description: Choolse directory for MIND-report
-		<filechooser var="reportfolder" label="Report folder: " fileselection-mode="directories-only" enabled="${doReport.selected}"/>
-	</hbox>
+	##data-range: T,F; default-value: F; description: Create a report?
+	<checkbox id="doReport" var="createReport" label="create report: " selected="T" span="full"/>			
 </group>
 <group>
 	<hbox>
@@ -117,6 +107,10 @@ objects.before
 	</hbox>
 </group>
 <separator/>
+<group>
+##data-range: ; default-value: ; description: Choolse directory for MIND-report
+<filechooser var="outputfolder" label="Output folder: " fileselection-mode="directories-only"/>
+</group>
 #______________________________________________________________________________#
 
 ##### 2. R SCRIPT                                                ###############
@@ -161,6 +155,7 @@ library(limma)
 library(R2HTML)
 library(impute)
 library(rggMIND)
+library(tcltk)
 
 ##### 2.4. Data import                                           ###############
 #searches for the column with filename in it
@@ -243,9 +238,16 @@ preprocessing$normalization="none"
 preprocessing$transformation="Log2"
 experiment = new("MIAME", preprocessing=preprocessing)
 data.eSet = new("ExpressionSet", exprs=exprs, featureData = featureData, phenoData = phenoData, experiment = experiment)
-#______________________________________________________________________________#
 
 #_____Output___________________________________________________________________#
+
+if(is.na(outputfolder)){
+  outputfolder=getwd()
+  retval=tkmessageBox(title = "Warning",
+  message = paste("An output directory is not provided.\nReport will be saved in:",outputfolder),icon = "info", type = "ok")
+  print(paste("Outputs directory:",outputfolder))  
+}
+
 if(returnRObjects){
 	save("data.eSet",file="data-eSet.RData")
 	save("data.normalized.eSet",file="data-normalized-eSet.RData")
@@ -273,7 +275,9 @@ if(!chooseBoxlabel)
 	boxlabels="colnames"
 	
 if(createReport)
-	createReport1color(data.eSet,data.normalized.eSet,rgghome=rgghome,reportfolder=reportfolder,target=ma$path,channel="green",bgCorrMethod,bgCorrOffset,normMethod,heatcov,boxlabels=boxlabels,pcgroup=pcgroup,pcncomp=as.integer(pcncomp),trans=trafo,maplots=TRUE)
+	createReport1color(data.eSet,data.normalized.eSet,rgghome=rgghome,reportfolder=paste(outputfolder,"report",sep="/")
+	,target=ma$path,channel="green",bgCorrMethod,bgCorrOffset,normMethod,heatcov,boxlabels=boxlabels,
+	pcgroup=pcgroup,pcncomp=as.integer(pcncomp),trans=trafo,maplots=TRUE)
 	
 #Specify objects that should stay during script
 objects.stay = c("data.eSet","data.normalized.eSet","stylesheet")

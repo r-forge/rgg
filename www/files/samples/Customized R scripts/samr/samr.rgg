@@ -119,7 +119,7 @@ objects.before = objects()
 		##data-range: T,F; default-value: F; description: create a report?
 		<checkbox var="createReport" id="createReport" label="Create report?" selected="T"/>
 		##data-range: ; default-value: ; description: Specify output folder for samr-report
-		<filechooser var="reportfolder" label="File:" fileselection-mode="directories-only" enabled="${createReport.selected}"/>
+		<filechooser var="reportfolder" label="Folder:" fileselection-mode="directories-only" enabled="${createReport.selected}"/>
 		"default"
 	</hbox>
 </group>
@@ -163,8 +163,11 @@ if(! "rggSAMR" %in% installed.pkgs[,1]){
 library(Biobase)
 library(samr)
 library(rggSAMR)
+library(tcltk)
 
 ##### 2.4. Data import                                           ###############
+if(!is.na(robject)){
+
 loadedobject = load(robject)
 data.eset = get(loadedobject[1])
 
@@ -243,7 +246,22 @@ cat("\n")
 
 ##### 3.1. Report creation                                       ###############
 if(createReport){
-	createReportSamr(object.names=objectnames,rgghome=rgghome,qqplot=doQQPlot,reportfolder=reportfolder,foldchange=foldchange,delta=ifelse(furthercalc,delta,"not specified"))
+	if(is.na(reportfolder)){
+		reportfolder=paste(getwd(),"report",sep="/")
+		if(!file.exists(reportfolder))
+			dir.create(reportfolder)
+		retval=tkmessageBox(title = "Warning",
+		message = paste("A report directory is not provided.\nReport will be saved in:",reportfolder),icon = "info", type = "ok")
+		print(paste("Report directory:",reportfolder))  
+	}else{
+		reportfolder=paste(reportfolder,"report",sep="/")	
+		if(!file.exists(reportfolder))
+			dir.create(reportfolder)
+		print(paste("Report directory:",reportfolder))
+	}
+	
+	createReportSamr(object.names=objectnames,rgghome=rgghome,qqplot=doQQPlot,reportfolder=reportfolder,foldchange=foldchange,
+	delta=ifelse(furthercalc,delta,"not specified"))
 }
 ################################################################################
 
@@ -260,5 +278,9 @@ if(!dev.interactive()){
 	file.remove("temp.eps")
 }else{
 	dev.off()
+}
+}else{
+	retval=tkmessageBox(title = "Error",
+    message = "Please select an R-Object containing the ExpressionSet!\nOne can be created using MIND",icon = "error", type = "ok")
 }
 </rgg>

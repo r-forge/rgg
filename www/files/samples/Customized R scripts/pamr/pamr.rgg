@@ -115,9 +115,9 @@ objects.before = objects()
 <group>
 	<hbox>
 		##data-range: T,F; default-value: F; description: Do you want a report?
-		<checkbox id="doCreateReport" var="doCreateReport" label="Create report: " selected="F"/>
+		<checkbox id="doCreateReport" var="doCreateReport" label="Create report?  " selected="T"/>
 		##data-range: ; default-value: ; description: Choose folder where report should be saved
-		<filechooser var="reportFolder" label="Output Folder: " fileselection-mode="directories-only" enabled="${doCreateReport.selected}" size ="15"/>
+		<filechooser var="reportfolder" label="Folder: " fileselection-mode="directories-only" enabled="${doCreateReport.selected}" size ="15"/>
 	</hbox>
 </group>
 #______________________________________________________________________________#
@@ -160,8 +160,10 @@ library("limma")
 library("pamr")
 library("R2HTML")
 library("rggPAMR")
+library(tcltk)
 
 ##### 2.2. Data import                                           ###############
+if(!is.na(robject)){
 
 loadedobject = load(robject)
 data.eset = get(loadedobject[1])
@@ -259,7 +261,20 @@ if(doListSelGenes){
 
 #_____Report creation__________________________________________________________#
 if(doCreateReport){
-	createReportPamr(rgghome,reportfolder=switch(reportFolder,"default"=paste(rgghome,"report",sep="/"),reportFolder),
+	if(is.na(reportfolder)){
+		reportfolder=paste(getwd(),"report",sep="/")
+		if(!file.exists(reportfolder))
+			dir.create(reportfolder)
+		retval=tkmessageBox(title = "Warning",
+		message = paste("A report directory is not provided.\nReport will be saved in:",reportfolder),icon = "info", type = "ok")
+		print(paste("Report directory:",reportfolder))  
+	}else{
+		reportfolder=paste(reportfolder,"report",sep="/")	
+		if(!file.exists(reportfolder))
+			dir.create(reportfolder)
+		print(paste("Report directory:",reportfolder))
+	}
+	createReportPamr(rgghome,reportfolder=reportfolder,
 		classes=classes,
 		nthresh=nthresh,
 		doPlotFDR=doPlotFDR,
@@ -281,8 +296,11 @@ objects.after = c(objects.before,objects.stay)
 
 #removing 'temporary' objects
 remove(list=objects()[!(objects() %in% objects.after)])
-#______________________________________________________________________________#
-################################################################################
+
+}else{
+	retval=tkmessageBox(title = "Error",
+    message = "Please select an R-Object containing the ExpressionSet!\nOne can be created using MIND",icon = "error", type = "ok")
+}
 </rgg>
 
 

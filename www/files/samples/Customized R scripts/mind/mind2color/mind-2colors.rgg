@@ -12,7 +12,8 @@ objects.before = objects()
 
 ##### 1.2. Short description                                     ###############
 <separator label="Description"/>
-<label text="The MIND is an easy-to-use but powerful GUI for microarray import."/>
+<label text="MIND is an RGG GUI for microarray import,normalization and quality control. 
+It generates a quality report and an expressionSet object, which can be used as input for the pamr and samr GUI."/>
 <separator/>
 <gaprow height="3"/>
 
@@ -36,10 +37,8 @@ objects.before = objects()
 <group>
 	##data-range: none,subtract,half,minimum,movingmin,edwards,normexp; default-value: subtract; description: Background correction method for function backgroundCorrect (limma)
 	<combobox var="bgCorrMethod" label="Method: " items="none,subtract,half,minimum,movingmin,edwards,normexp" selected-item="subtract" enabled="${!vsn.selected}"/>
-</group>
-<label text="Please note that the options 'Edwards' and 'Normexp' may produce long calculation times depending on the scale of your experiment."/>
-<group>
-	<label text="Offset: "/>
+<label text="Please note that the options 'Edwards' and 'Normexp' may produce long calculation times depending on the scale of your experiment." span="full"/>
+<label text="Offset: " span="full"/>
 	##data-range: T,F; default-value: F; description: Add minimum of all negative corrected values +1
 	<radiobutton var="doSelectMinOffset" label="add minimum of all negative corrected values +1" button-group="offset" span="full" selected="F" enabled="${!vsn.selected}"/>
 	<group>
@@ -104,21 +103,15 @@ objects.before = objects()
 #_____Output___________________________________________________________________#
 <separator label="Create Output" span="full"/>
 ##data-range: T,F; default-value: F; description: Write R Objects into working directory (as .RData files)
-<checkbox var="returnRObjects" label="write R Objects into working directory" selected="F"/>
+<checkbox var="returnRObjects" label="create R Objects" selected="F"/>
 ##data-range: T,F; default-value: F; description: Write R Objects into working direcotry (as tab-separated files)
-<checkbox var="returntabfiles" label="write R Objects into working directory as tab-separated files" selected="F"/>
-<separator span="full"/>
-#______________________________________________________________________________#
+<checkbox var="returntabfiles" label="create R Objects as tab-separated files" selected="F"/>
 
 #_____Report creation__________________________________________________________#
 <separator label="Report creation"/>
 <group>
-	<hbox>
-		##data-range: T,F; default-value: F; description: Should a report be created?
-		<checkbox id="doReport" var="createReport" label="create report: " selected="F" span="full"/>
-		##data-range: ; default-value: ; description: Specify the destination folder for the MIND-report
-		<filechooser var="reportfolder" label="Report folder: " fileselection-mode="directories-only" enabled="${doReport.selected}"/>
-	</hbox>
+	##data-range: T,F; default-value: F; description: Should a report be created?
+	<checkbox id="doReport" var="createReport" label="create report: " selected="F" span="full"/>
 </group>
 <label text="Please select covariates for labelling plots by choosing the appropriate column names in the phenoData." span="full"/>
 <group>
@@ -149,10 +142,13 @@ objects.before = objects()
 		<combobox var="pcgroup" label="corresponding to covariate: " items="${ma.targetfileheader}" enabled="${doPCcolors.selected and doPCcolors.enabled}"/>
 		##data-range: 2,3,4,5,6,7; default-value: 2; description: Number of components for PC plot
 		<combobox var="pcncomp" label="Number of components: " items="2,3,4,5,6,7" data-type="numeric" enabled="${withPCcolor.selected and withPCcolor.enabled}"/>
-		</hbox>
+	</hbox>
 </group>
 <separator/>
-
+<group>
+##data-range: ; default-value: ; description: Specify the destination folder for the MIND-report
+<filechooser var="outputfolder" label="Output folder: " fileselection-mode="directories-only"/>
+</group>
 ##### 2. R SCRIPT                                                ###############
 ################################################################################
 
@@ -195,6 +191,7 @@ library(limma)
 library(R2HTML)
 library(impute)
 library(rggMIND)
+library(tcltk)
 
 ##### 2.4. Data import                                           ###############
 #Find the column with the filenames in it
@@ -288,9 +285,15 @@ experiment = new("MIAME", preprocessing=preprocessing)
 colnames(normMA$M)=row.names
 data.normalized.eSet = new("ExpressionSet", exprs=normMA$M, featureData = featureData, phenoData=phenoData, experiment=experiment)
 
-#______________________________________________________________________________#
-
 #_____Output___________________________________________________________________#
+
+if(is.na(outputfolder)){
+  outputfolder=getwd()
+  retval=tkmessageBox(title = "Warning",
+  message = paste("An output directory is not provided.\nReport will be saved in:",outputfolder),icon = "info", type = "ok")
+  print(paste("Outputs directory:",outputfolder))  
+}
+
 if(returnRObjects){
 	save("data.eSet",file="data-eSet.RData")
 	save("data.normalized.eSet",file="data-normalized-eSet.RData")
@@ -317,7 +320,9 @@ if(!chooseBoxlabel)
 	boxlabels="colnames"
 
 if(createReport)
-	createReport2color(MA,normMA,data.eSet,data.normalized.eSet,rgghome=rgghome,reportfolder=reportfolder,target=ma$path,bgCorrMethod,bgCorrOffset,normWithinMethod,normBetweenMethod,heatcov,boxlabels=boxlabels,pcgroup=pcgroup,pcncomp=as.integer(pcncomp),trans=trafo,maplots=TRUE)
+	createReport2color(MA,normMA,data.eSet,data.normalized.eSet,rgghome=rgghome,reportfolder=paste(outputfolder,"report",sep="/"),
+	target=ma$path,bgCorrMethod,bgCorrOffset,normWithinMethod,normBetweenMethod,heatcov,boxlabels=boxlabels,
+	pcgroup=pcgroup,pcncomp=as.integer(pcncomp),trans=trafo,maplots=TRUE)
 ################################################################################
 
 #Specify objects which should stay during script
