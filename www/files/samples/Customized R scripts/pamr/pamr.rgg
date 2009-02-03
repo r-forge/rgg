@@ -15,7 +15,8 @@ objects.before = objects()
 #ATTENTION: This GUI does not support survival time data. To do prediction anal
 #			ysis for survival time data look for Pamr - Survival Time
 <separator label="Description"/>
-<h3 text="Prediction analysis for microarray data with 'pamr'" alignment="center"/>
+<h3 text="Prediction analysis for microarray data with 'pamr'.&lt;br&gt;
+&lt;h4&gt;Please note that this function requires R v2.8.0 or higher" alignment="center"/>
 <gaprow height="3"/>
 
 ##### 1.3. Package dependencies                                  ###############
