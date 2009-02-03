@@ -15,8 +15,7 @@ objects.before = objects()
 #ATTENTION: This GUI does not support survival time data. To do prediction anal
 #			ysis for survival time data look for Pamr - Survival Time
 <separator label="Description"/>
-<h3 text="Prediction analysis for microarray data with 'pamr'.&lt;br&gt;
-&lt;h4&gt;Please note that this function requires R v2.8.0 or higher" alignment="center"/>
+<label text="Prediction analysis for microarray data with 'pamr'. Please note that this function requires R v2.8.0 or higher"/>
 <gaprow height="3"/>
 
 ##### 1.3. Package dependencies                                  ###############
@@ -34,7 +33,6 @@ objects.before = objects()
 	<label text="Select an R-Object containing the ExpressionSet" span="3"/>
 	<filechooser var="robject" label="File:" accepted-extension=".RData" fileselection-mode="files-only" description="saved RObjects"/>
 </group>
-<separator span="full"/>
 
 <gaprow height="5"/>
 

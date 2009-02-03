@@ -24,20 +24,17 @@ Please note that this function requires R v2.8.0 or higher"/>
 
 ##### 1.4. Analysis                                              ###############
 #_____VSN normalization________________________________________________________#
-<group>
-	<hbox>
-		##data-range: T,F; default-value: F; description: should vsn normalization be performed?
-		<checkbox var="doVSN" id="vsn" label="perform VSN normalization" selected="F"/>
-	</hbox>
-	<label text="Depending on the size of the data, this can take a long time. Note that background correction will default to 'subtract' automatically." span="2"/>
-</group>
-#______________________________________________________________________________#
+##data-range: T,F; default-value: F; description: should vsn normalization be performed?
+<checkbox var="doVSN" id="vsn" label="perform VSN normalization" selected="F"/>
+
+<label text="Depending on the size of the data, this can take a long time. Note that background correction will default to 'subtract' automatically." span="full"/>
 
 #_____Background correction____________________________________________________#
 <separator label="Background Correction"/>
 <group>
 	##data-range: none,subtract,half,minimum,movingmin,edwards,normexp; default-value: subtract; description: Background correction method for function backgroundCorrect (limma)
-	<combobox var="bgCorrMethod" label="Method: " items="none,subtract,half,minimum,movingmin,edwards,normexp" selected-item="subtract" enabled="${!vsn.selected}"/>
+<combobox var="bgCorrMethod" label="Method: " items="none,subtract,half,minimum,movingmin,edwards,normexp" selected-item="subtract" enabled="${!vsn.selected}"/>
+</group>
 <label text="Please note that the options 'Edwards' and 'Normexp' may produce long calculation times depending on the scale of your experiment." span="full"/>
 <label text="Offset: " span="full"/>
 	##data-range: T,F; default-value: F; description: Add minimum of all negative corrected values +1
@@ -50,7 +47,7 @@ Please note that this function requires R v2.8.0 or higher"/>
 			<textfield var="bgCorrOffset" label="value:" data-type="numeric" default-value="0" enabled="${offset.selected and offset.enabled}"/>
 		</hbox>
 	</group>
-</group>
+
 #______________________________________________________________________________#
 
 #_____Print-tip layout_____________________________________________________________#
