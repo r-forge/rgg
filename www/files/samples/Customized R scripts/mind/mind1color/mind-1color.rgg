@@ -24,51 +24,45 @@ Please note that this function requires R v2.8.0 or higher"/>
 
 ##### 1.4. Analysis                                              ###############
 #_____VSN normalization________________________________________________________#
-<group>
-	##data-range: T,F; default-value: F; description: should vsn normalization be performed?
-	<checkbox var="doVSN" id="vsn" label="perform VSN normalization" selected="F"/>
-	<label text="Depending on the size of the data, this can take some time. Note that background correction will default to 'subtract' automatically." span="full"/>
-</group>
-#______________________________________________________________________________#
-
+##data-range: T,F; default-value: F; description: should vsn normalization be performed?
+<checkbox var="doVSN" id="vsn" label="perform VSN normalization" selected="F"/>
+<label text="Depending on the size of the data, this can take some time.Note that background correction will default to 'subtract' automatically"/>
 #_____Background correction____________________________________________________#
 <separator label="Background Correction"/>
 <group>
 	##data-range: "none","subtract","half","minimum","movingmin","edwards","normexp"; default-value: "subtract"; description: specifies the background correction method
 	<combobox id="bgCorrMethod" var="bgCorrMethod" label="Method: " items="none,subtract,half,minimum,movingmin,edwards,normexp" selected-item="subtract" enabled="${!vsn.selected}"/>
-    <label text="Please note that the options 'Edwards' and 'Normexp' may produce long calculation times depending on the scale of your experiment." span="full"/>
-	<label text="Offset: "/>
-	##data-range: T,F; default-value: T; description: is the specified offset value selected or not?
-	<radiobutton var="doSelectMinOffset" label="add minimum of all negative corrected values +1" button-group="offset" span="full" selected="T" enabled="${!vsn.selected}"/>
-	<group>
-		<hbox>
-			<radiobutton id="offset" label="" button-group="offset" enabled="${!vsn.selected}"/>
-			<label text="add: "/>
-			##data-range: ; default-value: 0; description: specifies user-defined offset value
-			<textfield var="bgCorrOffset" label=" " data-type="numeric" default-value="0" enabled="${offset.selected and offset.enabled}"/>
-		</hbox>
-	</group>
-	
-#_____Logarithm________________________________________________________________#
-
-	<label text="If VSN is not selected, a log2 transformation will be applied." span="full"/>
-	<label text="log2 produces NaNs for negative corrected values. To avoid this you can specify an offset." span="full"/>
+</group>
+<label text="Please note that the options 'Edwards' and 'Normexp' may produce long calculation times depending of your experiment" span="full"/>
+<label text="Offset: "/>
+##data-range: T,F; default-value: T; description: is the specified offset value selected or not?
+<radiobutton var="doSelectMinOffset" label="add minimum of all negative corrected values +1" button-group="offset" span="full" selected="T" enabled="${!vsn.selected}"/>
+<group>
+	<hbox>
+		<radiobutton id="offset" label="" button-group="offset" enabled="${!vsn.selected}"/>
+		<label text="add: "/>
+		##data-range: ; default-value: 0; description: specifies user-defined offset value
+		<textfield var="bgCorrOffset" label=" " data-type="numeric" default-value="0" enabled="${offset.selected and offset.enabled}"/>
+	</hbox>
 </group>
 
+#_____Logarithm________________________________________________________________#
+<label text="If VSN is not selected, a log2 transformation will be applied." span="full"/>
+<label text="log2 produces NaNs for negative corrected values.To avoid this you can specify an offset" span="full"/>
+	
 #_____Normalization____________________________________________________________#
 <separator label="Normalization"/>
 <group>
 	##data-range: "quantile","scale","none"; default-value: "quantile"; description: specifies normalization method
 	<combobox var="normMethod" label="Normalization method:" items="quantile, scale, none" default-value="quantile"/>
 </group>
-<gaprow height="5"/>
 
 #_____Output___________________________________________________________________#
 <separator label="Create Output" span="full"/>
 ##data-range: T,F; default-value: F; description: Should R Objects be written to working directory?
-<checkbox var="returnRObjects" label="create R Objects" selected="F"/>
+<checkbox var="returnRObjects" label="create R Objects" selected="T"/>
 ##data-range: T,F; default-value: F; description: Shoudl R Objects be written to working directory as tab-sep. files?
-<checkbox var="returntabfiles" label="create R Objects as tab-separated files" selected="F"/>
+<checkbox var="returntabfiles" label="create R Objects as tab-separated files" selected="T"/>
 
 #_____Report creation__________________________________________________________#
 <separator label="Report creation"/>
