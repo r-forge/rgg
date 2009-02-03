@@ -7,7 +7,8 @@ objects.before = objects()
 
 ##### 1.1. Tool name                                             ###############
 <h3 text="Significance Analysis for Microarrays with SAMR" alignment="center" span="full"/>
-<h4 text="for paired/unpaired 2-class and multiclass problems" alignment="center" span="full"/>
+<h4 text="for paired/unpaired 2-class and multiclass problems&lt;br&gt;
+Please note that this function requires R v2.8.0 or higher" alignment="center" span="full"/>
 
 ##### 1.2. Short description                                     ###############
 #Perform significane analysis with the samr package.

@@ -13,7 +13,8 @@ objects.before = objects()
 ##### 1.2. Short description                                     ###############
 <separator label="Description"/>
 <label text="MIND is an RGG GUI for microarray import,normalization and quality control. 
-It generates a quality report and an expressionSet object, which can be used as input for the pamr and samr GUI."/>
+It generates a quality report and an expressionSet object, which can be used as input for the pamr and samr GUI. 
+Please note that this function requires R v2.8.0 or higher"/>
 <separator/>
 <gaprow height="3"/>
 
@@ -295,14 +296,14 @@ if(is.na(outputfolder)){
 }
 
 if(returnRObjects){
-	save("data.eSet",file="data-eSet.RData")
-	save("data.normalized.eSet",file="data-normalized-eSet.RData")
+	save("data.eSet",file=paste(outputfolder,"data-eSet.RData",sep="/"))
+	save("data.normalized.eSet",file=paste(outputfolder,"data-normalized-eSet.RData",sep="/"))
 }
 
 if(returntabfiles){
-	write.table(exprs(data.eSet),file="data-expressions.txt",row.names=T,col.names=NA,sep="\t",na="NA")
-	write.table(exprs(data.normalized.eSet),file="data-normalized-expressions.txt",row.names=T,col.names=NA,sep="\t", na="NA")
-	write.table(phenoData(data.eSet)@data,file="data-targetfile.txt",row.names=T,col.names=NA,sep="\t",na="NA")
+	write.table(exprs(data.eSet),file=paste(outputfolder,"data-expressions.txt",sep="/"),row.names=T,col.names=NA,sep="\t",na="NA")
+	write.table(exprs(data.normalized.eSet),file=paste(outputfolder,"data-normalized-expressions.txt",sep="/"),row.names=T,col.names=NA,sep="\t", na="NA")
+	write.table(phenoData(data.eSet)@data,file=paste(outputfolder,"data-targetfile.txt",sep="/"),row.names=T,col.names=NA,sep="\t",na="NA")
 }
 #______________________________________________________________________________#
 
