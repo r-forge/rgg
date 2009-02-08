@@ -101,15 +101,15 @@ Please note that this function requires R v2.8.0 or higher"/>
 #_____Output___________________________________________________________________#
 <separator label="Create Output" span="full"/>
 ##data-range: T,F; default-value: F; description: Write R Objects into working directory (as .RData files)
-<checkbox var="returnRObjects" label="create R Objects" selected="F"/>
+<checkbox var="returnRObjects" label="create R Objects" selected="T"/>
 ##data-range: T,F; default-value: F; description: Write R Objects into working direcotry (as tab-separated files)
-<checkbox var="returntabfiles" label="create R Objects as tab-separated files" selected="F"/>
+<checkbox var="returntabfiles" label="create R Objects as tab-separated files" selected="T"/>
 
 #_____Report creation__________________________________________________________#
 <separator label="Report creation"/>
 <group>
 	##data-range: T,F; default-value: F; description: Should a report be created?
-	<checkbox id="doReport" var="createReport" label="create report: " selected="F" span="full"/>
+	<checkbox id="doReport" var="createReport" label="create report: " selected="T" span="full"/>
 </group>
 <label text="Please select covariates for labelling plots by choosing the appropriate column names in the phenoData." span="full"/>
 <group>
