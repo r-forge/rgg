@@ -28,6 +28,7 @@ public class VLabel extends VisualComponent{
         this.text = text;
         label = new JXLabel(text);
         label.setLineWrap(true);
+//        label.setMaxLineSpan(2);
         swingMatrix = new JComponent[][]{{label}};
     }
     

@@ -40,8 +40,8 @@ public class RGGGroupFactory extends RElementFactory {
             RGGModel rggmodel = RGGFactory.createRGGModel(element,rggInstance);
             RGGPanelModel panelmodel = new RGGPanelModel(rggmodel);
             RGGPanelBuilder builder = new RGGPanelBuilder();
-
-            JPanel panel = builder.buildPanel(panelmodel, false, false);
+            builder.setGroup(true);
+            JPanel panel = builder.buildPanel(panelmodel, false, true);
             VGroup vGroup = new VGroup(panel);
             if (StringUtils.isNotBlank(colspan) && StringUtils.isNumeric(colspan)) {
                 vGroup.setColumnSpan(Integer.parseInt(colspan));
