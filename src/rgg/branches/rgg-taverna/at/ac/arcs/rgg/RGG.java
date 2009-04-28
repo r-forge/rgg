@@ -27,6 +27,7 @@ import org.xml.sax.SAXException;
 public class RGG {
     
     public static final String RGGHOMEVAR = "rgghome";
+    public static boolean debug;
 
 //    private static int inputCounter = 0;
     
@@ -79,6 +80,7 @@ public class RGG {
         for (int i = 0; i < document.getChildNodes().getLength(); i++) {
             if (document.getChildNodes().item(i).getNodeType() == Element.ELEMENT_NODE) {
                 rggElement = (Element) document.getChildNodes().item(i);
+                debug = rggElement.getAttribute("debug").equalsIgnoreCase("true");
             }
         }
 
@@ -104,7 +106,7 @@ public class RGG {
     }
 
     public JPanel buildPanel(boolean useDefaultDialogBorder, boolean debug) {
-        return new RGGPanelBuilder().buildPanel(rggPanelModel, useDefaultDialogBorder, debug);
+        return new RGGPanelBuilder().buildPanel(rggPanelModel, useDefaultDialogBorder, RGG.debug);
     }
 
     public void addObject(String id, Object obj) {
