@@ -36,12 +36,13 @@ public class RGGGroupFactory extends RElementFactory {
                 throw new IllegalArgumentException("elements node type must be ELEMENT_NODE");
             }
             String colspan = element.getAttribute(RGG.getConfiguration().getString("COLUMN-SPAN"));
+            String debug = element.getAttribute("debug");
 
             RGGModel rggmodel = RGGFactory.createRGGModel(element,rggInstance);
             RGGPanelModel panelmodel = new RGGPanelModel(rggmodel);
             RGGPanelBuilder builder = new RGGPanelBuilder();
             builder.setGroup(true);
-            JPanel panel = builder.buildPanel(panelmodel, false, true);
+            JPanel panel = builder.buildPanel(panelmodel, false, debug.equalsIgnoreCase("true"));
             VGroup vGroup = new VGroup(panel);
             if (StringUtils.isNotBlank(colspan) && StringUtils.isNumeric(colspan)) {
                 vGroup.setColumnSpan(Integer.parseInt(colspan));
