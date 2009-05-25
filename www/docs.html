@@ -591,6 +591,57 @@ paint-labels=&quot;true&quot; major-tick-spacing=&quot;20&quot;  minor-tick-spac
 &lt;img src=&quot;RLogo.png&quot;/&gt;</pre>
   <p class="centeredImage"><img alt="" src="images/gap2.jpg"><br />
   <strong>Figure 43: Gap: height=20</strong></p>
+
+<!--*************************MATRIX***********************-->
+<p class="subsectionheader">6.14 &lt;matrix&gt;</p>
+
+<p>The &lt;matrix&gt; is simple gui element to create matrix. 
+For small matrix objects, user can add rows and columns and after that fill those or 
+load a tab-delimited text file. Although it has buttons to add rows and columns, to browse, a table (as seen in the figure below)
+, it is a single GUI component in the context of RGG layout concept.  Unlike as other GUI elements, it has no label; 
+however it can be labeled using &lt;separator&gt; or &lt;hX&gt; elements. </p>
+
+<p class="centeredImage"><img alt="" src="images/matrix.png"><br />
+<strong>Figure 44: GUI component of &lt;matrix&gt; </strong> </p>
+
+<p>Attributes:</p>
+<ul type="disc">
+  <li><strong>var: </strong>If used, the created matrix objects will be assigned to it. The name of the variable is  the value of this attribute.</li>
+  <li><strong>span:</strong>span of the whole gui element.</li>
+</ul>
+
+<p><em>Example: Usage of matrix.</em></p>
+<pre class="hacks">&lt;matrix var=&quot;data&quot; span=&quot;full&quot;/&gt;</pre>
+<p class="centeredImage"><img alt="" src="images/matrix2.png"><br />
+<strong>Figure 45: Matrix</strong></p>
+
+<!--*************************<H1> <H2> ...***********************-->
+<p class="subsectionheader">6.15 &lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;h4&gt;, &lt;h5&gt;, &lt;h6&gt;</p>
+
+<p>The &lt;h1&gt; to &lt;h6&gt; tags are used to define headings.
+
+&lt;h1&gt; defines the largest heading and &lt;h6&gt; defines the smallest heading.</p>
+
+<p class="centeredImage"><img alt="" src="images/h123456.png"><br />
+<strong>Figure 46: h1 to h6 </strong> </p>
+
+<p>Attributes:</p>
+<ul type="disc">
+  <li><strong>text: </strong>The heading's text</li>
+  <li><strong>alignment:</strong> The position in the component  cell. &quot;left&quot; (default), &quot;right&quot; and &quot;center&quot; can be used.</li>
+  <li><strong>span:</strong> Span of the heading.</li>
+</ul>
+
+<p><em>Example: The RGG code of figure 46.</em></p>
+<pre class="hacks">&lt;h1 text="This is heading 1"/&gt;
+&lt;h2 text="This is heading 2"/&gt;
+&lt;h3 text="This is heading 3"/&gt;
+&lt;h4 text="This is heading 4"/&gt;
+&lt;h5 text="This is heading 5"/&gt;
+&lt;h6 text="This is heading 6"/&gt;</pre>
+<p class="centeredImage"><img alt="" src="images/h123456.png"><br />
+<strong>Figure 47: h1 to h6</strong></p>
+  
 </div>
 
 <div id="footer">
