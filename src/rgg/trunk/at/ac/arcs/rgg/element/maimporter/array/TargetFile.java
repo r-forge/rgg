@@ -167,7 +167,7 @@ public class TargetFile {
             while (line.trim().startsWith("#")) {
                 line = reader.readLine();
             }
-            
+
             String[] header = getHeader(targetFile, line);
             if (!hasFileNameHeader(header)) {
                 throw new TargetFileException("Couldn't find the header \"FileName\" " +
@@ -208,7 +208,13 @@ public class TargetFile {
             for (ArrayList<String> line : targetFileData) {
                 rbuf.append("\"");
                 rbuf.append(line.get(i));
-                rbuf.append("\",");
+
+                if (header.get(i).equalsIgnoreCase("filename")) {
+                    rbuf.append("\"\n");
+                } else {
+                    rbuf.append("\"");
+                }
+                rbuf.append(",");
             }
             rbuf.deleteCharAt(rbuf.length() - 1);
             rbuf.append("),");

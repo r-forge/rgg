@@ -12,7 +12,6 @@ import org.w3c.dom.Element;
 public abstract class RElementFactory {
 
     protected Perl5Util util = new Perl5Util();
-    
     private static Log log = LogFactory.getLog(RElementFactory.class);
 
     public RElementFactory() {

@@ -42,5 +42,5 @@ public class RSeparator extends RElement{
     public JComponent[][] getSwingComponentMatrix() {
         return vseperator.getSwingComponents();
     }
-    
+
 }

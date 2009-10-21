@@ -23,7 +23,6 @@ import at.ac.arcs.rgg.element.RElement;
 public class RVector extends RElement{
     private String label;
     private String var;
-    private boolean numeric = false;
     
     private VisualComponent[][] visualcomponents;
     
@@ -34,22 +33,26 @@ public class RVector extends RElement{
     }
     
     public String getRCode() {
-        StringBuffer sbuf = new StringBuffer("c(");
+        StringBuilder rbuilder = new StringBuilder();
+        if(var != null)
+            rbuilder.append(var+"<-");
+        rbuilder.append("c(");
         if(vvector.getVectortype() == VectorType.NUMERIC){
             for(JComponent textfield:vvector.getVectorlist()){
-                sbuf.append(((JFormattedTextField)textfield).getText()+",");
+                rbuilder.append(((JFormattedTextField)textfield).getText()+",");
             }
         }else if(vvector.getVectortype() == VectorType.CHARACTER){
             for(JComponent textfield:vvector.getVectorlist()){
-                sbuf.append("\""+((JFormattedTextField)textfield).getText()+"\",");
+                rbuilder.append("\""+((JFormattedTextField)textfield).getText()+"\",");
             }
         }else{
            for(JComponent component:vvector.getVectorlist()){
-                sbuf.append(new Boolean(((JCheckBox)component).isSelected()).toString().toUpperCase()+",");
+                rbuilder.append(new Boolean(((JCheckBox)component).isSelected()).toString().toUpperCase()+",");
             } 
         }
-        sbuf.append(")");
-        return sbuf.toString();
+        rbuilder.deleteCharAt(rbuilder.length()-1);
+        rbuilder.append(")");
+        return rbuilder.toString();
     }
    
     public boolean hasVisualComponents() {
@@ -88,4 +91,5 @@ public class RVector extends RElement{
     public JComponent[][] getSwingComponentMatrix() {
         return vvector.getSwingComponents();
     }
+
 }

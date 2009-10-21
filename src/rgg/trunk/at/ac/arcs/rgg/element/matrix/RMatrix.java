@@ -19,35 +19,35 @@ public class RMatrix extends RElement {
     }
 
     public String getRCode() {
-        StringBuffer sbuf = new StringBuffer();
+        StringBuilder rcodebuilder = new StringBuilder();
         if (StringUtils.isNotBlank(var)) {
-            sbuf.append(var+"=");
+            rcodebuilder.append(var + "=");
         }
         if (vMatrix.getColumnCount() == 0) {
-            return sbuf.toString();
+            return rcodebuilder.append("NA").toString();
         }
 
         Object[] values;
-        sbuf.append("matrix(c(");
-        for (int i = 0; i < vMatrix.getColumnCount(); i++) {            
+        rcodebuilder.append("matrix(c(");
+        for (int i = 0; i < vMatrix.getColumnCount(); i++) {
             values = vMatrix.getValuesAtColumn(i);
 
             if (isNumeric(values)) {
                 for (Object value : values) {
-                    sbuf.append(value == null ? "" : value.toString() + ",");
+                    rcodebuilder.append(value == null ? "" : value.toString() + ",");
                 }
             } else {
                 for (Object value : vMatrix.getValuesAtColumn(i)) {
-                    sbuf.append('"');
-                    sbuf.append(value == null ? "" : value.toString());
-                    sbuf.append("\",");
+                    rcodebuilder.append('"');
+                    rcodebuilder.append(value == null ? "" : value.toString());
+                    rcodebuilder.append("\",");
                 }
             }
         }
-        sbuf.deleteCharAt(sbuf.length() - 1);
-        sbuf.append("), ncol="+vMatrix.getColumnCount()+")");
+        rcodebuilder.deleteCharAt(rcodebuilder.length() - 1);
+        rcodebuilder.append("), ncol=" + vMatrix.getColumnCount() + ")");
 
-        return sbuf.toString();
+        return rcodebuilder.toString();
     }
 
     public void setVMatrix(VMatrix vMatrix) {
@@ -89,4 +89,5 @@ public class RMatrix extends RElement {
         }
         return true;
     }
+
 }

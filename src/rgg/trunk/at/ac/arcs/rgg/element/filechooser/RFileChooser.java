@@ -6,7 +6,6 @@
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
  */
-
 package at.ac.arcs.rgg.element.filechooser;
 
 import java.io.File;
@@ -19,40 +18,44 @@ import at.ac.arcs.rgg.element.RElement;
  *
  * @author ilhami
  */
-public class RFileChooser extends RElement{
+public class RFileChooser extends RElement {
+
     private String var;
     private String label;
     private String description;
     private String[] extensions;
-    
     private VisualComponent[][] visualcomponents;
-    private VFileChooser filechooser;
+    private VFileChooser vFilechooser;
+
     /** Creates a new instance of RFileChooser */
-        /** Creates a new instance of RFileChooser */
     public RFileChooser() {
     }
 
     public String getRCode() {
-        StringBuffer sbuf = new StringBuffer();
+        StringBuilder rcodebuilder = new StringBuilder();
         if (StringUtils.isNotBlank(var)) {
-            sbuf.append(var + "<-");
+            rcodebuilder.append(var + "<-");
         }
-        if (filechooser.isFilesSelected()) {
-            if (filechooser.isMultiSelectionEnabled()) {
-                sbuf.append("c(");
-                File[] files = filechooser.getSelectedFiles();
+        
+        
+        if (vFilechooser.isFilesSelected()) {
+            if (vFilechooser.isMultiSelectionEnabled()) {
+                rcodebuilder.append("c(");
+                File[] files = vFilechooser.getSelectedFiles();
                 for (int i = 0; i < files.length; i++) {
-                    sbuf.append("\"" + files[i].getPath() + "\"");
+                    rcodebuilder.append("\"" + files[i].getPath() + "\"");
                     if (i != (files.length - 1)) {
-                        sbuf.append(",");
+                        rcodebuilder.append(",");
                     }
                 }
-                sbuf.append(")");
+                rcodebuilder.append(")");
             } else {
-                sbuf.append("\"" + filechooser.getFilePath() + "\"");
+                rcodebuilder.append("\"" + vFilechooser.getFilePath() + "\"");
             }
+        }else{
+            rcodebuilder.append("NA");
         }
-        return StringUtils.replace(sbuf.toString(), "\\", "/");
+        return StringUtils.replace(rcodebuilder.toString(), "\\", "/");
     }
 
     public boolean hasVisualComponents() {
@@ -61,7 +64,7 @@ public class RFileChooser extends RElement{
 
     public VisualComponent[][] getVisualComponents() {
         if (visualcomponents == null) {
-            visualcomponents = new VisualComponent[][]{{filechooser}};
+            visualcomponents = new VisualComponent[][]{{vFilechooser}};
         }
         return visualcomponents;
     }
@@ -71,11 +74,11 @@ public class RFileChooser extends RElement{
     }
 
     public VFileChooser getFileChooser() {
-        return filechooser;
+        return vFilechooser;
     }
 
     public void setFileChooser(VFileChooser filechooser) {
-        this.filechooser = filechooser;
+        this.vFilechooser = filechooser;
     }
 
     public String getLabel() {
@@ -103,11 +106,11 @@ public class RFileChooser extends RElement{
     }
 
     public VFileChooser getVFileChooser() {
-        return filechooser;
+        return vFilechooser;
     }
 
     public void setVFileChooser(VFileChooser filechooser) {
-        this.filechooser = filechooser;
+        this.vFilechooser = filechooser;
     }
 
     public String getVariable() {
@@ -119,6 +122,7 @@ public class RFileChooser extends RElement{
     }
 
     public JComponent[][] getSwingComponentMatrix() {
-        return filechooser.getSwingComponents();
+        return vFilechooser.getSwingComponents();
     }
+
 }

@@ -27,6 +27,7 @@ public class RBool extends RElement {
         value = new Boolean(false);
     }
 
+    @Override
     public String getRCode() {
         StringBuffer rbuf = new StringBuffer();
         if (StringUtils.isNotBlank(var)) {
@@ -74,4 +75,5 @@ public class RBool extends RElement {
     public JComponent[][] getSwingComponentMatrix() {
         return new JComponent[][]{};
     }
+
 }

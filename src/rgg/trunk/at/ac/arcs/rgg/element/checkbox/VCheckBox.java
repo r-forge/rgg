@@ -21,7 +21,7 @@ public class VCheckBox extends VisualComponent {
     private JCheckBox checkBox;
     private JComponent[][] swingMatrix;
     private Boolean selected;
-    private boolean enabled;
+    private Boolean enabled;
     
     public VCheckBox() {
         enabled=true;
@@ -75,15 +75,16 @@ public class VCheckBox extends VisualComponent {
         return enabled;
     }
 
-    public void setEnabled(final boolean enabled) {        
-        this.enabled = enabled;
+    public void setEnabled(final boolean e) {        
         SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
-                checkBox.setEnabled(enabled);
-
+                checkBox.setEnabled(e);
             }
         });
+        Boolean oldvalue=this.enabled;
+        this.enabled = e;
+        changeSupport.firePropertyChange("enabled", oldvalue, this.enabled);
     }
     
     public void setColumnSpan(int colspan) {

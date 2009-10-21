@@ -47,4 +47,5 @@ public class RRCode extends RElement{
     {
         return new JComponent[0][];
     }
+
 }

@@ -38,11 +38,19 @@ public class RTextField extends RElement {
             rcode.append("<-");
         }
         if (textfield.isNumeric()) {
-            rcode.append(textfield.getTextFieldValue());
+            if (StringUtils.isBlank(textfield.getTextFieldValue())) {
+                rcode.append("NA");
+            } else {
+                rcode.append(textfield.getTextFieldValue());
+            }
         } else {
-            rcode.append("\"");
-            rcode.append(textfield.getTextFieldValue());
-            rcode.append("\"");
+            if (StringUtils.isBlank(textfield.getTextFieldValue())) {
+                rcode.append("NA");
+            } else {
+                rcode.append("\"");
+                rcode.append(textfield.getTextFieldValue());
+                rcode.append("\"");
+            }
         }
         return rcode.toString();
     }
@@ -89,4 +97,5 @@ public class RTextField extends RElement {
     public JComponent[][] getSwingComponentMatrix() {
         return textfield.getSwingComponents();
     }
+
 }

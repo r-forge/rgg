@@ -106,4 +106,5 @@ public class RCheckBox extends RElement {
     public void setReturnValueByNotSelected(String returnValuebyNotSelected) {
         this.returnValueByNotSelected = returnValuebyNotSelected;
     }
+
 }

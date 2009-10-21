@@ -39,6 +39,7 @@ public class RGGTargetFileEditorFactory extends RElementFactory{
                         colspan +"nor a known keyword!");
         }
         rTargetFileEditor.setVTargetFileEditor(vTargetFileEditor);
+        
         return rTargetFileEditor;
     }
 }

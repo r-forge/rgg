@@ -13,10 +13,9 @@ import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import at.ac.arcs.rgg.builder.RGGPanelBuilder;
 import at.ac.arcs.rgg.factories.RGGFactory;
+import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -26,9 +25,13 @@ import org.xml.sax.SAXException;
  * @author ilhami
  */
 public class RGG {
+    
+    public static final String RGGHOMEVAR = "rgghome";
+    public static boolean debug;
 
+    
     private static CompositeConfiguration config;
-    private static Log log = LogFactory.getLog(RGG.class);
+//    private static Log log = LogFactory.getLog(RGG.class);
     private HashMap<String, Object> idMap = new HashMap<String, Object>();
     private HashMap<String, Object> rggProperties = new HashMap<String, Object>();
     private RGGModel rggModel;
@@ -76,6 +79,7 @@ public class RGG {
         for (int i = 0; i < document.getChildNodes().getLength(); i++) {
             if (document.getChildNodes().item(i).getNodeType() == Element.ELEMENT_NODE) {
                 rggElement = (Element) document.getChildNodes().item(i);
+                debug = rggElement.getAttribute("debug").equalsIgnoreCase("true");
             }
         }
 
@@ -93,11 +97,15 @@ public class RGG {
     }
 
     public String generateRScript() {
-        return rggModel.generateRScript();
+        String rcode = rggModel.generateRScript();
+        rcode = RGGHOMEVAR + "=\""+
+                StringUtils.replace(rGGFileDir.getPath(), "\\", "/")+"\"\n"
+                + rcode;
+        return rcode;
     }
 
     public JPanel buildPanel(boolean useDefaultDialogBorder, boolean debug) {
-        return new RGGPanelBuilder().buildPanel(rggPanelModel, useDefaultDialogBorder, debug);
+        return new RGGPanelBuilder().buildPanel(rggPanelModel, useDefaultDialogBorder, RGG.debug);
     }
 
     public void addObject(String id, Object obj) {

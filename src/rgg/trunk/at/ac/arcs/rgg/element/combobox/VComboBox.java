@@ -35,7 +35,7 @@ public class VComboBox extends VisualComponent {
     }
 
     private void initComponents() {
-        comboBox = new JComboBox(new String[]{"          "});        
+        comboBox = new JComboBox(new String[]{"          "});
         label = new JLabel();
     }
 
@@ -96,15 +96,15 @@ public class VComboBox extends VisualComponent {
         return enabled;
     }
 
-    public void setEnabled(final boolean enabled) {
+    public void setEnabled(final boolean e) {
+        this.enabled = e;
         SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
-                comboBox.setEnabled(enabled);
-                label.setEnabled(enabled);
+                comboBox.setEnabled(e);
+                label.setEnabled(e);
             }
         });
-        this.enabled = enabled;
     }
 
     public boolean isVisualComponent() {
@@ -122,8 +122,10 @@ public class VComboBox extends VisualComponent {
     }
 
     public void setItems(Object[] items) {
-        if (items != null) {
-            this.items = items;
+        this.items = items;        
+        if (items == null) {
+            comboBox.setModel(new DefaultComboBoxModel());
+        }else{
             comboBox.setModel(new DefaultComboBoxModel(items));
         }
     }

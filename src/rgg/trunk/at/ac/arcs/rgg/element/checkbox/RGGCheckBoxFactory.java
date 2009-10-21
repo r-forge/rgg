@@ -6,7 +6,6 @@
 package at.ac.arcs.rgg.element.checkbox;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.oro.text.perl.Perl5Util;
 import at.ac.arcs.rgg.RGG;
 import at.ac.arcs.rgg.element.RElement;
 import at.ac.arcs.rgg.factories.RElementFactory;
@@ -26,13 +25,11 @@ public class RGGCheckBoxFactory extends RElementFactory {
     public RGGCheckBoxFactory() {
     }
 
-    public RElement createRGGElement(Element element,RGG rggInstance) {
+    public RElement createRGGElement(Element element, RGG rggInstance) {
         if (element.getNodeType() != Element.ELEMENT_NODE) {
             throw new IllegalArgumentException("elements node type must be ELEMENT_NODE");
         }
-        
-        Perl5Util util = new Perl5Util();
-        
+
         RCheckBox rcheckbox = new RCheckBox();
         VCheckBox vcheckbox = new VCheckBox();
 
@@ -47,7 +44,6 @@ public class RGGCheckBoxFactory extends RElementFactory {
         String id = element.getAttribute(RGG.getConfiguration().getString("ID"));
         String enabled = element.getAttribute(RGG.getConfiguration().getString("ENABLED"));
         /***********************************************************************************************/
-        
         if (StringUtils.isNotBlank(var)) {
             rcheckbox.setVar(var);
         }
@@ -69,7 +65,7 @@ public class RGGCheckBoxFactory extends RElementFactory {
         if (StringUtils.isNotBlank(returnValueBySelected)) {
             rcheckbox.setReturnValueBySelected(returnValueBySelected);
         }
-        
+
         if (StringUtils.isNotBlank(returnValueByNotSelected)) {
             rcheckbox.setReturnValueByNotSelected(returnValueByNotSelected);
         }
@@ -97,13 +93,13 @@ public class RGGCheckBoxFactory extends RElementFactory {
                         ELProperty.create(enabled), // the property to get
                         vcheckbox, // the "backing bean"
                         BeanProperty.create("enabled") // property to set
-                        );                
+                        );
                 binding.bind();
             }
-        }       
+        }
 
         rcheckbox.setCheckBox(vcheckbox);
-
+        
         return rcheckbox;
     }
 }

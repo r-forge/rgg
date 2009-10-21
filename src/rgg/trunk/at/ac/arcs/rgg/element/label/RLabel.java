@@ -14,7 +14,7 @@ import at.ac.arcs.rgg.element.RElement;
  * @author ilhami
  */
 public class RLabel extends RElement {
-
+    
     private VisualComponent[][] visualcomponents;
     private VLabel vlabel;
 
@@ -43,4 +43,5 @@ public class RLabel extends RElement {
     public JComponent[][] getSwingComponentMatrix() {
         return vlabel.getSwingComponents();
     }
+
 }

@@ -43,5 +43,6 @@ public class RGapRow extends RElement{
 
     public JComponent[][] getSwingComponentMatrix() {
         return vgaprow.getSwingComponents();
-    }    
+    }
+
 }

@@ -58,5 +58,5 @@ public class RSlider extends RElement{
     public JComponent[][] getSwingComponentMatrix() {
         return vslider.getSwingComponents();
     }
-    
+
 }

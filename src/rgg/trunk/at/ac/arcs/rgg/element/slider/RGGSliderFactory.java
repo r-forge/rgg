@@ -5,7 +5,6 @@ import org.apache.commons.lang.StringUtils;
 import at.ac.arcs.rgg.RGG;
 import at.ac.arcs.rgg.factories.RElementFactory;
 import at.ac.arcs.rgg.layout.LayoutInfo;
-import org.apache.oro.text.perl.Perl5Util;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Bindings;
@@ -144,7 +143,6 @@ public class RGGSliderFactory extends RElementFactory{
                         +" seems not to be a number: " + minortickspacing);
         }
         
-        Perl5Util util = new Perl5Util();
         if (StringUtils.isNotBlank(enabled)) {
             if (util.match("/(\\w+)\\./", enabled)) {
                 String sourceid = util.group(1);

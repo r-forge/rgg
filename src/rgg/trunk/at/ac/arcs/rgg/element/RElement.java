@@ -8,7 +8,7 @@ import javax.swing.JComponent;
 import at.ac.arcs.rgg.component.VisualComponent;
 
 public abstract class RElement {
-
+    
     protected ArrayList<RElement> childElements;
     protected PropertyChangeSupport changeSupport;
 
@@ -25,8 +25,8 @@ public abstract class RElement {
 
     public abstract JComponent[][] getSwingComponentMatrix();
 
-    public abstract boolean isChildAddable();
-
+    public abstract boolean isChildAddable();    
+        
     public void addChild(RElement elem) {
         if (!isChildAddable()) {
             throw new UnsupportedOperationException("This element doesn't accept any child elements.");
@@ -65,4 +65,5 @@ public abstract class RElement {
             return;
         }
     }
+    
 }

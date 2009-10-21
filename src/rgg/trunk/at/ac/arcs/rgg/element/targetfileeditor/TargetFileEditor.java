@@ -15,13 +15,17 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.apache.commons.lang.StringUtils;
 import at.ac.arcs.rgg.RGG;
 import at.ac.arcs.rgg.util.RGGFileExtensionFilter;
 import at.ac.arcs.rgg.util.tablerowheader.LineNumberTable;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JTextField;
 import org.jdesktop.swingworker.SwingWorker;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.decorator.Highlighter;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 /**
  *
@@ -143,14 +147,15 @@ class TargetFileEditor extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jxTable = new JTable();
-        //jxTable = new JXTable();
-        //jxTable.setHighlighters(new Highlighter[]{ HighlighterFactory.createAlternateStriping()});
-        //jxTable.setSortable(false);
-        //jxTable.setHorizontalScrollEnabled(true);
-        //jxTable.setAutoStartEditOnKeyStroke(true);
+        //jxTable = new JTable();
+        jxTable = new JXTable();
+        jxTable.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
+        jxTable.setHighlighters(new Highlighter[]{ HighlighterFactory.createAlternateStriping()});
+        jxTable.setSortable(false);
+        jxTable.setHorizontalScrollEnabled(true);
+        jxTable.setAutoStartEditOnKeyStroke(true);
         jxTable.setCellSelectionEnabled(true);
-        jxTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        //jxTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         jLabel1.setForeground(new java.awt.Color(0, 51, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -292,8 +297,8 @@ class TargetFileEditor extends javax.swing.JPanel {
         worker.execute();
 
     }
-//    private JXTable jxTable;
-    private JTable jxTable;
+    private JXTable jxTable;
+//    private JTable jxTable;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addColumnButton;
     private javax.swing.JButton addRowButton;
