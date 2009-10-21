@@ -51,9 +51,8 @@ public class RGGMatrixFactory extends RElementFactory{
         if (StringUtils.isNotBlank(id)) {
             rggInstance.addObject(id, vMatrix);
         }
-
-        
         rMatrix.setVMatrix(vMatrix);
+        
         return rMatrix;
     }
 }

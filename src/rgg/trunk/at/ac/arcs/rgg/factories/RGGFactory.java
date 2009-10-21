@@ -26,7 +26,8 @@ public class RGGFactory {
                 model.add(RElementFactory.getElementFactoryForName(elem.getNodeName()).createRGGElement(elem, rggInstance));
                 continue;
             }
-            if (rgg.getChildNodes().item(i).getNodeType() == Element.TEXT_NODE) {
+            if (rgg.getChildNodes().item(i).getNodeType() == Element.TEXT_NODE
+                    || rgg.getChildNodes().item(i).getNodeType() == Element.CDATA_SECTION_NODE) {
                 model.add(RGGRCodeFactory.createRCode((Text) rgg.getChildNodes().item(i)));
             }
         }

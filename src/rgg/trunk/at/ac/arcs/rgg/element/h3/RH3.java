@@ -42,5 +42,5 @@ public class RH3 extends RElement{
     public JComponent[][] getSwingComponentMatrix() {
         return vh1.getSwingComponents();
     }
-    
+
 }

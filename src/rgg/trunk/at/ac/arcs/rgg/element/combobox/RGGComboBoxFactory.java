@@ -9,7 +9,6 @@
 package at.ac.arcs.rgg.element.combobox;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.oro.text.perl.Perl5Util;
 import at.ac.arcs.rgg.RGG;
 import at.ac.arcs.rgg.element.RElement;
 import at.ac.arcs.rgg.factories.RElementFactory;
@@ -30,8 +29,6 @@ public class RGGComboBoxFactory extends RElementFactory {
         if (element.getNodeType() != Element.ELEMENT_NODE) {
             throw new IllegalArgumentException("elements node type must be ELEMENT_NODE");
         }
-
-        Perl5Util util = new Perl5Util();
 
         VComboBox vComboBox = new VComboBox();
         RComboBox rComboBox = new RComboBox(vComboBox);

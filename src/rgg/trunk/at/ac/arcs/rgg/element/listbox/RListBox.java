@@ -19,6 +19,7 @@ import at.ac.arcs.rgg.element.RElement;
  * @author ilhami
  */
 public class RListBox extends RElement{
+    
     private String var;
     private String label;
     private boolean numeric = false;
@@ -105,4 +106,5 @@ public class RListBox extends RElement{
     public JComponent[][] getSwingComponentMatrix() {
         return vList.getSwingComponents();
     }
+
 }

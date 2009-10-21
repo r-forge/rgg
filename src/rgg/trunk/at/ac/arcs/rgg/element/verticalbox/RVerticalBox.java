@@ -11,7 +11,6 @@ package at.ac.arcs.rgg.element.verticalbox;
 
 import java.util.ArrayList;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import at.ac.arcs.rgg.component.EmptyPlaceHolder;
 import at.ac.arcs.rgg.component.VisualComponent;
 import at.ac.arcs.rgg.element.RElement;

@@ -161,4 +161,5 @@ public class RHorizontalBox extends RElement {
         }
         private JComponent swingComponents[][];
     }
+
 }

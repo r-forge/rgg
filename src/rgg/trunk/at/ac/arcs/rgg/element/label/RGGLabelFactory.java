@@ -8,7 +8,6 @@ package at.ac.arcs.rgg.element.label;
 
 import javax.swing.SwingConstants;
 import org.apache.commons.lang.StringUtils;
-import org.apache.oro.text.perl.Perl5Util;
 import at.ac.arcs.rgg.RGG;
 import at.ac.arcs.rgg.element.RElement;
 import at.ac.arcs.rgg.factories.RElementFactory;
@@ -35,9 +34,7 @@ public class RGGLabelFactory extends RElementFactory{
         String alignment = element.getAttribute(RGG.getConfiguration().getString("ALIGNMENT"));
         String enabled = element.getAttribute(RGG.getConfiguration().getString("ENABLED"));
         /***********************************************************************************************/
-        
-        Perl5Util util = new Perl5Util();
-        
+                
         VLabel vlabel = new VLabel(text);
          if(StringUtils.isNotBlank(colspan)){
             if(StringUtils.isNumeric(colspan)){
@@ -79,7 +76,9 @@ public class RGGLabelFactory extends RElementFactory{
             }
         }
         
-        return new RLabel(vlabel);
+        RLabel rLabel = new RLabel(vlabel);
+        
+        return rLabel;
     }
     
 }

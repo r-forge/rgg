@@ -41,6 +41,7 @@ public class VFileChooser extends VisualComponent {
     /** Creates a new instance of VFileChooser */
     public VFileChooser(RGG rggInstance) {
         this.rggInstance = rggInstance;
+        rggInstance.setProperty(LASTUSEDDIR, rggInstance.getRGGFileDir());
         initComponents();
     }
 
@@ -69,6 +70,10 @@ public class VFileChooser extends VisualComponent {
 
     }
 
+    public JFileChooser getFileChooser(){
+        return filechooser;
+    }
+    
     public boolean isVisualComponent() {
         return true;
     }
@@ -121,6 +126,10 @@ public class VFileChooser extends VisualComponent {
         filechooser.setFileSelectionMode(mode);
     }
 
+    public int getFileSelectionMode(){
+        return filechooser.getFileSelectionMode();
+    }
+    
     public void setMultiSelectionEnabled(boolean b) {
         filechooser.setMultiSelectionEnabled(b);
     }

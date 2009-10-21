@@ -154,7 +154,7 @@
     </Container>
     <Container class="javax.swing.JScrollPane" name="tableScrollPane">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jxTable = new JTable();&#xd;&#xa;//jxTable = new JXTable();&#xd;&#xa;//jxTable.setHighlighters(new Highlighter[]{ HighlighterFactory.createAlternateStriping()});&#xd;&#xa;//jxTable.setSortable(false);&#xd;&#xa;//jxTable.setHorizontalScrollEnabled(true);&#xd;&#xa;//jxTable.setAutoStartEditOnKeyStroke(true);&#xd;&#xa;jxTable.setCellSelectionEnabled(true);&#xd;&#xa;jxTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="//jxTable = new JTable();&#xd;&#xa;jxTable = new JXTable();&#xd;&#xa;jxTable.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));&#xd;&#xa;jxTable.setHighlighters(new Highlighter[]{ HighlighterFactory.createAlternateStriping()});&#xd;&#xa;jxTable.setSortable(false);&#xd;&#xa;jxTable.setHorizontalScrollEnabled(true);&#xd;&#xa;jxTable.setAutoStartEditOnKeyStroke(true);&#xd;&#xa;jxTable.setCellSelectionEnabled(true);&#xd;&#xa;//jxTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);"/>
       </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
