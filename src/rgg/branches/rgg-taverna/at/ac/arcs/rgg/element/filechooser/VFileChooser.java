@@ -41,6 +41,7 @@ public class VFileChooser extends VisualComponent {
     /** Creates a new instance of VFileChooser */
     public VFileChooser(RGG rggInstance) {
         this.rggInstance = rggInstance;
+        rggInstance.setProperty(LASTUSEDDIR, rggInstance.getRGGFileDir());
         initComponents();
     }
 
