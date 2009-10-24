@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.1//EN" "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
+<filesystem>
+    <folder name="Actions">
+        <folder name="Edit">
+            <file name="org-arcs-rgg-rggnbmod-ui-OpenRGGAction.instance"/>
+            <file name="org-arcs-rgg-rggnbmod-ui-RunRGGAction.instance"/>
+        </folder>
+            <folder name="System">
+            <file name="org-netbeans-core-actions-JumpNextAction.instance_hidden"/>
+            <file name="org-netbeans-core-actions-JumpPrevAction.instance_hidden"/>
+            <file name="org-openide-actions-PageSetupAction.instance_hidden"/>
+            <file name="org-openide-actions-PrintAction.instance_hidden"/>
+            <file name="org-openide-actions-SaveAction.instance_hidden"/>
+            <file name="org-openide-actions-SaveAllAction.instance_hidden"/>
+            <file name="org-openide-actions-SaveAsAction.instance_hidden"/>
+        </folder>
+        <folder name="View">
+            <file name="org-openide-actions-CustomizeAction.instance_hidden"/>
+        </folder>
+    </folder>
+    <folder name="Loaders">
+        <folder name="text">
+            <folder name="x-rgg">
+                <folder name="Actions">
+                    <file name="org-openide-actions-CopyAction.instance">
+                        <attr name="position" intvalue="400"/>
+                    </file>
+                    <file name="org-openide-actions-CutAction.instance">
+                        <attr name="position" intvalue="300"/>
+                    </file>
+                    <file name="org-openide-actions-DeleteAction.instance">
+                        <attr name="position" intvalue="600"/>
+                    </file>
+                    <file name="org-openide-actions-FileSystemAction.instance">
+                        <attr name="position" intvalue="1100"/>
+                    </file>
+                    <file name="org-openide-actions-OpenAction.instance">
+                        <attr name="position" intvalue="100"/>
+                    </file>
+                    <file name="org-openide-actions-PropertiesAction.instance">
+                        <attr name="position" intvalue="1400"/>
+                    </file>
+                    <file name="org-openide-actions-RenameAction.instance">
+                        <attr name="position" intvalue="700"/>
+                    </file>
+                    <file name="org-openide-actions-SaveAsTemplateAction.instance">
+                        <attr name="position" intvalue="900"/>
+                    </file>
+                    <file name="org-openide-actions-ToolsAction.instance">
+                        <attr name="position" intvalue="1300"/>
+                    </file>
+                    <file name="sep-1.instance">
+                        <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                        <attr name="position" intvalue="200"/>
+                    </file>
+                    <file name="sep-2.instance">
+                        <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                        <attr name="position" intvalue="500"/>
+                    </file>
+                    <file name="sep-3.instance">
+                        <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                        <attr name="position" intvalue="800"/>
+                    </file>
+                    <file name="sep-4.instance">
+                        <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                        <attr name="position" intvalue="1000"/>
+                    </file>
+                    <file name="sep-5.instance">
+                        <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                        <attr name="position" intvalue="1200"/>
+                    </file>
+                </folder>
+            </folder>
+        </folder>
+    </folder>
+    <folder name="Menu">
+        <folder name="Edit">
+            <file name="Separator1.instance_hidden"/>
+            <file name="Separator2.instance_hidden"/>
+            <file name="org-netbeans-core-actions-JumpNextAction.shadow_hidden"/>
+            <file name="org-netbeans-core-actions-JumpPrevAction.shadow_hidden"/>
+            <file name="org-openide-actions-CutAction.instance_hidden"/>
+            <file name="org-openide-actions-DeleteAction.instance_hidden"/>
+            <file name="org-openide-actions-PasteAction.instance_hidden"/>
+            <file name="org-openide-actions-RedoAction.instance_hidden"/>
+            <file name="org-openide-actions-ReplaceAction.instance_hidden"/>
+            <file name="org-openide-actions-UndoAction.instance_hidden"/>
+        </folder>
+        <folder name="File">
+            <file name="Separator3.instance_hidden"/>
+            <file name="Separator4.instance_hidden"/>
+            <file name="org-arcs-rgg-rggnbmod-ui-OpenRGGAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Edit/org-arcs-rgg-rggnbmod-ui-OpenRGGAction.instance"/>
+                <attr name="position" intvalue="1300"/>
+            </file>
+            <file name="org-arcs-rgg-rggnbmod-ui-RunRGGAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Edit/org-arcs-rgg-rggnbmod-ui-RunRGGAction.instance"/>
+                <attr name="position" intvalue="1350"/>
+            </file>
+            <file name="org-openide-actions-PageSetupAction.instance_hidden"/>
+            <file name="org-openide-actions-PrintAction.instance_hidden"/>
+            <file name="org-openide-actions-SaveAction.instance_hidden"/>
+            <file name="org-openide-actions-SaveAllAction.instance_hidden"/>
+            <file name="org-openide-actions-SaveAsAction.shadow_hidden"/>
+        </folder>
+        <file name="GoTo_hidden"/>
+        <file name="Help_hidden"/>
+        <folder name="Tools">
+            <file name="Separator1.instance_hidden"/>
+            <file name="Separator2.instance_hidden"/>
+            <file name="Separator3.instance_hidden"/>
+        </folder>
+        <folder name="View">
+            <file name="Separator1.instance_hidden"/>
+            <file name="Separator2.instance_hidden"/>
+            <file name="Separator3.instance_hidden"/>
+            <file name="org-netbeans-core-actions-HTMLViewAction.instance_hidden"/>
+            <file name="org-netbeans-core-actions-LogAction.instance_hidden"/>
+            <file name="org-netbeans-core-windows-actions-ToolbarsListAction.instance_hidden"/>
+        </folder>
+        <folder name="Window">
+            <file name="CloneDocumentAction.shadow_hidden"/>
+            <file name="DocumentsAction.shadow_hidden"/>
+            <file name="ProgressListAction.shadow_hidden"/>
+            <file name="SwitchToRecentDocumentAction.shadow_hidden"/>
+            <file name="org-netbeans-core-actions-GlobalPropertiesAction.shadow_hidden"/>
+        </folder>
+    </folder>
+    <folder name="OptionsDialog">
+        <file name="Advanced.instance_hidden"/>
+        <file name="General.instance_hidden"/>
+        <file name="Keymaps.instance_hidden"/>
+        <file name="org-arcs-rgg-rggnbmod-ui-options-RggnbmodOptionsCategory.instance">
+            <attr name="position" intvalue="0"/>
+        </file>
+    </folder>
+    <folder name="Services">
+        <folder name="MIMEResolver">
+            <file name="RGGResolver.xml" url="RGGResolver.xml">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.arcs.rgg.rggnbmod.Bundle"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Shortcuts">
+        <file name="D-O.shadow">
+            <attr name="originalFile" stringvalue="Actions/Edit/org-arcs-rgg-rggnbmod-ui-OpenRGGAction.instance"/>
+        </file>
+        <file name="D-R.shadow">
+            <attr name="originalFile" stringvalue="Actions/Edit/org-arcs-rgg-rggnbmod-ui-RunRGGAction.instance"/>
+        </file>
+    </folder>
+    <folder name="Templates">
+        <folder name="Other">
+            <file name="RGGTemplate.rgg" url="RGGTemplate.rgg">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="org.arcs.rgg.rggnbmod.Bundle"/>
+                <attr name="template" boolvalue="true"/>
+            </file>
+        </folder>
+    </folder>
+    <folder name="Toolbars">
+        <folder name="Edit">
+            <file name="org-openide-actions-CutAction.instance_hidden"/>
+            <file name="org-openide-actions-PasteAction.instance_hidden"/>
+            <file name="org-openide-actions-RedoAction.instance_hidden"/>
+            <file name="org-openide-actions-UndoAction.instance_hidden"/>
+        </folder>
+        <folder name="File">
+            <file name="org-arcs-rgg-rggnbmod-ui-OpenRGGAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Edit/org-arcs-rgg-rggnbmod-ui-OpenRGGAction.instance"/>
+                <attr name="position" intvalue="300"/>
+            </file>
+            <file name="org-arcs-rgg-rggnbmod-ui-RunRGGAction.shadow">
+                <attr name="originalFile" stringvalue="Actions/Edit/org-arcs-rgg-rggnbmod-ui-RunRGGAction.instance"/>
+                <attr name="position" intvalue="350"/>
+            </file>
+            <file name="org-openide-actions-SaveAllAction.instance_hidden"/>
+        </folder>
+    </folder>
+    <file name="UI_hidden"/>
+    <folder name="Windows2">
+        <folder name="Components">
+            <file name="RGGTopComponent.settings" url="RGGTopComponentSettings.xml"/>
+        </folder>
+        <folder name="Modes">
+            <folder name="editor">
+                <file name="RGGTopComponent.wstcref" url="RGGTopComponentWstcref_1.xml"/>
+            </folder>
+            <folder name="properties">
+                <file name="output.wstcref" url="outputWstcref.xml"/>
+            </folder>
+                        <file name="properties.wsmode" url="propertiesWsmode.xml"/>
+        </folder>
+    </folder>
+</filesystem>

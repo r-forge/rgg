@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.apisupport.project</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
+            <code-name-base>com.jgoodies</code-name-base>
+            <suite-component/>
+            <module-dependencies/>
+            <public-packages>
+                <package>com.jgoodies.forms.builder</package>
+                <package>com.jgoodies.forms.debug</package>
+                <package>com.jgoodies.forms.factories</package>
+                <package>com.jgoodies.forms.layout</package>
+                <package>com.jgoodies.forms.util</package>
+                <package>com.jgoodies.looks</package>
+                <package>com.jgoodies.looks.common</package>
+                <package>com.jgoodies.looks.plastic</package>
+                <package>com.jgoodies.looks.plastic.theme</package>
+                <package>com.jgoodies.looks.windows</package>
+            </public-packages>
+            <class-path-extension>
+                <runtime-relative-path>ext/looks-2.1.4.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/looks-2.1.4.jar</binary-origin>
+            </class-path-extension>
+            <class-path-extension>
+                <runtime-relative-path>ext/forms-1.2.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/forms-1.2.0.jar</binary-origin>
+            </class-path-extension>
+        </data>
+    </configuration>
+</project>
