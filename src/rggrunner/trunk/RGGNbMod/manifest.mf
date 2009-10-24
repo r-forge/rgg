@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.arcs.rgg.rggnbmod
+OpenIDE-Module-Implementation-Version: 1
+OpenIDE-Module-Install: org/arcs/rgg/rggnbmod/Installer.class
+OpenIDE-Module-Layer: org/arcs/rgg/rggnbmod/layer.xml
+OpenIDE-Module-Localizing-Bundle: org/arcs/rgg/rggnbmod/Bundle.properties
+
+Name: org/arcs/rgg/rggnbmod/filetype/RGGDataLoader.class
+OpenIDE-Module-Class: Loader
+

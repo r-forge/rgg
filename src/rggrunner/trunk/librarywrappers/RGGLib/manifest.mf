@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: at.ac.arcs.rgg
+OpenIDE-Module-Implementation-Version: 54
+OpenIDE-Module-Localizing-Bundle: at/ac/arcs/rgg/Bundle.properties
+

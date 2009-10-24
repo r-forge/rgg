@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: ca.beq.util.win32.registry
+OpenIDE-Module-Localizing-Bundle: ca/beq/util/win32/registry/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
