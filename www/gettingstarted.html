@@ -1,170 +1,176 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <meta name="description" content="_your description goes here_" />
-  <meta name="keywords" content="_your,keywords,goes,here_" />
-  <meta name="author"
- content="Ilhami Visne / Original design: Andreas Viklund - http://andreasviklund.com/" />
-  <link rel="stylesheet" type="text/css" href="rgg.css" />
-  <link rel="stylesheet" type="text/css" href="print.css" media="print" />
-  <title>RGG - Getting Started</title>
-  <style type="text/css">
-<!--
-.style1 {font-size: small}
-.style2 {
-color: #FF0000;
-font-size: medium;
-}
-.style3 {color: #0000FF}
--->
-  </style>
-  <script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-  </script>
-  <script type="text/javascript">
-var pageTracker = _gat._getTracker("UA-3082045-2");
-pageTracker._initData();
-pageTracker._trackPageview();
-  </script>
-</head>
-<body>
-<div id="wrap"><img id="frontphoto" alt="" src="images/Var1.jpg"
- style="padding-top: 8px;" />
-<div id="avmenu">
-<h2 class="hide">Menu:</h2>
-<ul>
-  <li><a href="index.html">Home</a></li>
-  <li><a href="#">Getting Started</a></li>
-  <li><a href="screenshots.html">Samples</a></li>
-  <li><a href="docs.html">Documentation</a></li>
-  <li><a href="downloads.html">Downloads</a></li>
-  <li><a href="http://r-forge.r-project.org/forum/?group_id=95">Forum</a></li>
-  <li><a href="http://r-forge.r-project.org/projects/rgg/">RGG
-@R-Forge</a></li>
-</ul>
-<div class="announce">
-<h3>Latest news:</h3>
-<p><br/>
-RGG has been published in BMC Bioinformatics. Read <a target="_blank" href="http://www.biomedcentral.com/1471-2105/10/74">here</a>
-</p>
-</div>
-</div>
-<div id="content">
-<h2>Getting started!</h2>
-<p class="style1"> RGG can
-be used in two different ways:</p>
-<p class="sectionheader">1.
-RGG as an R package within JGR</p>
-<p>The first way to use RGG is by
-installing it as an R Package in JGR. Here JGR provides the connection
-to R. JGR is a Java GUI for R.</p>
-<p style="font-size: 16px; font-weight: bold;">Installation</p>
-<p><strong>
-1</strong>. Download and install <a style="font-weight: bold;"
- href="http://www.r-project.org/">R</a>
-(2.8 or higher is recommended)</p>
-<p><strong>2</strong>.
-Install <a style="font-weight: bold;" href="www.java.com">Java</a>
-(5 or newer)</p>
-<p><strong>3</strong>.
-Download <a style="font-weight: bold;"
- href="http://www.rosuda.org/JGR/">JGR 1.5</a>
-or higher.</p>
-<p><strong>4</strong>.
-Install RGG by executing the following lines within JGR:</p>
-<pre id="hack"> install.packages("RGG",repos="http://R-Forge.R-project.org")</pre>
-<p>Notice that this will work
-only, for the R version 2.5.x and upper. If you use an older version,
-please go to the <a href="downloads.html">Downloads</a>
-section and download the appropriate RGG package for your operating
-system and install it manually.</p>
-<p>Then load the RGG package by
-calling <em><strong>"library(RGG)"</strong>.
-</em>This will add a menu "RGG" on
-the menubar of JGR window (see
-the screenshot below).</p>
-<p class="centeredImage"><img alt="" src="images/JGR.png" /></p>
-<p>To open an RGG file click on
-the submenu "Load" of "RGG".
-Let's load&nbsp;an RGG file, <a
- href="files/samples/Customized%20R%20scripts/qcreport/qcreport.rgg">qcreport.rgg</a>.
-</p>
-<p class="centeredImage"><img alt="" src="images/agilent_linux.png" /></p>
-<p>The user interface has two
-buttons at the
-bottom: "Run" and "Open in Editor". The "Run" button generates the
-corresponding R code and sends it to R for execution. "Open in Editor"
-will open the generated R code in the JGR editor, which uses R specific
-highlighting.</p>
-<p class="sectionheader">2.
-RGGRunner&nbsp;</p>
-<p style="font-size: 16px; font-weight: bold;">Installation</p>
-<p><strong>1</strong>.
-Download and install <a style="font-weight: bold;"
- href="http://www.r-project.org/">R</a>
-(2.8 or higher is recommended)</p>
-<p><strong>2</strong>.
-Install <a style="font-weight: bold;" href="www.java.com">Java</a>
-(5 or newer)</p>
-<p style="line-height: 2.5em;"><strong>3</strong>.
-Install RGG:<br />
-<span style="font-weight: bold;">Windows
-and Linux:</span> Download the <a style="font-weight: bold;"
- href="files/rggrunner_win_linux.zip">rggrunner_win_linux.zip</a>.
-After extraction, please go to /bin directory and use the appropriate
-launcher to run RGG.<br />
-<span style="font-weight: bold;">Mac
-OS X:</span> Download the <a style="font-weight: bold;"
- href="http://rgg.r-forge.r-project.org/files/rggrunner_macosx.zip">rggrunner_macosx.zip</a>
-and after extraction, double click to mount the image. After mounting, please double
-click again on the "RGG" icon to run the application.</p>
-<p>The RGGRunner&nbsp; can be
-used to open an .rgg file and to execute the generated R script
-directly from the RGG. <br />
-RGGRunner uses the <span style="font-weight: bold;">"Rscript"</span>
-command, found in <span style="font-style: italic;">the
-/bin </span>directory of R
-installation folder, &nbsp;<span style="font-style: italic;"> to
-execute the
-generated R script. If this command is not&nbsp;found in the <span
- style="font-weight: bold;">PATH </span>environment
-variable, user will be prompted to enter the installation folder (e.g.
-on Windows "C:\Program Files\R\R-2.8.0\bin").<br />
-<br />
-Here is a screenshot of the RGGRunner. An .rgg file
-(<a href="files/qcreport.rgg">qcreport.rgg</a>)
-is already loaded and executed here.
-</span></p>
-<p class="centeredImage"><img alt="rggsa" src="images/rggsa.png" /></p>
-<p style="text-align: center;"><strong>Figure
-1:&nbsp;RGGRunner</strong></p>
-<p>The main
-window&nbsp;consists of two parts, left (GUI) and
-right (output), which can be rearranged by&nbsp;drag and drop.
-An .rgg file is loaded, either by clicking the "Open RGG" button or
-using the shortcut "CTRL-O". After setting inputs, parameters etc. on
-the GUI, the&nbsp;generated R script can be executed by clicking
-the "Run" button or using the "CTRL-R" shortcut. The
-output&nbsp;from R&nbsp;is displayed on the "Output"
-window.&nbsp;</p>
-</div>
-<div id="footer">
-<p class="centeredImage"><a href="http://www.ait.ac.at/"
- target="_blank"><img alt="" src="images/logo_arcs.jpg" /></a></p>
-&copy; Austrian Research Centers GmbH - ARC, 2008. All rights
-reserved.
-</div>
-</div>
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-var pageTracker = _gat._getTracker("UA-3082045-2");
-pageTracker._initData();
-pageTracker._trackPageview();
-</script>
-</body>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="description" content="_your description goes here_" />
+        <meta name="keywords" content="_your,keywords,goes,here_" />
+        <meta name="author"
+              content="Ilhami Visne / Original design: Andreas Viklund - http://andreasviklund.com/" />
+        <link rel="stylesheet" type="text/css" href="rgg.css" />
+        <link rel="stylesheet" type="text/css" href="print.css" media="print" />
+        <title>RGG - Getting Started</title>
+        <style type="text/css">
+            <!--
+            .style1 {font-size: small}
+            .style2 {
+                color: #FF0000;
+                font-size: medium;
+            }
+            .style3 {color: #0000FF}
+            -->
+        </style>
+        <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+            var pageTracker = _gat._getTracker("UA-3082045-2");
+            pageTracker._initData();
+            pageTracker._trackPageview();
+        </script>
+    </head>
+    <body>
+        <div id="wrap"><img id="frontphoto" alt="" src="images/Var1.jpg"
+                            style="padding-top: 8px;" />
+            <div id="avmenu">
+                <h2 class="hide">Menu:</h2>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Getting Started</a></li>
+                    <li><a href="screenshots.html">Samples</a></li>
+                    <li><a href="docs.html">Documentation</a></li>
+                    <li><a href="downloads.html">Downloads</a></li>
+                    <li><a href="http://r-forge.r-project.org/forum/?group_id=95">Forum</a></li>
+                    <li><a href="http://r-forge.r-project.org/projects/rgg/">RGG
+                            @R-Forge</a></li>
+                </ul>
+                <div class="announce">
+                    <h3>Latest news:</h3>
+                    <p><br/>
+                        RGG has been published in BMC Bioinformatics. Read <a target="_blank" href="http://www.biomedcentral.com/1471-2105/10/74">here</a>
+                    </p>
+                </div>
+            </div>
+            <div id="content">
+                <h2>Getting started!</h2>
+                <p class="style1"> RGG can
+                    be used in two different ways:</p>
+                <p class="sectionheader">1.
+                    RGG as an R package within JGR</p>
+                <p>The first way to use RGG is by
+                    installing it as an R Package in JGR. Here JGR provides the connection
+                    to R. JGR is a Java GUI for R.</p>
+                <p style="font-size: 16px; font-weight: bold;">Installation</p>
+                <p><strong>
+                        1</strong>. Download and install <a style="font-weight: bold;"
+                                                        href="http://www.r-project.org/">R</a>
+                    (2.8 or higher is recommended)</p>
+                <p><strong>2</strong>.
+                    Install <a style="font-weight: bold;" href="www.java.com">Java</a>
+                    (6 or newer)</p>
+                <p><strong>3</strong>.
+                    Download <a style="font-weight: bold;"
+                                href="http://www.rosuda.org/JGR/">JGR 1.5</a>
+                    or higher.</p>
+                <p><strong>4</strong>.
+                    Install RGG by executing the following lines within JGR:</p>
+                <pre id="hack"> install.packages("RGG",repos="http://R-Forge.R-project.org")</pre>
+                <p>Notice that this will work
+                    only, for the R version 2.5.x and upper. If you use an older version,
+                    please go to the <a href="downloads.html">Downloads</a>
+                    section and download the appropriate RGG package for your operating
+                    system and install it manually.</p>
+                <p>Then load the RGG package by
+                    calling <em><strong>"library(RGG)"</strong>.
+                    </em>This will add a menu "RGG" on
+                    the menubar of JGR window (see
+                    the screenshot below).</p>
+                <p class="centeredImage"><img alt="" src="images/JGR.png" /></p>
+                <p>To open an RGG file click on
+                    the submenu "Load" of "RGG".
+                    Let's load&nbsp;an RGG file, <a
+                        href="files/samples/Customized%20R%20scripts/qcreport/qcreport.rgg">qcreport.rgg</a>.
+                </p>
+                <p class="centeredImage"><img alt="" src="images/agilent_linux.png" /></p>
+                <p>The user interface has two
+                    buttons at the
+                    bottom: "Run" and "Open in Editor". The "Run" button generates the
+                    corresponding R code and sends it to R for execution. "Open in Editor"
+                    will open the generated R code in the JGR editor, which uses R specific
+                    highlighting.</p>
+                <p class="sectionheader">2.
+                    RGGRunner&nbsp;</p>
+                <p style="font-size: 16px; font-weight: bold;">Installation</p>
+                <p><strong>1</strong>.
+                    Download and install <a style="font-weight: bold;"
+                                            href="http://www.r-project.org/">R</a>
+                    (2.8 or higher is recommended)</p>
+                <p><strong>2</strong>.
+                    Install <a style="font-weight: bold;" href="www.java.com">Java</a>
+                    (6 or newer)</p>
+                <p style="line-height: 2.5em;"><strong>3</strong>.
+                    Install RGG by downloading the executable for your operating system:<br />
+
+                    <span style="font-weight: bold;">Windows:</span> Download the <a style="font-weight: bold;"
+                                                                                     href="files/rggrunner-windows.exe">rggrunner-windows.exe</a><br />
+
+                    <span style="font-weight: bold;">Linux:</span> Download the <a style="font-weight: bold;"
+                                                                                   href="files/rggrunner-linux.sh">rggrunner-linux.sh</a><br />
+
+                    <span style="font-weight: bold;">Mac OS X:
+                        </span> Download the <a style="font-weight: bold;"
+                                                 href="files/rggrunner-macosx.tgz">rggrunner-macosx.tgz</a><br/>
+
+                    <span style="font-weight: bold;">Zip distrubition:
+                        </span> <a style="font-weight: bold;"
+                                                 href="files/rggrunner.zip">rggrunner.zip</a>
+                </p>
+
+                <p>The RGGRunner&nbsp; can be
+                    used to open an .rgg file and to execute the generated R script
+                    directly from the RGG. <br />
+                    RGGRunner uses the <span style="font-weight: bold;">"Rscript"</span>
+                    command, found in <span style="font-style: italic;">the
+                        /bin </span>directory of R
+                    installation folder, &nbsp;<span style="font-style: italic;"> to
+                        execute the
+                        generated R script. If this command is not&nbsp;found in the <span
+                            style="font-weight: bold;">PATH </span>environment
+                        variable, user will be prompted to enter the installation folder (e.g.
+                        on Windows "C:\Program Files\R\R-2.8.0\bin").<br />
+                        <br />
+                        Here is a screenshot of the RGGRunner. An .rgg file
+                        (<a href="files/qcreport.rgg">qcreport.rgg</a>)
+                        is already loaded and executed here.
+                    </span></p>
+                <p class="centeredImage"><img alt="rggsa" src="images/rggsa.png" /></p>
+                <p style="text-align: center;"><strong>Figure
+                        1:&nbsp;RGGRunner</strong></p>
+                <p>The main
+                    window&nbsp;consists of two parts, left (GUI) and
+                    right (output), which can be rearranged by&nbsp;drag and drop.
+                    An .rgg file is loaded, either by clicking the "Open RGG" button or
+                    using the shortcut "CTRL-O". After setting inputs, parameters etc. on
+                    the GUI, the&nbsp;generated R script can be executed by clicking
+                    the "Run" button or using the "CTRL-R" shortcut. The
+                    output&nbsp;from R&nbsp;is displayed on the "Output"
+                    window.&nbsp;</p>
+            </div>
+            <div id="footer">
+                <p class="centeredImage"><a href="http://www.ait.ac.at/"
+                                            target="_blank"><img alt="" src="images/logo_arcs.jpg" /></a></p>
+                &copy; Austrian Research Centers GmbH - ARC, 2008. All rights
+                reserved.
+            </div>
+        </div>
+        <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+            var pageTracker = _gat._getTracker("UA-3082045-2");
+            pageTracker._initData();
+            pageTracker._trackPageview();
+        </script>
+    </body>
 </html>

@@ -1,11 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package org.arcs.rgg.rggnbmod.ui.options;
 
-import com.l2fprod.common.swing.JDirectoryChooser;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
@@ -31,14 +26,14 @@ final class RggnbmodPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        dirChooser = new com.l2fprod.common.swing.JDirectoryChooser();
+        binDirChooser = new javax.swing.JFileChooser();
         jLabel1 = new javax.swing.JLabel();
         locationTextField = new javax.swing.JTextField();
         browseButton = new javax.swing.JButton();
         errorLabel = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
-        dirChooser.setShowingCreateDirectory(false);
+        binDirChooser.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel1, "R /bin directory:");
 
@@ -53,52 +48,52 @@ final class RggnbmodPanel extends javax.swing.JPanel {
 
         errorLabel.setForeground(new java.awt.Color(255, 0, 0));
         errorLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/arcs/rgg/rggnbmod/resources/error.gif"))); // NOI18N
-        org.openide.awt.Mnemonics.setLocalizedText(errorLabel, "Rscript not found in !"+dirChooser.getSelectedFile());
+        org.openide.awt.Mnemonics.setLocalizedText(errorLabel, "Rscript not found in !"+binDirChooser.getSelectedFile());
         errorLabel.setVisible(false);
 
         org.openide.awt.Mnemonics.setLocalizedText(jLabel2, "(e.g. \"C:\\Programme\\R\\R-2.7.0\\bin\" on Windows)");
 
-        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(jLabel1)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(locationTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 274, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(browseButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 97, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(jLabel2)
-                    .add(errorLabel))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(locationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(browseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2)
+                    .addComponent(errorLabel))
                 .addContainerGap(62, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel1)
-                    .add(locationTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(browseButton))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel2)
-                .add(18, 18, 18)
-                .add(errorLabel)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(locationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(browseButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(errorLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
-        int val = dirChooser.showOpenDialog(this);
-        if (val == JDirectoryChooser.APPROVE_OPTION) {
-            if (checkRscriptCMD(dirChooser)) {
+        int val = binDirChooser.showOpenDialog(this);
+        if (val == JFileChooser.APPROVE_OPTION) {
+            if (checkRscriptCMD(binDirChooser)) {
                 SwingUtilities.invokeLater(new Runnable() {
 
                     public void run() {
-                        locationTextField.setText(dirChooser.getSelectedFile().getAbsolutePath());
+                        locationTextField.setText(binDirChooser.getSelectedFile().getAbsolutePath());
                         errorLabel.setVisible(false);
                     }
                 });
@@ -107,7 +102,7 @@ final class RggnbmodPanel extends javax.swing.JPanel {
 
                     public void run() {
                         errorLabel.setText("RScript command not found in "
-                                +dirChooser.getSelectedFile()+"!");
+                                +binDirChooser.getSelectedFile()+"!");
                         errorLabel.setVisible(true);
                     }
                 });
@@ -153,8 +148,8 @@ final class RggnbmodPanel extends javax.swing.JPanel {
 
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFileChooser binDirChooser;
     private javax.swing.JButton browseButton;
-    private com.l2fprod.common.swing.JDirectoryChooser dirChooser;
     private javax.swing.JLabel errorLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

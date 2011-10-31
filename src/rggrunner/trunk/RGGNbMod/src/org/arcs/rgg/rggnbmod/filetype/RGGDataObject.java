@@ -31,6 +31,7 @@ public class RGGDataObject extends XMLDataObject implements Lookup.Provider {
 
     }
 
+    @Override
     protected Node createNodeDelegate() {
         DataNode n = new DataNode(this, Children.LEAF);
         n.setIconBaseWithExtension(
@@ -38,10 +39,12 @@ public class RGGDataObject extends XMLDataObject implements Lookup.Provider {
         return n;
     }
 
+    @Override
     public Lookup getLookup() {
         return lookup;
     }
 
+    @Override
     public Node.Cookie getCookie(Class type) {
         Object o = lookup.lookup(type);
         return o instanceof Node.Cookie ? (Node.Cookie) o : null;

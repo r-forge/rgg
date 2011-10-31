@@ -19,7 +19,6 @@
                 <package>org.jdesktop.swingbinding</package>
                 <package>org.jdesktop.swingbinding.adapters</package>
                 <package>org.jdesktop.swingbinding.impl</package>
-                <package>org.jdesktop.swingworker</package>
                 <package>org.jdesktop.swingx</package>
                 <package>org.jdesktop.swingx.action</package>
                 <package>org.jdesktop.swingx.auth</package>
@@ -57,10 +56,6 @@
                 <package>org.jdesktop.swingx.treetable</package>
                 <package>org.jdesktop.swingx.util</package>
             </public-packages>
-            <class-path-extension>
-                <runtime-relative-path>ext/swing-worker-1.1.jar</runtime-relative-path>
-                <binary-origin>release/modules/ext/swing-worker-1.1.jar</binary-origin>
-            </class-path-extension>
             <class-path-extension>
                 <runtime-relative-path>ext/beansbinding-1.2.1.jar</runtime-relative-path>
                 <binary-origin>release/modules/ext/beansbinding-1.2.1.jar</binary-origin>
