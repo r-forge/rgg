@@ -42,7 +42,7 @@ public final class RunRGGAction extends CallableSystemAction {
         RGG rgg=null;
         Node[] n = TopComponent.getRegistry().getActivatedNodes();
         if (n.length == 1) {
-            EditorCookie ec = (EditorCookie) n[0].getCookie(EditorCookie.class);
+            EditorCookie ec = n[0].getCookie(EditorCookie.class);
             if (ec != null && ec instanceof RGGEditorSupport) {
                 rgg=((RGGEditorSupport)ec).getEditingRGG();
             }

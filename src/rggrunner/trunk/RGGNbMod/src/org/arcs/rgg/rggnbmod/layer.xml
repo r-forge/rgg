@@ -6,7 +6,7 @@
             <file name="org-arcs-rgg-rggnbmod-ui-OpenRGGAction.instance"/>
             <file name="org-arcs-rgg-rggnbmod-ui-RunRGGAction.instance"/>
         </folder>
-            <folder name="System">
+        <folder name="System">
             <file name="org-netbeans-core-actions-JumpNextAction.instance_hidden"/>
             <file name="org-netbeans-core-actions-JumpPrevAction.instance_hidden"/>
             <file name="org-openide-actions-PageSetupAction.instance_hidden"/>
@@ -160,10 +160,8 @@
     </folder>
     <folder name="Toolbars">
         <folder name="Edit">
-            <file name="org-openide-actions-CutAction.instance_hidden"/>
-            <file name="org-openide-actions-PasteAction.instance_hidden"/>
-            <file name="org-openide-actions-RedoAction.instance_hidden"/>
-            <file name="org-openide-actions-UndoAction.instance_hidden"/>
+            <file name="org-openide-actions-CutAction.instance"/>
+            <file name="org-openide-actions-PasteAction.instance"/>
         </folder>
         <folder name="File">
             <file name="org-arcs-rgg-rggnbmod-ui-OpenRGGAction.shadow">
@@ -186,10 +184,13 @@
             <folder name="editor">
                 <file name="RGGTopComponent.wstcref" url="RGGTopComponentWstcref_1.xml"/>
             </folder>
+            <folder name="output">
+                <file name="output.wstcref" url="outputWstcref_1.xml"/>
+            </folder>
             <folder name="properties">
                 <file name="output.wstcref" url="outputWstcref.xml"/>
             </folder>
-                        <file name="properties.wsmode" url="propertiesWsmode.xml"/>
+            <file name="properties.wsmode" url="propertiesWsmode.xml"/>
         </folder>
     </folder>
 </filesystem>

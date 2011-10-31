@@ -10,7 +10,7 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.SimpleBeanInfo;
 import org.openide.loaders.UniFileLoader;
-import org.openide.util.Utilities;
+import org.openide.util.ImageUtilities;
 
 public class RGGDataLoaderBeanInfo extends SimpleBeanInfo {
 
@@ -26,7 +26,7 @@ public class RGGDataLoaderBeanInfo extends SimpleBeanInfo {
     @Override
     public Image getIcon(int type) {
         if (type == BeanInfo.ICON_COLOR_16x16 || type == BeanInfo.ICON_MONO_16x16) {
-            return Utilities.loadImage("org/arcs/rgg/rggnbmod/filetype/wi0063-16.gif");
+            return ImageUtilities.loadImage("org/arcs/rgg/rggnbmod/filetype/wi0063-16.gif");
         } else {
             return null;
         }

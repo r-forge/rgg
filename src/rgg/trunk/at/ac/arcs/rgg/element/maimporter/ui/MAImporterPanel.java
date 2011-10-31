@@ -29,11 +29,11 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
-import org.jdesktop.swingworker.SwingWorker;
 
 /**
  *

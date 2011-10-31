@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.arcs.rgg.rggnbmod;
 
 import ca.beq.util.win32.registry.RegistryException;
@@ -10,8 +6,10 @@ import ca.beq.util.win32.registry.RegistryValue;
 import ca.beq.util.win32.registry.RootKey;
 import java.io.File;
 import java.util.Iterator;
+import java.util.List;
 import org.arcs.rgg.rggnbmod.common.RGGProcess;
 import org.openide.modules.ModuleInstall;
+import org.openide.util.Exceptions;
 import org.openide.util.NbPreferences;
 import org.openide.util.Utilities;
 
@@ -26,35 +24,58 @@ public class Installer extends ModuleInstall {
         // By default, do nothing.
         // Put your startup code here.
         if (Utilities.isWindows()) {
-            new Thread(new Runnable() {
+            if (System.getProperty("sun.arch.data.model").equals("32")) {
+                new Thread(new Runnable() {
 
-                public void run() {
-                    try {
-                        String newestRversion = "";
-                        RegistryKey newestR = null;
-                        RegistryKey r = new RegistryKey(RootKey.HKEY_LOCAL_MACHINE, "SOFTWARE\\R-core\\R");
-                        if (r.hasSubkeys()) {
-                            Iterator i = r.subkeys();
-                            while (i.hasNext()) {
-                                RegistryKey x = (RegistryKey) i.next();
-                                if (x.getName().compareTo(newestRversion) > 0) {
-                                    newestRversion = x.getName();
-                                    newestR = x;
-                                }
-                                if (x.hasValue("InstallPath")) {
-                                    RegistryValue v = x.getValue("InstallPath");
+                    public void run() {
+                        try {
+                            String newestRversion = "";
+                            RegistryKey newestR = null;
+                            RegistryKey r = new RegistryKey(RootKey.HKEY_LOCAL_MACHINE, "SOFTWARE\\R-core\\R");
+                            if (r.hasSubkeys()) {
+                                Iterator i = r.subkeys();
+                                while (i.hasNext()) {
+                                    RegistryKey x = (RegistryKey) i.next();
+                                    if (x.getName().compareTo(newestRversion) > 0) {
+                                        newestRversion = x.getName();
+                                        newestR = x;
+                                    }
+                                    if (x.hasValue("InstallPath")) {
+                                        RegistryValue v = x.getValue("InstallPath");
+                                    }
                                 }
                             }
+                            if (newestR.hasValue("InstallPath")) {
+                                RegistryValue v = newestR.getValue("InstallPath");
+                                NbPreferences.root().node("org/arcs/rgg/rggnbmod").put("RSCRIPTCMDDIR", v.getData().toString() + "\\bin");
+                                RGGProcess.setRscriptCmdDir(NbPreferences.root().node("org/arcs/rgg/rggnbmod").get("RSCRIPTCMDDIR", ""));
+                            }
+                        } catch (RegistryException e) {
                         }
-                        if (newestR.hasValue("InstallPath")) {
-                            RegistryValue v = newestR.getValue("InstallPath");
-                            NbPreferences.root().node("org/arcs/rgg/rggnbmod").put("RSCRIPTCMDDIR", v.getData().toString() + "\\bin");
+                    }
+                }).start();
+            } else if (System.getProperty("sun.arch.data.model").equals("64")) {
+                try {
+                    List<String> versions = WinRegistry.readStringSubKeys(WinRegistry.HKEY_LOCAL_MACHINE, "SOFTWARE\\R-core\\R");
+                    if (versions != null && versions.size() > 0) {
+                        String newestRversion = versions.get(0);
+
+                        for (String version : versions) {
+                            if (version.compareTo(newestRversion) > 0) {
+                                newestRversion = version;
+                            }
+                        }
+
+                        String installpath = WinRegistry.readString(WinRegistry.HKEY_LOCAL_MACHINE, "SOFTWARE\\R-core\\R" + "\\" + newestRversion, "InstallPath");
+                        if (installpath != null) {
+                            NbPreferences.root().node("org/arcs/rgg/rggnbmod").put("RSCRIPTCMDDIR", installpath + "\\bin");
                             RGGProcess.setRscriptCmdDir(NbPreferences.root().node("org/arcs/rgg/rggnbmod").get("RSCRIPTCMDDIR", ""));
                         }
-                    } catch (RegistryException e) {
                     }
+                } catch (Exception ex) {
+                    Exceptions.printStackTrace(ex);
                 }
-            }).start();
+            }
         } else if (Utilities.isMac()) {
             String path1 = "/Library/Frameworks/R.framework/Resources/bin";
             String path2 = "/Library/Frameworks/R.framework/Versions";
@@ -99,7 +120,7 @@ public class Installer extends ModuleInstall {
         File bin = new File(path);
         File[] files = bin.listFiles();
         for (File f : files) {
-            if (f.getName().equals("Rscript")) {
+            if (f.getName().equals("Rscript") || f.getName().equals("Rscript.exe")) {
                 return true;
             }
         }

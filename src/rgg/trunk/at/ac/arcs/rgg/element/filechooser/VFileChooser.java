@@ -15,12 +15,13 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import at.ac.arcs.rgg.RGG;
 import at.ac.arcs.rgg.component.VisualComponent;
 import at.ac.arcs.rgg.layout.LayoutInfo;
 import at.ac.arcs.rgg.util.RGGFileExtensionFilter;
+import javax.swing.JTextArea;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -31,7 +32,7 @@ public class VFileChooser extends VisualComponent {
     private final static String LASTUSEDDIR = "lastuseddir";
     private JLabel label;
     private JFileChooser filechooser;
-    private JTextField selectedFilePathField;
+    private JTextArea selectedFilePathField;
     private JButton button;
     private File[] selectedFiles;
     private JComponent[][] swingComps;
@@ -47,7 +48,10 @@ public class VFileChooser extends VisualComponent {
 
     private void initComponents() {
         filechooser = new JFileChooser();
-        selectedFilePathField = new JTextField("Click \"Browse\" to open file dialog");
+        selectedFilePathField = new JTextArea("Click \"Browse\" to open file dialog");
+        selectedFilePathField.setRows(1);
+        selectedFilePathField.setOpaque(false);
+        selectedFilePathField.setWrapStyleWord(true);
         selectedFilePathField.setEditable(false);
         selectedFilePathField.setCaretPosition(0);
         button = new JButton("   Browse   ");
@@ -62,7 +66,19 @@ public class VFileChooser extends VisualComponent {
                     } else {
                         rggInstance.setProperty(LASTUSEDDIR, filechooser.getSelectedFile().getParentFile());
                     }
-                    selectedFilePathField.setText(filechooser.getSelectedFile().getPath());
+
+                    selectedFilePathField.setText("");
+                    if (filechooser.getSelectedFiles().length == 0) {
+                        selectedFilePathField.append(filechooser.getSelectedFile().getName());
+                    } else {
+                        for (int i = 0; i < filechooser.getSelectedFiles().length; i++) {
+                            File file = filechooser.getSelectedFiles()[i];
+                            selectedFilePathField.append(file.getName());
+                            if (i < filechooser.getSelectedFiles().length - 1) {
+                                selectedFilePathField.append("\n");
+                            }
+                        }
+                    }
                     setSelectedFiles(filechooser.getSelectedFiles());
                 }
             }
@@ -70,10 +86,10 @@ public class VFileChooser extends VisualComponent {
 
     }
 
-    public JFileChooser getFileChooser(){
+    public JFileChooser getFileChooser() {
         return filechooser;
     }
-    
+
     public boolean isVisualComponent() {
         return true;
     }
@@ -98,8 +114,8 @@ public class VFileChooser extends VisualComponent {
     }
 
     public boolean isFilesSelected() {
-        if (filechooser.getSelectedFile() != null ||
-                filechooser.getSelectedFiles().length > 0) {
+        if (filechooser.getSelectedFile() != null
+                || filechooser.getSelectedFiles().length > 0) {
             return true;
         }
         return false;
@@ -126,10 +142,10 @@ public class VFileChooser extends VisualComponent {
         filechooser.setFileSelectionMode(mode);
     }
 
-    public int getFileSelectionMode(){
+    public int getFileSelectionMode() {
         return filechooser.getFileSelectionMode();
     }
-    
+
     public void setMultiSelectionEnabled(boolean b) {
         filechooser.setMultiSelectionEnabled(b);
     }
